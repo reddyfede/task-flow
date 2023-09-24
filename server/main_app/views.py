@@ -1,3 +1,4 @@
+import json
 from django.http import JsonResponse
 from .models import Task
 from django.views.decorators.csrf import csrf_exempt
@@ -10,7 +11,8 @@ def tasks_index(request):
 
 @csrf_exempt
 def tasks_update(request):
-  print(request.body)
+  selected_task = json.loads(request.body)
+  print(selected_task)
   tempTasks = Task.objects.values().order_by('id')
   
   for idx, task in enumerate(tempTasks):
