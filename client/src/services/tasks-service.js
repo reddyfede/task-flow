@@ -8,3 +8,12 @@ export async function getAllTasks(){
         return err
     }
 }
+
+export async function updateAllTasks(task){
+    try {
+        const data = await tasksAPI.update(task)
+        return data
+    }catch(err){
+        return err
+    }
+}

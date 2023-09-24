@@ -13,3 +13,24 @@ export async function index() {
     return new Error("Invalid Request");
   }
 }
+
+
+export async function update(task) {
+  const URL = `${BASE_URL}/update/`;
+  
+  const config = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(task),
+  };
+
+  const res = await fetch(URL, config);
+
+  if (res.ok) {
+    return res.json();
+  } else {
+    throw new Error("Invalid Request");
+  }
+}

@@ -5,6 +5,6 @@ from django.db import models
 
 class Task(models.Model):
   name = models.CharField(max_length=100)
-  startTime = models.DateTimeField()
-  endTime = models.DateTimeField()
+  start_time = models.DateTimeField()
+  end_time = models.DateTimeField()
   duration = models.IntegerField()

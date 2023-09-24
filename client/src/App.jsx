@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { getAllTasks } from './services/tasks-service';
+import { getAllTasks, updateAllTasks } from './services/tasks-service';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -18,7 +18,20 @@ function App() {
     }
   }
 
+  async function updateTask(task) {
+    try {
+      const res = await updateAllTasks(task);
+      setTasks(res);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   console.log(tasks);
+
+  const handleClick = (task) => {
+    updateTask(task);
+  };
 
   return (
     <>
@@ -26,8 +39,15 @@ function App() {
         <h1>
           {tasks.map((t) => {
             return (
-              <div>
-                {t.name}, {t.startTime}, {t.duration}
+              <div className='task_container'>
+                <div>
+                  <h1>{t.name}</h1>
+                  <h3>
+                    {t.start_time} - {t.end_time}
+                  </h3>
+                  <h5>{t.duration}</h5>
+                </div>
+                <button onClick={() => handleClick(t)}>Click</button>
               </div>
             );
           })}
