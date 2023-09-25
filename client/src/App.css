@@ -1,3 +1,11 @@
 .task_container {
   border: 2px black solid;
 }
+
+.task-status_active {
+  color: rgb(0, 255, 0);
+}
+
+.task-status_inactive {
+  color: red;
+}

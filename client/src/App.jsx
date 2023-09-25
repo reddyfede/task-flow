@@ -38,12 +38,24 @@ function App() {
       {tasks.length > 0 ? (
         <h1>
           {tasks.map((t) => {
-            return (
-              <div className='task_container'>
+            return t.is_complete ? (
+              <div key={t.id}>{t.name} COMPLETE</div>
+            ) : (
+              <div
+                key={t.id}
+                className={`task_container ${
+                  t.status ? 'task-status_active' : 'task-status_inactive'
+                }`}
+              >
                 <div>
                   <h1>{t.name}</h1>
                   <h3>
-                    {t.start_time} - {t.end_time}
+                    Planned : <br /> {t.start_time} <br /> {t.end_time}
+                  </h3>
+
+                  <h3>
+                    Actual : <br /> {t.actual_start_time} <br />{' '}
+                    {t.actual_end_time}
                   </h3>
                   <h5>{t.duration}</h5>
                 </div>
