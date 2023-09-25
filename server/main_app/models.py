@@ -16,10 +16,9 @@ ROLES = (
     ('E', 'Employee')
 )
 
-LOGS_TYPE = (
+LOGS_TYPE = (        #TODO: add choices
     ('ast', 'Actual Start Time'),
     ('aet', 'Actual End Time'),
-
 )
 
 class Team(models.Model):
@@ -32,11 +31,15 @@ class User(models.Model):
     last_name = models.CharField(max_lenght=50)
     role = models.CharField(
         max_lenght=1,
-        choices=ROLES
+        choices=ROLES,
+        default = None,
+        null = True,
         )
     team = models.ForeignKey(
         Team,
-        on_delete = models.CASCADE
+        on_delete = models.CASCADE,
+        default = None,
+        null = True,
     )
     def __str__(self):
         return f'{self.name} - {self.role} - {self.id}'
@@ -86,8 +89,8 @@ class Task(models.Model):
 
 class TaskLog(models.Model):
     description = models.CharField(
-        max_lenght=50
-        #choices = ...    TODO: add choices
+        max_lenght=50,
+        choices = LOGS_TYPE    #TODO: add choices
         ) 
     start_datetime = models.DateTimeField()
     end_datetime = models.DateTimeField(
