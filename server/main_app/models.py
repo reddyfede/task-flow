@@ -16,7 +16,7 @@ ROLES = (
     ("E", "Employee"),
 )
 
-LOGS_TYPE = (                      
+LOGS_TYPE = (
     ("TS", "Task Started"),
     ("TP", "Task Paused"),
     ("TI", "Task With Issue"),
@@ -57,14 +57,14 @@ class Availability(models.Model):
     day = models.IntegerField(
         choices=DAYS,
     )
-    pre_lunch_start = models.TimeField()
-    pre_lunch_end = models.TimeField()
-    post_lunch_start = models.TimeField(
+    first_part_shift_begin = models.TimeField()
+    first_part_shift_end = models.TimeField()
+    second_part_shift_begin = models.TimeField(
         default=None,
         blank=True,
         null=True,
     )
-    post_lunch_end = models.TimeField(
+    second_part_shift_end = models.TimeField(
         default=None,
         blank=True,
         null=True,
@@ -77,13 +77,29 @@ class Availability(models.Model):
 
 class Task(models.Model):
     name = models.CharField(max_length=50)
-    duration = models.IntegerField()
-    start_datetime = models.DateTimeField(
+    due_date = models.DateField()
+    planned_duration = models.IntegerField()
+    planned_start = models.DateTimeField(
         default=None,
         blank=True,
         null=True,
     )
-    end_datetime = models.DateTimeField(
+    planned_end = models.DateTimeField(
+        default=None,
+        blank=True,
+        null=True,
+    )
+    actual_duration = models.IntegerField(
+        default=None,
+        blank=True,
+        null=True,
+    )
+    actual_start = models.DateTimeField(
+        default=None,
+        blank=True,
+        null=True,
+    )
+    actual_end = models.DateTimeField(
         default=None,
         blank=True,
         null=True,
@@ -98,13 +114,14 @@ class Task(models.Model):
     )
 
     def __str__(self):
-        return f"{self.name} - {self.duration} - {self.team.name} - ({self.id})"
+        return f"{self.name} - {self.due_date} - {self.planned_duration} - {self.team.name} - ({self.id})"
 
 
 class TaskLog(models.Model):
-    description = models.CharField(max_length=2, choices=LOGS_TYPE)
-    start_datetime = models.DateTimeField()
-    end_datetime = models.DateTimeField(
+    type = models.CharField(max_length=2, choices=LOGS_TYPE)
+    description = models.CharField(max_length=100)
+    start = models.DateTimeField()
+    end = models.DateTimeField(
         default=None,
         blank=True,
         null=True,
@@ -117,4 +134,4 @@ class TaskLog(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.get_description_display()} - {self.task.name} - ({self.id})"
+        return f"{self.get_type_display()} - {self.task.name} - ({self.id})"
