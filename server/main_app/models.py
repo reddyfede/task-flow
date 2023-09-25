@@ -22,15 +22,15 @@ LOGS_TYPE = (        #TODO: add choices
 )
 
 class Team(models.Model):
-    name = models.CharField(max_lenght=50)
+    name = models.CharField(max_length=50)
     def __str__(self):
         return f'{self.name} - {self.id}'
     
 class User(models.Model):
-    first_name = models.CharField(max_lenght=50)
-    last_name = models.CharField(max_lenght=50)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
     role = models.CharField(
-        max_lenght=1,
+        max_length=1,
         choices=ROLES,
         default = None,
         null = True,
@@ -64,7 +64,7 @@ class Availability(models.Model):
     )
 
 class Task(models.Model):
-    name = models.CharField(max_lenght=50)
+    name = models.CharField(max_length=50)
     duration = models.IntegerField()
     start_datetime = models.DateTimeField(
         default = None,
@@ -89,8 +89,8 @@ class Task(models.Model):
 
 class TaskLog(models.Model):
     description = models.CharField(
-        max_lenght=50,
-        choices = LOGS_TYPE    #TODO: add choices
+        max_length=3,
+        choices = LOGS_TYPE    
         ) 
     start_datetime = models.DateTimeField()
     end_datetime = models.DateTimeField(
