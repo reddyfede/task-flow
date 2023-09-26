@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -25,3 +26,7 @@ def login(request):
 @api_view(['GET'])
 def test_token(request):
   return Response({})
+# Create your views here.
+
+def home(request):
+    return render(request, 'home.html')
