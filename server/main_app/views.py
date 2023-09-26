@@ -2,6 +2,8 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from .models import AppUser
+
 from .serializers import UserSerializer 
 from rest_framework import status
 from rest_framework.authtoken.models import Token
@@ -16,6 +18,7 @@ def signup(request):
     token = Token.objects.create(user=user)
     user.set_password(request.data['password'])
     user.save()
+    app_user = AppUser.objects.create(user = user)
     return Response({'token': token.key, 'user': serializer.data})
   return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
