@@ -24,7 +24,7 @@ conversion = {
 duration = 60*4
 
 
-start_datetime = datetime.now() - timedelta(minutes = 400)
+start_datetime = datetime.now() 
 end_datetime = start_datetime + timedelta(minutes = duration)
 
 print('\nstart:', start_datetime)
