@@ -1,6 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
+
 DAYS = (
     (0, "Monday"),
     (1, "Tuesday"),
@@ -32,9 +34,8 @@ class Team(models.Model):
         return f"{self.name} - ({self.id})"
 
 
-class User(models.Model):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
+class AppUser(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(
         max_length=1,
         choices=ROLES,
@@ -50,7 +51,7 @@ class User(models.Model):
     )
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} - {self.role} - {self.team} - ({self.id})"
+        return f"{self.user.first_name} {self.user.last_name} - {self.role} - {self.team} - ({self.id})"
 
 
 class Availability(models.Model):
@@ -69,10 +70,10 @@ class Availability(models.Model):
         blank=True,
         null=True,
     )
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.get_day_display()} - {self.user.first_name} {self.user.last_name} - ({self.id})"
+        return f"{self.get_day_display()} - {self.user.user.first_name} {self.user.user.last_name} - ({self.id})"
 
 
 class Task(models.Model):
@@ -106,7 +107,7 @@ class Task(models.Model):
     )
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     user = models.ForeignKey(
-        User,
+        AppUser,
         on_delete=models.CASCADE,
         default=None,
         blank=True,
