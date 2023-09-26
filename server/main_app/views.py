@@ -33,7 +33,7 @@ def login(request):
   app_user = AppUser.objects.get(user = user)
 
   serializer = UserSerializer(user)
-  return Response({'token': token.key, 'user': serializer.data.username, 'role': app_user.role})
+  return Response({'token': token.key, 'user': serializer.data['username'], 'role': app_user.role})
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
