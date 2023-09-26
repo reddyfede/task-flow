@@ -1,4 +1,12 @@
 from django.db import models
+from rest_framework import serializers
+from django.contrib.auth.models import User
+
+
+ROLES = (
+    ("M", "Manager"),
+    ("E", "Employee"),
+)
 
 # Create your models here.
 DAYS = (
@@ -11,10 +19,6 @@ DAYS = (
     (6, "Sunday"),
 )
 
-ROLES = (
-    ("M", "Manager"),
-    ("E", "Employee"),
-)
 
 LOGS_TYPE = (
     ("TS", "Task Started"),
@@ -32,26 +36,14 @@ class Team(models.Model):
         return f"{self.name} - ({self.id})"
 
 
-class User(models.Model):
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    role = models.CharField(
-        max_length=1,
-        choices=ROLES,
-        default=None,
-        null=True,
-    )
-    team = models.ForeignKey(
-        Team,
-        on_delete=models.CASCADE,
-        default=None,
-        blank=True,
-        null=True,
-    )
+class UserSerializer(serializers.ModelSerializer):
+    team = serializers.PrimaryKeyRelatedField(queryset=Team.objects.all())
 
-    def __str__(self):
-        return f"{self.first_name} {self.last_name} - {self.role} - {self.team} - ({self.id})"
+    class Meta(object):
+        model = User
+        fields = ['id', 'username','password','email']
 
+class Employee(serializer.Model())
 
 class Availability(models.Model):
     day = models.IntegerField(
@@ -69,7 +61,8 @@ class Availability(models.Model):
         blank=True,
         null=True,
     )
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.CharField()
 
     def __str__(self):
         return f"{self.get_day_display()} - {self.user.first_name} {self.user.last_name} - ({self.id})"
@@ -105,13 +98,14 @@ class Task(models.Model):
         null=True,
     )
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        default=None,
-        blank=True,
-        null=True,
-    )
+    user = models.CharField()
+    # user = models.ForeignKey(
+    #     User,
+    #     on_delete=models.CASCADE,
+    #     default=None,
+    #     blank=True,
+    #     null=True,
+    # )
 
     def __str__(self):
         return f"{self.name} - {self.due_date} - {self.planned_duration} - {self.team.name} - ({self.id})"
