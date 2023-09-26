@@ -30,8 +30,10 @@ def login(request):
   if not user.check_password(request.data['password']):
       return Response("Username or Password invalid.", status=status.HTTP_404_NOT_FOUND)
   token, created = Token.objects.get_or_create(user=user)
+  app_user = AppUser.objects.get(user = user)
+
   serializer = UserSerializer(user)
-  return Response({'token': token.key, 'user': serializer.data})
+  return Response({'token': token.key, 'user': serializer.data.username, 'role': app_user.role})
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
