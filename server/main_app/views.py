@@ -12,15 +12,18 @@ from rest_framework.authtoken.models import Token
 
 @api_view(['POST'])
 def signup(request):
+  print(request.data)
   serializer = UserSerializer(data = request.data)
   if serializer.is_valid():
     serializer.save()
     user = User.objects.get(username = request.data['username'])
-    role = request.data['role']
-    token = Token.objects.create(user=user)
+    user.set_first_name(request.data['firstName'])
+    user.set_last_name(request.data['lastName'])
     user.set_password(request.data['password'])
     user.save()
-    app_user = AppUser.objects.create(user = user, role=role)
+    token = Token.objects.create(user=user)
+    role = request.data['role']
+    AppUser.objects.create(user = user, role=role)
     return Response({'token': token.key, 'user': serializer.data})
   return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

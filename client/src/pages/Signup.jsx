@@ -1,11 +1,14 @@
 import { useState } from "react"
+import { signupService } from "../api/users-service"
+import { Slide, ToastContainer, toast } from 'react-toastify';
+import { displayToast } from "../utilities/toast";
 
 export default function Signup() {
 
     const [user,setUser] = useState({
         username : "",
-        first_name : "",
-        last_name : "",
+        firstName : "",
+        lastName : "",
         role : "E",
         password : ""
     })
@@ -18,14 +21,25 @@ export default function Signup() {
         setUser (data)
     }
 
-    function handleSubmit(e){
-        e.preventDefault()
-        console.log(user)
+    async function handleSubmit(e) {
+        e.preventDefault();
+        const data = user
+        try {
+          const res = await signupService(data);
+          if (res.token) {
+            displayToast(`User ${user.username} has been created.`)
+          } else {
+            displayToast(`Something went wrong. User ${user.username} has not been created.`)
+          }
+        } catch (err) {
+          console.log(err);
+        }
     }
 
     return (
         <div>
-            <form action="" onSubmit={handleSubmit}>
+            <ToastContainer transition={Slide} />
+            <form action="POST" onSubmit={handleSubmit}>
                 <h3>Signup Form</h3>
                 <div>
                     <label  htmlFor='username'>
@@ -41,28 +55,28 @@ export default function Signup() {
                     />
                 </div>
                 <div>
-                    <label  htmlFor='first_name'>
+                    <label  htmlFor='firstName'>
                         <span>First Name:</span>
                     </label>
                     <input
                         type='text'
-                        name='first_name'
+                        name='firstName'
                         required
                         maxLength={20}
-                        value={user.first_name}
+                        value={user.firstName}
                         onChange={handleChange}
                     />
                 </div>
                 <div>
-                    <label  htmlFor='last_name'>
+                    <label  htmlFor='lastName'>
                         <span>Last Name:</span>
                     </label>
                     <input
                         type='text'
-                        name='last_name'
+                        name='lastName'
                         required
                         maxLength={20}
-                        value={user.last_name}
+                        value={user.lastName}
                         onChange={handleChange}
                     />
                 </div>
@@ -93,8 +107,7 @@ export default function Signup() {
                         onChange={handleChange}
                     />
                 </div>
-                
-                <button >Submit</button>
+                <button>Submit</button>
             </form>
         </div>
     )
