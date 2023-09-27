@@ -14,7 +14,6 @@ export default function Header (){
         { currUser.token ? (
           <>
             <p>Logged in as: {currUser.username}</p>
-            {console.log(currUser)}
             <BtnLogout/>
           </>
         ) : (
