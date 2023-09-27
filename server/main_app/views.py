@@ -76,10 +76,15 @@ def task_create(request):
   team = Team.objects.get(id=task_json['team'])
   task_json['team'] = team
   task = Task.objects.create(**task_json)
-  return Response("Task created.", status=status.HTTP_201_CREATED)
+  return Response("Task created", status=status.HTTP_201_CREATED)
 
 @api_view(['PUT'])
 def task_update(request, task_id):
   task_json = request.data
   Task.objects.filter(id=task_id).update(**task_json)
-  return Response("Task updated.", status=status.HTTP_204_NO_CONTENT)
+  return Response("Task updated", status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['DELETE'])
+def task_destroy(request, task_id):
+  Task.objects.filter(id=task_id).delete()
+  return Response("Task deleted", status=status.HTTP_204_NO_CONTENT)
