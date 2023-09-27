@@ -28,7 +28,6 @@ export default function ManagerPage() {
             >
               Gantt View
             </Link>
-            <Link to='/manager/tasks'>Manage Tasks</Link>
           </div>
           <h1>Manager Page</h1>
           <h2>Team: teamName</h2>
