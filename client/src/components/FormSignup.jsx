@@ -121,7 +121,7 @@ export default function FormSignup({ user, setUser }) {
           <span>Password:</span>
         </label>
         <input
-          type='text'
+          type='password'
           name='password'
           required
           maxLength={20}
