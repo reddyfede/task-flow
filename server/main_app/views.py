@@ -28,7 +28,7 @@ def signup(request):
 def login(request):
   user = get_object_or_404(User, username=request.data['username'])
   if not user.check_password(request.data['password']):
-      return Response("Username or Password invalid.", status=status.HTTP_404_NOT_FOUND)
+    return Response("Username or Password invalid.", status=status.HTTP_404_NOT_FOUND)
   token, created = Token.objects.get_or_create(user=user)
   app_user = AppUser.objects.get(user = user)
 
