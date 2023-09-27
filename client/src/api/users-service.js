@@ -17,3 +17,7 @@ export async function loginService(data){
         return err
     }
 }
+
+export function logoutService(){
+    localStorage.clear("token")
+}
