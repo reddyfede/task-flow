@@ -29,6 +29,9 @@ def login(request):
     'id': user.id,
     })
 
+@api_view(['GET'])
+def user_detail(request):
+  pass
 
 @api_view(['POST'])
 def signup(request):
