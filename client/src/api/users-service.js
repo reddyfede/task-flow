@@ -18,6 +18,3 @@ export async function loginService(data){
     }
 }
 
-export function logoutService(){
-    localStorage.clear("token")
-}

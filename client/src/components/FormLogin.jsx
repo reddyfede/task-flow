@@ -1,12 +1,13 @@
 import { useState,useEffect,useContext } from "react";
+import { useNavigate } from 'react-router-dom';
 import { loginService } from "../api/users-service"
 import { displayToast } from "../utilities/toast";
-import { useNavigate } from 'react-router-dom';
-
+import { UserContext } from "../App";
 
 export default function FormLogin({user,setUser}) {
     const [count, setCount] = useState(null);
     const navigate = useNavigate();
+    const {currUser,setCurrUser} = useContext(UserContext);
   
     // set a timer to redirect to home page after succesful login
     useEffect(() => {
@@ -38,6 +39,7 @@ export default function FormLogin({user,setUser}) {
             displayToast(`User ${res.user} has logged in .`)
             setCount(3)
             localStorage.setItem("token", res.token)
+            setCurrUser({...currUser, token: res.token})
           } else {
             displayToast(`Login unsuccesful.`)
             displayToast(`Error: ${res.error}`)

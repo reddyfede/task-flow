@@ -1,12 +1,14 @@
+import { useState,useEffect,useContext } from "react";
+import { useNavigate } from 'react-router-dom';
 import { signupService } from "../api/users-service"
 import { displayToast } from "../utilities/toast";
-import {  useNavigate } from 'react-router-dom';
-import { useState,useEffect } from "react";
+import { UserContext } from "../App";
 
 export default function FormSignup({user,setUser}) {
     const [count, setCount] = useState(null);
     const navigate = useNavigate();
-  
+    const {currUser,setCurrUser} = useContext(UserContext);
+
     // set a timer to redirect to login page after succesful signup
     useEffect(() => {
         if (count !== null){
@@ -36,6 +38,7 @@ export default function FormSignup({user,setUser}) {
           if (!res.error) {
             displayToast(`User ${res.user} has been created.`)
             localStorage.setItem('username', res.user)
+            setCurrUser({...currUser, username: res.user})
             setCount(3)
           } else {
             displayToast(`User ${res.user} has NOT been created.`)

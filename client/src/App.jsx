@@ -12,7 +12,7 @@ function App() {
 
   return (
     <div>
-      <UserContext.Provider value={currUser}>
+      <UserContext.Provider value={{currUser,setCurrUser}}>
         <Header />
         <Routes>
           <Route path='/' element={<Home />} />

@@ -5,7 +5,7 @@ import { UserContext } from "../App";
 
 export default function Header (){
 
-  const currUser = useContext(UserContext);
+  const {currUser,setCurrUser} = useContext(UserContext);
 
   return (
     <header>
