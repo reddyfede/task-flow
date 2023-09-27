@@ -43,7 +43,8 @@ export default function FormLogin({user,setUser}) {
             displayToast(`User ${res.user} has logged in .`)
             localStorage.setItem("username", res.user)
             localStorage.setItem("token", res.token)
-            setCurrUser({user:res.user, token: res.token})
+            localStorage.setItem("role", res.role)
+            setCurrUser({user:res.user, token: res.token, role:res.role})
             setCount(2)
           } else {
             displayToast(`Login unsuccesful.`)

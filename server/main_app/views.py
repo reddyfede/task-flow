@@ -1,5 +1,4 @@
-
-from django.shortcuts import render,redirect
+from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.http import JsonResponse
@@ -11,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from .models import AppUser
+from .models import AppUser, Task, Team
 from .serializers import UserSerializer 
 
 
@@ -21,9 +20,9 @@ def login(request):
   if not user.check_password(request.data['password']):
       return Response({'error': "Username or Password invalid.", 'status' : status.HTTP_404_NOT_FOUND})
   token, created = Token.objects.get_or_create(user=user)
-  # app_user = AppUser.objects.get(user = user)
+  app_user = AppUser.objects.get(user = user)
   serializer = UserSerializer(user)
-  return Response({'token': token.key, 'user': serializer.data['username']})
+  return Response({'token': token.key, 'user': serializer.data['username'], 'role': app_user.role})
 
 
 @api_view(['POST'])

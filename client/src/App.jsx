@@ -10,7 +10,8 @@ function App() {
 
   const [currUser, setCurrUser] = useState({
     username: localStorage.getItem('username') || null,
-    token: localStorage.getItem('token') || null
+    token: localStorage.getItem('token') || null,
+    role: localStorage.getItem('role') || null
   })
 
   return (

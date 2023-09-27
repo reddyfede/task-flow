@@ -13,7 +13,7 @@ export default function Header (){
         <Link to='/'>Home</Link>
         { currUser.token ? (
           <>
-            <p>Logged in as: {currUser.user}</p>
+            <p>Logged in as: {currUser.username}</p>
             <BtnLogout/>
           </>
         ) : (
