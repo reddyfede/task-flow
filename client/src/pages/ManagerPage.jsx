@@ -13,11 +13,10 @@ export default function ManagerPage() {
     async function retrieveUser() {
         try {
             const res = await userDetails({ id: currUser.id });
-            console.log(res)
             if (res.user) {
-                console.log(res)
                 setUserData({ ...userData, ...res.user })
-
+                setTeamMembers([...res.teamList])
+                setNonTeamMembers([...res.notTeamList])
             } else {
                 throw Error('Something went wrong with retrieving the user.');
             }
@@ -60,7 +59,11 @@ export default function ManagerPage() {
                     {!userData.teamName ?
                         <h2>You don't have a team yet. Create a team.</h2>
                         :
-                        <h2>Team Name : {userData.teamName} - TeamId: {userData.teamId}</h2>
+                        <>
+                            <h2>Team Name : {userData.teamName} - TeamId: {userData.teamId}</h2>
+                            <h2>Team Members: {teamMembers.length}</h2>
+                            <h2>Non Team Members: {nonTeamMembers.length}</h2>
+                        </>
                     }
                 </div>
             )}
