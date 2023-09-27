@@ -1,6 +1,6 @@
-import { BtnSignup } from ".";
-import { Link
- } from "react-router-dom";
+import { BtnSignup,BtnLogin } from ".";
+import { Link } from "react-router-dom";
+
 export default function Header (){
 
   return (
@@ -8,6 +8,7 @@ export default function Header (){
         <h3>Header</h3>  
         <Link to='/'>Home</Link>
         <BtnSignup/>
+        <BtnLogin/>
         <hr/>
     </header>
   );
