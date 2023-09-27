@@ -1,8 +1,22 @@
-import React, { useContext } from 'react';
+import React, { useContext,useEffect } from 'react';
 import { UserContext } from "../App";
+import { userDetails } from '../api/users-service';
 
 export default function ManagerPage(){
     const { currUser } = useContext(UserContext)
+
+    async function retrieveUser() {
+        try {
+          const res = await userDetails({id: currUser.id});
+          console.log(res)  
+        } catch (err) {
+          console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        retrieveUser();
+      }, []);
 
     return (
         <div>

@@ -30,9 +30,24 @@ def login(request):
     })
 
 @api_view(['GET'])
-def user_detail(request):
-  user = User.objects.get(id = request.data['id'])
-  return Response(user)
+def user_detail(request, user_id):
+  user = User.objects.get(id = user_id)
+  team = user.appuser.team
+  data = {
+  'user': user.username,
+  'firstName': user.first_name,
+  'lastName': user.last_name,
+  'teamName': team.name,
+  'teamId': team.id,
+  }
+  if user.appuser.role == 'M':
+    in_team = team.appuser_set.all().exclude(role__in = ['M'])
+    not_in_team = AppUser.objects.exclude(role__in = ['M']).exclude(team__isnull=False)
+    team_list =[{'appuser_id': user.id, 'firstName': user.user.first_name, 'lastName': user.user.last_name} for user in in_team ]
+    not_team_list =[{'appuser_id': user.id, 'firstName': user.user.first_name, 'lastName': user.user.last_name} for user in not_in_team ]
+    return Response({'user': data, 'teamList': team_list, 'notTeamList':not_team_list})
+  if user.appuser.role == 'E':
+    return Response(data)
 
 @api_view(['POST'])
 def signup(request):
