@@ -77,3 +77,9 @@ def task_create(request):
   task_json['team'] = team
   task = Task.objects.create(**task_json)
   return Response("Task created.", status=status.HTTP_201_CREATED)
+
+@api_view(['PUT'])
+def task_update(request, task_id):
+  task_json = request.data
+  Task.objects.filter(id=task_id).update(**task_json)
+  return Response("Task updated.", status=status.HTTP_204_NO_CONTENT)
