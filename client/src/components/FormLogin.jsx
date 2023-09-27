@@ -8,14 +8,23 @@ export default function FormLogin({user,setUser}) {
     const [count, setCount] = useState(null);
     const navigate = useNavigate();
     const {currUser,setCurrUser} = useContext(UserContext);
-  
+    
+
     // set a timer to redirect to home page after succesful login
     useEffect(() => {
         if (count !== null){
             const interval = setInterval(() => {
                 setCount((currentCount) => currentCount - 1);
             }, 1000);
-            count === 0 && navigate("/");
+            let navigateTo ="/"
+            if (currUser.role === "M"){
+                navigateTo = "/manager"
+            }
+            if (currUser.role === "E"){
+                navigateTo = "/employee"
+            }
+            console.log(navigateTo)
+            count === 0 && navigate(navigateTo);
             return () => clearInterval(interval);
         }
     }, [count, navigate]);
