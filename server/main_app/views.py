@@ -35,7 +35,7 @@ def signup(request):
     Token.objects.create(user=user)
     role = request.data['role']
     AppUser.objects.create(user = user, role=role)
-    return Response({'user': user.username, 'role': role})
+    return Response({'user': user.username})
   else:
     return Response({'user': request.data['username'], 'error': serializer.errors, 'status':status.HTTP_400_BAD_REQUEST})
 

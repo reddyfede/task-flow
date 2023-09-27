@@ -3,9 +3,13 @@ import { Slide, ToastContainer, toast } from 'react-toastify';
 import { FormLogin } from "../components";
 
 export default function Login() {
+    let username = ""
+    if (localStorage.username){
+        username = localStorage.username
+    }
 
     const [user,setUser] = useState({
-        username : "",
+        username : username,
         password : ""
     })
 

@@ -4,7 +4,7 @@ export default function BtnLogin(){
 
     return(
         <div>
-            <Link to='/login'>Login</Link>
+                <Link to='/login'>Login</Link>
         </div>
     )
 }

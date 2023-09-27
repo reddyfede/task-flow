@@ -35,6 +35,7 @@ export default function FormSignup({user,setUser}) {
           const res = await signupService(data);
           if (!res.error) {
             displayToast(`User ${res.user} has been created.`)
+            localStorage.setItem('username', res.user)
             setCount(3)
           } else {
             displayToast(`User ${res.user} has NOT been created.`)

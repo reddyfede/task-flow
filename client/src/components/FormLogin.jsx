@@ -1,7 +1,8 @@
+import { useState,useEffect,useContext } from "react";
 import { loginService } from "../api/users-service"
 import { displayToast } from "../utilities/toast";
-import {  useNavigate } from 'react-router-dom';
-import { useState,useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
+
 
 export default function FormLogin({user,setUser}) {
     const [count, setCount] = useState(null);
@@ -33,10 +34,10 @@ export default function FormLogin({user,setUser}) {
         const data = user
         try {
           const res = await loginService(data);
-          console.log(res)
           if (res.token) {
             displayToast(`User ${res.user} has logged in .`)
             setCount(3)
+            localStorage.setItem("token", res.token)
           } else {
             displayToast(`Login unsuccesful.`)
             displayToast(`Error: ${res.error}`)
