@@ -35,6 +35,7 @@ def user_detail(request, user_id):
   team = user.appuser.team
   data = {
   'username': user.username,
+  'appuserId': user.appuser.id,
   'firstName': user.first_name,
   'lastName': user.last_name,
   }
@@ -42,7 +43,7 @@ def user_detail(request, user_id):
     data['teamId']= team.id
     data['teamName'] = team.name
   else:
-    data['team'] = team
+    data['teamName'] = team
   if user.appuser.role == 'E':
     return Response(data)
   if user.appuser.role == 'M':
