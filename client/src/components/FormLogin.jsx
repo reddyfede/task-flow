@@ -41,10 +41,10 @@ export default function FormLogin({user,setUser}) {
           const res = await loginService(data);
           if (res.token) {
             displayToast(`User ${res.user} has logged in .`)
-            setCount(2)
             localStorage.setItem("username", res.user)
             localStorage.setItem("token", res.token)
             setCurrUser({user:res.user, token: res.token})
+            setCount(2)
           } else {
             displayToast(`Login unsuccesful.`)
             displayToast(`Error: ${res.error}`)
