@@ -103,7 +103,12 @@ class Task(models.Model):
         blank=True,
         null=True,
     )
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    team = models.ForeignKey(
+        Team, 
+        on_delete=models.CASCADE, 
+        blank=True,
+        null=True
+        )
     user = models.ForeignKey(
         AppUser,
         on_delete=models.CASCADE,
