@@ -45,7 +45,7 @@ def user_detail(request, user_id):
   else:
     data['teamName'] = team
   if user.appuser.role == 'E':
-    return Response(data)
+    return Response({'user': data})
   if user.appuser.role == 'M':
       if team:
         in_team = team.appuser_set.all().exclude(role__in = ['M'])
@@ -66,7 +66,7 @@ def user_detail(request, user_id):
                         for user in not_in_team ]
         return Response({'user': data, 'teamList': team_list, 'notTeamList':not_team_list})
       else:
-        return Response(data)
+        return Response({'user': data})
   
 
 @api_view(['POST'])
