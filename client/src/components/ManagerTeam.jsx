@@ -16,7 +16,8 @@ export default function ManagerTeam({
           <h2>
             Team Name : {userData.teamName} - TeamId: {userData.teamId}
           </h2>
-
+          <hr />
+          <hr />
           <EmployeeList
             teamMembers={teamMembers}
             setTeamMembers={setTeamMembers}

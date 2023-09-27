@@ -64,6 +64,8 @@ export default function ManagerPage() {
               <h2>First Name: {userData.firstName}</h2>
               <h2>Last Name: {userData.lastName}</h2>
               <h2>AppUser ID: {userData.appuserId}</h2>
+              <hr />
+              <hr />
               <ManagerTeam
                 userData={userData}
                 teamMembers={teamMembers}
