@@ -1,7 +1,7 @@
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 export async function signup(data) {
-  const URL = BASE_URL + '/signup';
+  const URL = BASE_URL + '/user/signup/';
   
   const config = {
     method: "POST",
@@ -21,7 +21,7 @@ export async function signup(data) {
 }
 
 export async function login(data) {
-  const URL = BASE_URL + '/login';
+  const URL = BASE_URL + '/user/login/';
   
   const config = {
     method: "POST",

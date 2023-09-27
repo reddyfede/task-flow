@@ -8,14 +8,22 @@ export default function FormLogin({user,setUser}) {
     const [count, setCount] = useState(null);
     const navigate = useNavigate();
     const {currUser,setCurrUser} = useContext(UserContext);
-  
+    const [loading, setLoading] = useState(false)    
+
     // set a timer to redirect to home page after succesful login
     useEffect(() => {
         if (count !== null){
             const interval = setInterval(() => {
                 setCount((currentCount) => currentCount - 1);
             }, 1000);
-            count === 0 && navigate("/");
+            let navigateTo ="/"
+            if (currUser.role === "M"){
+                navigateTo = "/manager"
+            }
+            if (currUser.role === "E"){
+                navigateTo = "/employee"
+            }
+            count === 0 && navigate(navigateTo);
             return () => clearInterval(interval);
         }
     }, [count, navigate]);
@@ -40,12 +48,16 @@ export default function FormLogin({user,setUser}) {
         try {
           const res = await loginService(data);
           if (res.token) {
+            setLoading(true)
             displayToast(`User ${res.user} has logged in .`)
             localStorage.setItem("username", res.user)
             localStorage.setItem("token", res.token)
-            setCurrUser({user:res.user, token: res.token})
+            localStorage.setItem("role", res.role)
+            localStorage.setItem("id", res.id)
+            setCurrUser({username:res.user, token: res.token, role:res.role, id: res.id})
             setCount(2)
           } else {
+            setLoading(false)
             displayToast(`Login unsuccesful.`)
             displayToast(`Error: ${res.error}`)
           }
@@ -55,7 +67,7 @@ export default function FormLogin({user,setUser}) {
     }
 
     return (
-        <form action="POST" onSubmit={handleSubmit}>
+        <form action="POST" onSubmit={handleSubmit} >
             <h3>Login Form</h3>
             <div>
                 <label htmlFor='username'>
@@ -68,6 +80,7 @@ export default function FormLogin({user,setUser}) {
                     maxLength={20}
                     value={user.username}
                     onChange={handleChange}
+                    disabled={loading}
                 />
             </div>
             <div>
@@ -81,9 +94,10 @@ export default function FormLogin({user,setUser}) {
                     maxLength={20}
                     value={user.password}
                     onChange={handleChange}
+                    disabled={loading}
                 />
             </div>
-            <button>Submit</button>
+            <button disabled={loading}>Submit</button>
         </form>
     )
 }

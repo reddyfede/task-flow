@@ -8,6 +8,7 @@ export default function FormSignup({user,setUser}) {
     const [count, setCount] = useState(null);
     const navigate = useNavigate();
     const {currUser,setCurrUser} = useContext(UserContext);
+    const [loading, setLoading] = useState(false)  
 
     // set a timer to redirect to login page after succesful signup
     useEffect(() => {
@@ -40,11 +41,13 @@ export default function FormSignup({user,setUser}) {
         try {
           const res = await signupService(data);
           if (!res.error) {
+            setLoading(true)
             displayToast(`User ${res.user} has been created.`)
             localStorage.setItem('username', res.user)
             setCurrUser({...currUser, username: res.user})
             setCount(2)
           } else {
+            setLoading(false)
             displayToast(`User ${res.user} has NOT been created.`)
             displayToast(`Error: ${res.error.username}`)
           }
@@ -67,6 +70,7 @@ export default function FormSignup({user,setUser}) {
                     maxLength={20}
                     value={user.username}
                     onChange={handleChange}
+                    disabled={loading}
                 />
             </div>
             <div>
@@ -80,6 +84,7 @@ export default function FormSignup({user,setUser}) {
                     maxLength={20}
                     value={user.firstName}
                     onChange={handleChange}
+                    disabled={loading}
                 />
             </div>
             <div>
@@ -93,6 +98,7 @@ export default function FormSignup({user,setUser}) {
                     maxLength={20}
                     value={user.lastName}
                     onChange={handleChange}
+                    disabled={loading}
                 />
             </div>
             <div>
@@ -104,6 +110,7 @@ export default function FormSignup({user,setUser}) {
                     required
                     value={user.role}
                     onChange={handleChange}
+                    disabled={loading}
                 >
                     <option value="E">Employee</option>
                     <option value="M">Manager</option>
@@ -120,9 +127,10 @@ export default function FormSignup({user,setUser}) {
                     maxLength={20}
                     value={user.password}
                     onChange={handleChange}
+                    disabled={loading}
                 />
             </div>
-            <button>Submit</button>
+            <button disabled={loading}>Submit</button>
         </form>
     )
 }
