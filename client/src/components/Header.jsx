@@ -10,6 +10,7 @@ export default function Header (){
   return (
     <header>
         <h3>Header</h3>  
+        {console.log(currUser)}
         <Link to='/'>Home</Link>
         { currUser.token ? (
           <BtnLogout/>

@@ -29,7 +29,11 @@ export default function FormLogin({user,setUser}) {
         setUser(data)
     }
 
-    // on form submit call login service, display a toast, redirect to homepage if response from server is ok
+    ////
+    // on form submit: call login service,
+    // on response: display a toast
+    // if response is ok: set token in localstorage, set token in usercontext, redirect to homepage
+    ////
     async function handleSubmit(e) {
         e.preventDefault();
         const data = user

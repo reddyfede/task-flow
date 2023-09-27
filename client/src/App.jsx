@@ -8,7 +8,10 @@ const UserContext = createContext()
 
 function App() {
 
-  const [currUser, setCurrUser] = useState({ username: null, token: null })
+  const [currUser, setCurrUser] = useState({
+    username: localStorage.getItem('username') || null,
+    token: localStorage.getItem('token') || null
+  })
 
   return (
     <div>

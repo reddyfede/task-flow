@@ -29,7 +29,11 @@ export default function FormSignup({user,setUser}) {
         setUser(data)
     }
 
-    // on form submit call signup service, display a toast, redirect to login page if response from server is ok
+    ////
+    // on form submit: call signup service,
+    // on response: display a toast
+    // if response is ok: set username in localstorage, set username in usercontext, redirect to login
+    ////
     async function handleSubmit(e) {
         e.preventDefault();
         const data = user
