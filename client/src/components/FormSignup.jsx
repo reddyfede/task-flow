@@ -43,7 +43,7 @@ export default function FormSignup({user,setUser}) {
             displayToast(`User ${res.user} has been created.`)
             localStorage.setItem('username', res.user)
             setCurrUser({...currUser, username: res.user})
-            setCount(3)
+            setCount(2)
           } else {
             displayToast(`User ${res.user} has NOT been created.`)
             displayToast(`Error: ${res.error.username}`)
