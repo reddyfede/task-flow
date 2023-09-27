@@ -1,26 +1,24 @@
-
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { UserContext } from '../App';
 import GanttView from '../components/GanttView';
 import { Link } from 'react-router-dom';
 import { userDetails } from '../api/users-service';
 
-
 export default function ManagerPage() {
   const { currUser } = useContext(UserContext);
-  
-   async function retrieveUser() {
-        try {
-          const res = await userDetails({id: currUser.id});
-          console.log(res)  
-        } catch (err) {
-          console.log(err);
-        }
-    }
 
-    useEffect(() => {
-        retrieveUser();
-      }, []);
+  async function retrieveUser() {
+    try {
+      const res = await userDetails({ id: currUser.id });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    retrieveUser();
+  }, []);
 
   return (
     <div>

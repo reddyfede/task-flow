@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
+import { createTask } from '../api/task-service';
 
-const FormTask = () => {
+const FormTask = ({ fetchTasks }) => {
   const initState = {
     name: '',
-    duration: '',
-    due: null,
+    planned_duration: 0,
+    due_date: null,
     team: 1,
   };
   const [newTask, setNewTask] = useState(initState);
 
   function handleChange(e) {
+    console.log(e.target.value);
     let updatedData = {
       ...newTask,
       [e.target.name]: e.target.value,
@@ -20,16 +22,11 @@ const FormTask = () => {
   async function handleSubmit(e) {
     e.preventDefault();
     let newData = { ...newTask };
+    console.log(newData);
     try {
       const res = await createTask(newData);
-      if (res._id) {
-        // handleCancel();
-        console.log('created task');
-        console.log(newData);
-        fetchEvents();
-      } else {
-        console.log('error creating task');
-      }
+      // handleCancel();
+      fetchTasks();
     } catch (err) {
       console.log(err);
     }
@@ -52,30 +49,32 @@ const FormTask = () => {
             onChange={handleChange}
           />
         </div>
+
         <div className='form-control'>
-          <label className='label' htmlFor='due_date'>
+          <label className='label' htmlFor='planned_duration'>
             <span className='label-text'>Task Duration:</span>
           </label>
           <input
-            type='text'
+            type='number'
             required
-            name='due_date'
+            name='planned_duration'
             maxLength={3}
-            value={newTask.duration}
+            value={newTask.planned_duration}
             onChange={handleChange}
           />
         </div>
-        <div className='form-control'>
-          <label className='label' htmlFor='name'>
-            <span className='label-text'>Task Duration:</span>
+        <div className='form-control '>
+          <label className='label' htmlFor='due_date'>
+            <span className='label-text'>Due date:</span>
           </label>
           <input
-            type='text'
+            className=''
+            type='date'
+            value={newTask.date}
+            onChange={handleChange}
+            id='due_date'
             required
             name='due_date'
-            maxLength={3}
-            value={newTask.duration}
-            onChange={handleChange}
           />
         </div>
         <button className='' type='submit'>

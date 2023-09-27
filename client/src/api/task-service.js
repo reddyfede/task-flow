@@ -9,3 +9,11 @@ export async function getTasks(data){
     }
 }
 
+export async function createTask(newData){
+    try {
+        const data = await tasksAPI.create(newData)
+        return data
+    }catch(err){
+        return err
+    }
+}
