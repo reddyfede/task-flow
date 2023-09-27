@@ -18,3 +18,11 @@ export async function loginService(data){
     }
 }
 
+export async function userDetails(data){
+    try{
+       const resp = await usersAPI.details(data)
+       return resp
+    }catch(err){
+        return err
+    }
+}
