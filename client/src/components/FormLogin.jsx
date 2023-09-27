@@ -23,7 +23,6 @@ export default function FormLogin({user,setUser}) {
             if (currUser.role === "E"){
                 navigateTo = "/employee"
             }
-            console.log(navigateTo)
             count === 0 && navigate(navigateTo);
             return () => clearInterval(interval);
         }

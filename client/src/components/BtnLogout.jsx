@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link,useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { UserContext } from "../App";
 
 
@@ -12,14 +12,14 @@ export default function BtnLogout(){
     function handleLogout(){
         localStorage.clear("username")
         localStorage.clear("token")
-        data = {username:null, token:null}
+        const data = {username:null, token:null}
         setCurrUser(data)
         navigate("/")
     }
     
     return(
         <div>
-            <Link onClick={handleLogout}>Logout</Link>
+            <button onClick={handleLogout}>Logout</button>
         </div>
     )
 }
