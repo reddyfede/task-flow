@@ -12,8 +12,7 @@ export default function BtnLogout(){
     function handleLogout(){
         localStorage.clear("username")
         localStorage.clear("token")
-        const data = {username:null, token:null}
-        setCurrUser(data)
+        setCurrUser({username:null, token:null, role:null, id:null})
         navigate("/")
     }
     

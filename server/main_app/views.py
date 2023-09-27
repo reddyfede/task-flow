@@ -22,7 +22,12 @@ def login(request):
   token, created = Token.objects.get_or_create(user=user)
   app_user = AppUser.objects.get(user = user)
   serializer = UserSerializer(user)
-  return Response({'token': token.key, 'user': serializer.data['username'], 'role': app_user.role})
+  return Response({
+    'token': token.key,
+    'user': serializer.data['username'],
+    'role': app_user.role,
+    'id': user.id,
+    })
 
 
 @api_view(['POST'])

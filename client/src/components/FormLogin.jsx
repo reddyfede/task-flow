@@ -53,7 +53,8 @@ export default function FormLogin({user,setUser}) {
             localStorage.setItem("username", res.user)
             localStorage.setItem("token", res.token)
             localStorage.setItem("role", res.role)
-            setCurrUser({username:res.user, token: res.token, role:res.role})
+            localStorage.setItem("id", res.id)
+            setCurrUser({username:res.user, token: res.token, role:res.role, id: res.id})
             setCount(2)
           } else {
             setLoading(false)

@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { UserContext } from "../App";
 
 export default function EmployeePage() {
-
     const { currUser } = useContext(UserContext)
 
     return (
