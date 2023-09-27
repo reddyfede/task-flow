@@ -33,22 +33,28 @@ def login(request):
 def user_detail(request, user_id):
   user = User.objects.get(id = user_id)
   team = user.appuser.team
+  # add user info to data
   data = {
   'username': user.username,
   'appuserId': user.appuser.id,
   'firstName': user.first_name,
   'lastName': user.last_name,
   }
+  # add team info to data, only teamName if team is null
   if team:
     data['teamId']= team.id
     data['teamName'] = team.name
   else:
     data['teamName'] = team
+  # if user is an employee return data
   if user.appuser.role == 'E':
     return Response({'user': data})
+  # if the user is a manager data is not enough
   if user.appuser.role == 'M':
       if team:
+        # retrieve all users that are not managers and part of the team
         in_team = team.appuser_set.all().exclude(role__in = ['M'])
+        # for each team member retrieve their info and their availability
         team_list =[{'appuserId': user.id,
                     'firstName': user.user.first_name,
                     'lastName': user.user.last_name,
@@ -59,11 +65,14 @@ def user_detail(request, user_id):
                                       'secondEnd': a.second_part_shift_end,
                                       } for a in user.availability_set.all()],
                     } for user in in_team ]
+        # retrieve all users that are not managers and that are not part of any team
         not_in_team = AppUser.objects.exclude(role__in = ['M']).exclude(team__isnull=False)
+        # for each user not in the team retrieve their info
         not_team_list =[{'appuserId': user.id,
                         'firstName': user.user.first_name,
                         'lastName': user.user.last_name}
                         for user in not_in_team ]
+        # return data, team members and user that are not part of any team
         return Response({'user': data, 'teamList': team_list, 'notTeamList':not_team_list})
       else:
         return Response({'user': data})

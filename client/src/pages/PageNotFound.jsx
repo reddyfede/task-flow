@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function PageNotFound() {
-
-  const location = useLocation()
+  const location = useLocation();
   const [count, setCount] = useState(3);
   const navigate = useNavigate();
 
@@ -12,7 +11,7 @@ export default function PageNotFound() {
     const interval = setInterval(() => {
       setCount((currentCount) => currentCount - 1);
     }, 1000);
-    count === 0 && navigate("/");
+    count === 0 && navigate('/');
     return () => clearInterval(interval);
   }, [count, navigate]);
 
@@ -27,7 +26,4 @@ export default function PageNotFound() {
       <h2>You will be redirected to the hompage in {count} sec.</h2>
     </div>
   );
-
-
-
 }
