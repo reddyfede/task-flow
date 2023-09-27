@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../App';
-import GanttView from '../components/GanttView';
 import { Link } from 'react-router-dom';
 import { userDetails } from '../api/users-service';
+import { ManagerTeam } from '../components';
 
 export default function ManagerPage() {
+  const [loading, setLoading] = useState(true);
   const { currUser } = useContext(UserContext);
   const [userData, setUserData] = useState({
     username: null,
@@ -24,6 +25,7 @@ export default function ManagerPage() {
         setUserData({ ...userData, ...res.user });
         setTeamMembers([...res.teamList]);
         setNonTeamMembers([...res.notTeamList]);
+        setLoading(false);
       } else {
         throw Error('Something went wrong with retrieving the user.');
       }
@@ -38,6 +40,8 @@ export default function ManagerPage() {
 
   return (
     <div>
+      {console.log(teamMembers)}
+      {console.log(nonTeamMembers)}
       {currUser.role !== 'M' ? (
         <div>
           <h1>You are not permitted to view this page.</h1>
@@ -45,34 +49,29 @@ export default function ManagerPage() {
         </div>
       ) : (
         <div>
-          <div
-            style={{
-              border: '1px solid red',
-            }}
-          >
-            <Link
-              to='/manager/gantt'
-              style={{
-                margin: '5rem',
-              }}
-            >
+          <div style={{ border: '1px solid red' }}>
+            <Link to='/manager/gantt' style={{ margin: '5rem' }}>
               Gantt View
             </Link>
           </div>
           <h1>Manager Page</h1>
-          <h2>First Name: {userData.firstName}</h2>
-          <h2>Last Name: {userData.lastName}</h2>
-          <h2>AppUser ID: {userData.appuserId}</h2>
-          {!userData.teamName ? (
-            <h2>You don't have a team yet. Create a team.</h2>
+          {loading ? (
+            <div>
+              <h2>Loading Data...</h2>
+            </div>
           ) : (
-            <>
-              <h2>
-                Team Name : {userData.teamName} - TeamId: {userData.teamId}
-              </h2>
-              <h2>Team Members: {teamMembers.length}</h2>
-              <h2>Non Team Members: {nonTeamMembers.length}</h2>
-            </>
+            <div>
+              <h2>First Name: {userData.firstName}</h2>
+              <h2>Last Name: {userData.lastName}</h2>
+              <h2>AppUser ID: {userData.appuserId}</h2>
+              <ManagerTeam
+                userData={userData}
+                teamMembers={teamMembers}
+                setTeamMembers={setTeamMembers}
+                nonTeamMembers={nonTeamMembers}
+                setNonTeamMembers={setNonTeamMembers}
+              />
+            </div>
           )}
         </div>
       )}

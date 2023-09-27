@@ -3,6 +3,7 @@ import { UserContext } from '../App';
 import { userDetails } from '../api/users-service';
 
 export default function EmployeePage() {
+  const [loading, setLoading] = useState(true);
   const { currUser } = useContext(UserContext);
   const [userData, setUserData] = useState({
     username: null,
@@ -19,6 +20,7 @@ export default function EmployeePage() {
       if (res.user) {
         const data = { ...userData, ...res.user };
         setUserData(data);
+        setLoading(false);
       } else {
         throw Error('Something went wrong with retrieving the user.');
       }
@@ -41,15 +43,23 @@ export default function EmployeePage() {
       ) : (
         <div>
           <h1>Employee Page</h1>
-          <h2>First Name: {userData.firstName}</h2>
-          <h2>Last Name: {userData.lastName}</h2>
-          <h2>AppUser ID: {userData.appuserId}</h2>
-          {!userData.teamName ? (
-            <h2>A Manager has not yet assigned you to a team.</h2>
+          {loading ? (
+            <div>
+              <h2>Loading Data...</h2>
+            </div>
           ) : (
-            <h2>
-              Team Name : {userData.teamName} - TeamId: {userData.teamId}
-            </h2>
+            <div>
+              <h2>First Name: {userData.firstName}</h2>
+              <h2>Last Name: {userData.lastName}</h2>
+              <h2>AppUser ID: {userData.appuserId}</h2>
+              {!userData.teamName ? (
+                <h2>A Manager has not yet assigned you to a team.</h2>
+              ) : (
+                <h2>
+                  Team Name : {userData.teamName} - TeamId: {userData.teamId}
+                </h2>
+              )}
+            </div>
           )}
         </div>
       )}
