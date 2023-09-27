@@ -7,7 +7,7 @@ export default function Home(){
     return(
         <div>
             <h1>Home Page</h1>
-            {!currUser.username ? <h2>Login to start your work day.</h2> : null }
+            {!currUser.id ? <h2>Login to start your work day.</h2> : null }
         </div>
     )
 }

@@ -30,9 +30,43 @@ def login(request):
     })
 
 @api_view(['GET'])
-def user_detail(request):
-  user = User.objects.get(id = request.data['id'])
-  return Response(user)
+def user_detail(request, user_id):
+  user = User.objects.get(id = user_id)
+  team = user.appuser.team
+  data = {
+  'username': user.username,
+  'firstName': user.first_name,
+  'lastName': user.last_name,
+  }
+  if team:
+    data['teamId']= team.id
+    data['teamName'] = team.name
+  else:
+    data['team'] = team
+  if user.appuser.role == 'E':
+    return Response(data)
+  if user.appuser.role == 'M':
+      if team:
+        in_team = team.appuser_set.all().exclude(role__in = ['M'])
+        team_list =[{'appuserId': user.id,
+                    'firstName': user.user.first_name,
+                    'lastName': user.user.last_name,
+                    'availability':[{'day': a.day,
+                                      'firstBegin': a.first_part_shift_begin,
+                                      'firstEnd': a.first_part_shift_end,
+                                      'secondBegin': a.second_part_shift_begin,
+                                      'secondEnd': a.second_part_shift_end,
+                                      } for a in user.availability_set.all()],
+                    } for user in in_team ]
+        not_in_team = AppUser.objects.exclude(role__in = ['M']).exclude(team__isnull=False)
+        not_team_list =[{'appuserId': user.id,
+                        'firstName': user.user.first_name,
+                        'lastName': user.user.last_name}
+                        for user in not_in_team ]
+        return Response({'user': data, 'teamList': team_list, 'notTeamList':not_team_list})
+      else:
+        return Response(data)
+  
 
 @api_view(['POST'])
 def signup(request):
