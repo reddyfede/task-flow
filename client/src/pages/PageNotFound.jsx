@@ -7,6 +7,7 @@ export default function PageNotFound() {
   const [count, setCount] = useState(3);
   const navigate = useNavigate();
 
+  // set countdown, at the end of the countdown clear interval and redirect to homepage
   useEffect(() => {
     const interval = setInterval(() => {
       setCount((currentCount) => currentCount - 1);

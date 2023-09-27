@@ -13,7 +13,9 @@ export default function Header (){
         {console.log(currUser)}
         <Link to='/'>Home</Link>
         { currUser.token ? (
-          <BtnLogout/>
+          <>
+            <BtnLogout/>
+          </>
         ) : (
           <>
             <BtnSignup/>

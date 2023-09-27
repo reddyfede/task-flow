@@ -7,7 +7,7 @@ export default function BtnLogout(){
 
     const {currUser,setCurrUser} = useContext(UserContext);
 
-    // on logout click: clear localstorage and clear context
+    // on click: clear localstorage and clear context
     function handleLogout(){
         localStorage.clear("username")
         localStorage.clear("token")
