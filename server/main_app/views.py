@@ -31,7 +31,8 @@ def login(request):
 
 @api_view(['GET'])
 def user_detail(request):
-  pass
+  user = User.objects.get(id = request.data['id'])
+  return Response(user)
 
 @api_view(['POST'])
 def signup(request):
