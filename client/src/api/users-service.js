@@ -8,3 +8,12 @@ export async function signupService(data){
         return err
     }
 }
+
+export async function loginService(data){
+    try{
+       const resp = await usersAPI.login(data)
+       return resp
+    }catch(err){
+        return err
+    }
+}
