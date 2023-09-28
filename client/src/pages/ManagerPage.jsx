@@ -71,6 +71,7 @@ export default function ManagerPage() {
               <hr />
               <hr />
               <ManagerTeam
+                retrieveUser={retrieveUser}
                 userData={userData}
                 teamMembers={teamMembers}
                 setTeamMembers={setTeamMembers}

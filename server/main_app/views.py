@@ -18,6 +18,10 @@ from .models import AppUser, Task, Team
 from .serializers import UserSerializer
 
 
+def home(request):
+    return render(request, "home.html")
+
+
 @api_view(["POST"])
 def login(request):
     user = get_object_or_404(User, username=request.data["username"])
@@ -107,6 +111,18 @@ def user_detail(request, user_id):
 
 
 @api_view(["POST"])
+def team_create(request):
+    print(request.data)
+    team_name = request.data["team"]
+    appuser_id = request.data["user"]
+    team = Team.objects.create(name=team_name)
+    user = AppUser.objects.get(id=appuser_id)
+    user.team = team
+    user.save()
+    return Response({"teamName": team.name, "teamId": team.id})
+
+
+@api_view(["POST"])
 def signup(request):
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
@@ -137,9 +153,6 @@ def test_token(request):
     return Response("Token success")
 
 
-def home(request):
-    return render(request, "home.html")
-
 # @api_view(['GET'])
 # def task_(request):
 #   user = get_object_or_404(User, username=request.data['username'])
@@ -160,9 +173,9 @@ def tasks_index(request):
 
 @api_view(["GET"])
 def task_detail(request, task_id):
-  task = Task.objects.values().get(id=task_id)
-  print(task)
-  return Response(task)
+    task = Task.objects.values().get(id=task_id)
+    print(task)
+    return Response(task)
 
 
 @api_view(["POST"])
