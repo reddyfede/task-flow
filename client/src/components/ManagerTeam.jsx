@@ -51,8 +51,11 @@ export default function ManagerTeam({
     e.preventDefault();
     try {
       const res = await deleteTeam(userData.teamId);
-      if (res) {
-        console.log(res);
+      if (res === 'Team deleted') {
+        setUserData({ ...userData, teamName: null, teamId: null });
+        setTeamMembers([]);
+        setNonTeamMembers([]);
+        setTeamName('');
       } else {
         throw Error('Something went wrong updating the team.');
       }
