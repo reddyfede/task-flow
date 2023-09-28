@@ -47,7 +47,7 @@ export default function FormLogin({ user, setUser }) {
       const res = await loginService(data);
       if (res.token) {
         setLoading(true);
-        displayToast(`User ${res.user} has logged in .`);
+        displayToast(`User ${res.user} has logged in .`, 'success');
         localStorage.setItem('username', res.user);
         localStorage.setItem('token', res.token);
         localStorage.setItem('role', res.role);
@@ -60,9 +60,9 @@ export default function FormLogin({ user, setUser }) {
         });
         setCount(2);
       } else {
+        console.log(res);
         setLoading(false);
-        displayToast(`Login unsuccesful.`);
-        displayToast(`Error: ${res.error}`);
+        displayToast('Login unsuccesful.', 'error');
       }
     } catch (err) {
       console.log(err);

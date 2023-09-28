@@ -42,13 +42,13 @@ export default function FormSignup({ user, setUser }) {
       const res = await signupService(data);
       if (!res.error) {
         setLoading(true);
-        displayToast(`User ${res.user} has been created.`);
+        displayToast(`User ${res.user} has been created.`, 'success');
         localStorage.setItem('username', res.user);
         setCurrUser({ ...currUser, username: res.user });
         setCount(2);
       } else {
         setLoading(false);
-        displayToast(`User ${res.user} has NOT been created.`);
+        displayToast(`User ${res.user} has NOT been created.`, 'error');
         displayToast(`Error: ${res.error.username}`);
       }
     } catch (err) {

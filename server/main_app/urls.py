@@ -11,6 +11,8 @@ urlpatterns = [
     path("team/create/", views.team_create),
     path("team/<int:team_id>/update/", views.team_update),
     path("team/<int:team_id>/delete/", views.team_delete),
+    path("team/<int:team_id>/add_user/<int:user_id>/", views.team_add_user),
+    path("team/<int:team_id>/remove_user/<int:user_id>/", views.team_remove_user),
     path("tasks/", views.tasks_index, name="task"),
     path("tasks/<int:task_id>/", views.task_detail, name="task_detail"),
     path("tasks/create/", views.task_create, name="task_create"),

@@ -17,7 +17,7 @@ export default function EmployeeList({
   return (
     <>
       <div>
-        <h2>Team Members</h2>
+        <h2>Team Members: {teamMembers.length}</h2>
         <hr />
         {teamMembers.map((teamMember) => (
           <EmployeeItem teamMember={teamMember} key={teamMember.appuserId} />
