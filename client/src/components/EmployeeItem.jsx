@@ -1,12 +1,12 @@
 import './EmployeeItem.css';
 
-export default function EmployeeItem({ teamMember }) {
+export default function EmployeeItem({ member }) {
   return (
     <div>
       <h3>
-        Name: {teamMember.firstName} {teamMember.lastName}
+        Name: {member.firstName} {member.lastName}
       </h3>
-      <h3>ID: {teamMember.appuserId} </h3>
+      <h3>ID: {member.appuserId} </h3>
       <h3>Availability: </h3>
       <table>
         <thead>
@@ -20,7 +20,7 @@ export default function EmployeeItem({ teamMember }) {
           </tr>
         </thead>
         <tbody>
-          {teamMember.availability.map((a) => (
+          {member.availability.map((a) => (
             <tr key={a.day}>
               <td>{a.day}</td>
               <td>{a.firstBegin}</td>
@@ -31,7 +31,7 @@ export default function EmployeeItem({ teamMember }) {
                 <button>Edit</button>
               </td>
             </tr>
-          ))}{' '}
+          ))}
           <tr>
             <td>
               <input type='text' />
@@ -54,8 +54,6 @@ export default function EmployeeItem({ teamMember }) {
           </tr>
         </tbody>
       </table>
-
-      <hr />
     </div>
   );
 }

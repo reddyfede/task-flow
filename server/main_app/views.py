@@ -126,7 +126,6 @@ def user_detail(request, user_id):
 
 @api_view(["POST"])
 def team_create(request):
-    print(request.data)
     team_name = request.data["team"]
     appuser_id = request.data["user"]
     team = Team.objects.create(name=team_name)
@@ -152,7 +151,6 @@ def team_delete(request, team_id):
 
 @api_view(["PUT"])
 def team_add_user(request, team_id, user_id):
-    print(team_id, user_id)
     team = Team.objects.get(id=team_id)
     user = AppUser.objects.get(id=user_id)
     user.team = team
@@ -169,7 +167,23 @@ def team_add_user(request, team_id, user_id):
 
 @api_view(["PUT"])
 def team_remove_user(request, team_id, user_id):
-    pass
+    user = AppUser.objects.get(id=user_id)
+    num_tasks = user.task_set.all().count()
+    # if the user has tasks assigned cannot be removed from team
+    if num_tasks:
+        return Response({"tasksNum": num_tasks})
+    # else set his team to null, clear availabilities
+    else:
+        user.team = None
+        user.availability_set.all().delete()
+        user.save()
+        return Response(
+            {
+                "appuserId": user.id,
+                "firstName": user.user.first_name,
+                "lastName": user.user.last_name,
+            }
+        )
 
 
 @api_view(["POST"])
