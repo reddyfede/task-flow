@@ -238,7 +238,7 @@ def tasks_index(request):
 
 @api_view(["GET"])
 def team_task_detail(request, team_id):
-    team = Team.objects.values().get(id=team_id)
+    team = Team.objects.get(id=team_id)
     tasks = team.task_set.all()
     tasklist = [
             {
@@ -250,30 +250,11 @@ def team_task_detail(request, team_id):
                 "actualDuration": t.actual_duration,
                 "actualStart": t.actual_start,
                 "actualEnd": t.actual_end,
-                "user": t.user.id,
+                "user": t.user.id if t.user else t.user
             }
             for t in tasks
         ]
     return Response(tasklist)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @api_view(["GET"])
 def task_detail(request, task_id):

@@ -5,7 +5,7 @@ import { userDetails } from '../api/users-service';
 import { ManagerTeam } from '../components';
 
 export default function ManagerPage() {
-  const { currUser } = useContext(UserContext);
+  const { currUser, setCurrUser } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState({
     username: null,
@@ -23,6 +23,7 @@ export default function ManagerPage() {
       const res = await userDetails({ id: currUser.id });
       if (res.user) {
         setUserData({ ...userData, ...res.user });
+        setCurrUser({ ...currUser, team: res.user.teamId });
         if (res.teamList) {
           setTeamMembers([...res.teamList]);
         }

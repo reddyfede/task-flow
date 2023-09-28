@@ -4,6 +4,7 @@ import ManageTasks from './ManageTasks';
 import { getTasks } from '../api/task-service';
 
 const GanttView = () => {
+
   const [tasks, setTasks] = useState([]);
 
   async function fetchTasks() {
