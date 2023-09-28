@@ -1,10 +1,8 @@
-
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../App';
 import { Link } from 'react-router-dom';
 import { userDetails } from '../api/users-service';
 import { ManagerTeam } from '../components';
-
 
 export default function ManagerPage() {
   const [loading, setLoading] = useState(true);
@@ -25,8 +23,12 @@ export default function ManagerPage() {
       const res = await userDetails({ id: currUser.id });
       if (res.user) {
         setUserData({ ...userData, ...res.user });
-        setTeamMembers([...res.teamList]);
-        setNonTeamMembers([...res.notTeamList]);
+        if (res.teamList) {
+          setTeamMembers([...res.teamList]);
+        }
+        if (res.notTeamList) {
+          setNonTeamMembers([...res.notTeamList]);
+        }
         setLoading(false);
       } else {
         throw Error('Something went wrong with retrieving the user.');
@@ -69,7 +71,9 @@ export default function ManagerPage() {
               <hr />
               <hr />
               <ManagerTeam
+                retrieveUser={retrieveUser}
                 userData={userData}
+                setUserData={setUserData}
                 teamMembers={teamMembers}
                 setTeamMembers={setTeamMembers}
                 nonTeamMembers={nonTeamMembers}

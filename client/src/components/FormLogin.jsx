@@ -37,11 +37,9 @@ export default function FormLogin({ user, setUser }) {
     setUser(data);
   }
 
-  ////
   // on form submit: call login service,
   // on response: display a toast
   // if response is ok: set token in localstorage, set token in usercontext, redirect to homepage
-  ////
   async function handleSubmit(e) {
     e.preventDefault();
     const data = user;
@@ -49,7 +47,7 @@ export default function FormLogin({ user, setUser }) {
       const res = await loginService(data);
       if (res.token) {
         setLoading(true);
-        displayToast(`User ${res.user} has logged in .`);
+        displayToast(`Logged in as ${res.user}.`, 'success');
         localStorage.setItem('username', res.user);
         localStorage.setItem('token', res.token);
         localStorage.setItem('role', res.role);
@@ -62,9 +60,12 @@ export default function FormLogin({ user, setUser }) {
         });
         setCount(2);
       } else {
+        console.log(res.error);
         setLoading(false);
-        displayToast(`Login unsuccesful.`);
-        displayToast(`Error: ${res.error}`);
+        displayToast(
+          'Login unsuccesful. Bad username-password combination.',
+          'error'
+        );
       }
     } catch (err) {
       console.log(err);
@@ -93,7 +94,7 @@ export default function FormLogin({ user, setUser }) {
           <span>Password:</span>
         </label>
         <input
-          type='text'
+          type='password'
           name='password'
           required
           maxLength={20}
