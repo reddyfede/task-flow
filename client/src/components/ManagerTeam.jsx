@@ -113,6 +113,7 @@ export default function ManagerTeam({
           <hr />
           <hr />
           <EmployeeList
+            userData={userData}
             teamMembers={teamMembers}
             setTeamMembers={setTeamMembers}
             nonTeamMembers={nonTeamMembers}

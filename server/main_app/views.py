@@ -138,13 +138,17 @@ def team_delete(request, team_id):
 
 @api_view(["PUT"])
 def team_add_user(request, team_id, user_id):
+    print(team_id, user_id)
     team = Team.objects.get(id=team_id)
     user = AppUser.objects.get(id=user_id)
     user.team = team
     user.save()
     return Response(
         {
-            "message": f"User {user.user.first_name} {user.user.last_name} has been added to the team"
+            "appuserId": user.id,
+            "firstName": user.user.first_name,
+            "lastName": user.user.last_name,
+            "availability": [],
         }
     )
 

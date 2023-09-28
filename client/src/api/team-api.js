@@ -46,3 +46,16 @@ export async function destroy(id) {
     throw new Error("Invalid Request");
   }
 }
+
+export async function addUser(teamId,userId) {
+  const URL = `${BASE_URL}/team/${teamId}/add_user/${userId}/`;
+  const config = {
+    method: "PUT",
+  };
+  const res = await fetch(URL, config);
+  if (res.ok) {
+    return res.json();
+  } else {
+    throw new Error("Invalid Request");
+  }
+}

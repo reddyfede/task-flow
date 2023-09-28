@@ -26,3 +26,12 @@ export async function deleteTeam(id){
         return err
     }
 }
+
+export async function addToTeam(teamId,userId){
+    try{
+       const resp = await teamAPI.addUser(teamId,userId)
+       return resp
+    }catch(err){
+        return err
+    }
+}
