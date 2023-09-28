@@ -1,8 +1,10 @@
+
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../App';
 import { Link } from 'react-router-dom';
 import { userDetails } from '../api/users-service';
 import { ManagerTeam } from '../components';
+
 
 export default function ManagerPage() {
   const [loading, setLoading] = useState(true);
