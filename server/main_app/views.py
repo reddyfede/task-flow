@@ -204,7 +204,47 @@ def test_token(request):
 @api_view(["GET"])
 def tasks_index(request):
     task = Task.objects.all().values()
+
     return Response(task)
+
+
+@api_view(["GET"])
+def team_task_detail(request, team_id):
+    team = Team.objects.values().get(id=team_id)
+    tasks = team.task_set.all()
+    tasklist = [
+            {
+                "name": t.name,
+                "dueDate": t.due_date,
+                "plannedDuration": t.planned_duration,
+                "plannedStart": t.planned_start,
+                "plannedEnd": t.planned_end,
+                "actualDuration": t.actual_duration,
+                "actualStart": t.actual_start,
+                "actualEnd": t.actual_end,
+                "user": t.user.id,
+            }
+            for t in tasks
+        ]
+    return Response(tasklist)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @api_view(["GET"])
