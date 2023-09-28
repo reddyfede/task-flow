@@ -5,8 +5,8 @@ import { userDetails } from '../api/users-service';
 import { ManagerTeam } from '../components';
 
 export default function ManagerPage() {
-  const [loading, setLoading] = useState(true);
   const { currUser } = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState({
     username: null,
     appuserId: null,

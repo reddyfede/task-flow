@@ -62,10 +62,24 @@ def user_detail(request, user_id):
         data["teamName"] = team.name
     else:
         data["teamName"] = team
-    # if user is an employee return data
+    # if user is an employee retrieve his own tasks
     if user.appuser.role == "E":
-        return Response({"user": data})
-    # if the user is a manager data is not enough
+        tasks = user.appuser.task_set.all()
+        tasklist = [
+            {
+                "name": t.name,
+                "dueDate": t.due_date,
+                "plannedDuration": t.planned_duration,
+                "plannedStart": t.planned_start,
+                "plannedEnd": t.planned_end,
+                "actualDuration": t.actual_duration,
+                "actualStart": t.actual_start,
+                "actualEnd": t.actual_end,
+            }
+            for t in tasks
+        ]
+        return Response({"user": data, "tasks": tasklist})
+    # if the user is a manager retrieve different data
     if user.appuser.role == "M":
         if team:
             # retrieve all users that are not managers and part of the team
@@ -112,7 +126,6 @@ def user_detail(request, user_id):
 
 @api_view(["POST"])
 def team_create(request):
-    print(request.data)
     team_name = request.data["team"]
     appuser_id = request.data["user"]
     team = Team.objects.create(name=team_name)
@@ -138,7 +151,6 @@ def team_delete(request, team_id):
 
 @api_view(["PUT"])
 def team_add_user(request, team_id, user_id):
-    print(team_id, user_id)
     team = Team.objects.get(id=team_id)
     user = AppUser.objects.get(id=user_id)
     user.team = team
@@ -155,7 +167,23 @@ def team_add_user(request, team_id, user_id):
 
 @api_view(["PUT"])
 def team_remove_user(request, team_id, user_id):
-    pass
+    user = AppUser.objects.get(id=user_id)
+    num_tasks = user.task_set.all().count()
+    # if the user has tasks assigned cannot be removed from team
+    if num_tasks:
+        return Response({"tasksNum": num_tasks})
+    # else set his team to null, clear availabilities
+    else:
+        user.team = None
+        user.availability_set.all().delete()
+        user.save()
+        return Response(
+            {
+                "appuserId": user.id,
+                "firstName": user.user.first_name,
+                "lastName": user.user.last_name,
+            }
+        )
 
 
 @api_view(["POST"])
