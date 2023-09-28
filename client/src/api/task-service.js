@@ -19,9 +19,19 @@ export async function createTask(newData){
 }
 
 
-export async function showEvent(id){
+export async function showTask(id){
     try{
        const resp = await tasksAPI.show(id)
+       return resp
+    }catch(err){
+        return err
+    }
+}
+
+
+export async function getTasksByTeam(id){
+    try{
+       const resp = await tasksAPI.showTeam(id)
        return resp
     }catch(err){
         return err

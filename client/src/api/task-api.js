@@ -53,6 +53,19 @@ export async function show(id) {
   }
 }
 
+export async function showTeam(id) {
+  const URL = `${BASE_URL}/team/${id}`;
+  const config = {
+    method: "GET",
+  };
+  const res = await fetch(URL, config);
+  if (res.ok) {
+    return res.json();
+  } else {
+    throw new Error("Invalid Request");
+  }
+}
+
 export async function update(id, data) {
   const URL = BASE_URL + `/tasks/${id}/update/`
 
