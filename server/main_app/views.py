@@ -216,19 +216,6 @@ def signup(request):
 def test_token(request):
     return Response("Token success")
 
-
-# @api_view(['GET'])
-# def task_(request):
-#   user = get_object_or_404(User, username=request.data['username'])
-#   if not user.check_password(request.data['password']):
-#       return Response("Username or Password invalid.", status=status.HTTP_404_NOT_FOUND)
-#   token, created = Token.objects.get_or_create(user=user)
-#   app_user = AppUser.objects.get(user = user)
-
-#   serializer = UserSerializer(user)
-#   return Response({'token': token.key, 'user': serializer.data['username'], 'role': app_user.role})
-
-
 @api_view(["GET"])
 def tasks_index(request):
     task = Task.objects.all().values()
@@ -283,3 +270,15 @@ def task_update(request, task_id):
 def task_destroy(request, task_id):
     Task.objects.filter(id=task_id).delete()
     return Response("Task deleted", status=status.HTTP_204_NO_CONTENT)
+
+
+
+@api_view(["PUT"])
+def task_add_user(request, task_id, user_id):
+    print(user_id)
+    print(task_id)
+    user = AppUser.objects.get(id=user_id)
+    print(user)
+    task = Task.objects.filter(id=task_id).update(user=user)
+    print(task)
+    return Response("Task assigned user", status=status.HTTP_204_NO_CONTENT)
