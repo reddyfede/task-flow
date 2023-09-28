@@ -16,6 +16,7 @@ export default function EmployeeItem({ teamMember }) {
             <th>Pre Pause End</th>
             <th>Post Pause Start</th>
             <th>Post Pause End</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -26,10 +27,34 @@ export default function EmployeeItem({ teamMember }) {
               <td>{a.firstEnd}</td>
               <td>{a.secondBegin}</td>
               <td>{a.secondEnd}</td>
+              <td>
+                <button>Edit</button>
+              </td>
             </tr>
-          ))}
+          ))}{' '}
+          <tr>
+            <td>
+              <input type='text' />
+            </td>
+            <td>
+              <input type='text' />
+            </td>
+            <td>
+              <input type='text' />
+            </td>
+            <td>
+              <input type='text' />
+            </td>
+            <td>
+              <input type='text' />
+            </td>
+            <td>
+              <button>Add New</button>
+            </td>
+          </tr>
         </tbody>
       </table>
+
       <hr />
     </div>
   );
