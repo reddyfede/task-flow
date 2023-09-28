@@ -15,7 +15,7 @@ export function displayToast(msg,type) {
   }else if(type === "error"){
     toast.error(msg, {
       position: 'top-left',
-      autoClose: 1000,
+      autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -26,7 +26,7 @@ export function displayToast(msg,type) {
   }else if(type === "warning"){
     toast.error(msg, {
       position: 'top-left',
-      autoClose: 2000,
+      autoClose: 2500,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
