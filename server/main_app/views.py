@@ -97,16 +97,16 @@ def test_token(request):
 def home(request):
   return render(request, 'home.html')
 
-@api_view(['GET'])
-def task_(request):
-  user = get_object_or_404(User, username=request.data['username'])
-  if not user.check_password(request.data['password']):
-      return Response("Username or Password invalid.", status=status.HTTP_404_NOT_FOUND)
-  token, created = Token.objects.get_or_create(user=user)
-  app_user = AppUser.objects.get(user = user)
+# @api_view(['GET'])
+# def task_(request):
+#   user = get_object_or_404(User, username=request.data['username'])
+#   if not user.check_password(request.data['password']):
+#       return Response("Username or Password invalid.", status=status.HTTP_404_NOT_FOUND)
+#   token, created = Token.objects.get_or_create(user=user)
+#   app_user = AppUser.objects.get(user = user)
 
-  serializer = UserSerializer(user)
-  return Response({'token': token.key, 'user': serializer.data['username'], 'role': app_user.role})
+#   serializer = UserSerializer(user)
+#   return Response({'token': token.key, 'user': serializer.data['username'], 'role': app_user.role})
 
 @api_view(['GET'])
 def tasks_index(request):
@@ -115,9 +115,9 @@ def tasks_index(request):
 
 @api_view(['GET'])
 def task_detail(request, task_id):
-  task = Task.objects.get(id=task_id)
+  task = Task.objects.values().get(id=task_id)
   print(task)
-  return Response({'tasks': task})
+  return Response(task)
 
 @api_view(['POST'])
 def task_create(request):

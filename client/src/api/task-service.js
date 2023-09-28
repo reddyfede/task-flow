@@ -11,8 +11,28 @@ export async function getTasks(data){
 
 export async function createTask(newData){
     try {
-        const data = await tasksAPI.create(newData)
-        return data
+        const resp = await tasksAPI.create(newData)
+        return resp
+    }catch(err){
+        return err
+    }
+}
+
+
+export async function showEvent(id){
+    try{
+       const resp = await tasksAPI.show(id)
+       return resp
+    }catch(err){
+        return err
+    }
+}
+
+
+export async function updateTask(id, data) {
+    try{
+       const resp = await tasksAPI.update(id, data)
+       return resp
     }catch(err){
         return err
     }

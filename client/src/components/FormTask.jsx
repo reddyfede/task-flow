@@ -3,6 +3,7 @@ import { createTask } from '../api/task-service';
 
 const FormTask = ({ fetchTasks }) => {
   const initState = {
+    id: 0,
     name: '',
     planned_duration: 0,
     due_date: null,
