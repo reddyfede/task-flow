@@ -19,12 +19,13 @@ export default function EmployeeList({
     e.preventDefault();
     const userId = toAdd;
     console.log(userId);
-    if (toAdd !== '') {
+    if (userId !== '') {
       try {
         const res = await addToTeam(userData.teamId, userId);
         console.log(res);
         if (res.appuserId) {
           console.log(res);
+          setTeamMembers([...teamMembers, res]);
         } else {
           throw Error('Something went wrong adding a member to the team.');
         }
