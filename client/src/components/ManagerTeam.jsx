@@ -12,6 +12,8 @@ export default function ManagerTeam({
   setNonTeamMembers,
 }) {
   const [teamName, setTeamName] = useState(userData.teamName || '');
+  const [showEdit, setShowEdit] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
 
   function handleChange(e) {
     setTeamName(e.target.value);
@@ -80,12 +82,33 @@ export default function ManagerTeam({
           <h2>
             Team Name : {userData.teamName} - TeamId: {userData.teamId}
           </h2>
-          <form onSubmit={handleUpdate}>
-            <input type='text' value={teamName} onChange={handleChange} />
-            <button>Edit Team</button>
-          </form>
+          {showEdit ? (
+            <div>
+              <form onSubmit={handleUpdate}>
+                <label htmlFor=''>Team Name: </label>
+                <input type='text' value={teamName} onChange={handleChange} />
+                <button>Confirm Edit</button>
+              </form>
+              <button onClick={() => setShowEdit(false)}>Back</button>
+            </div>
+          ) : (
+            <div>
+              <button onClick={() => setShowEdit(true)}>Edit Team</button>
+            </div>
+          )}
           <br />
-          <button onClick={handleDelete}>Delete Team</button>
+          {showDelete ? (
+            <div>
+              <p>Are you sure you want to delete team {userData.teamName}?</p>
+              <button onClick={() => setShowDelete(false)}>Back</button>
+              <button onClick={handleDelete}>Confirm Delete</button>
+            </div>
+          ) : (
+            <div>
+              <button onClick={() => setShowDelete(true)}>Delete Team</button>
+            </div>
+          )}
+
           <hr />
           <hr />
           <EmployeeList
