@@ -42,7 +42,7 @@ class AppUser(models.Model):
     )
     team = models.ForeignKey(
         Team,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         default=None,
         blank=True,
         null=True,
@@ -103,15 +103,10 @@ class Task(models.Model):
         blank=True,
         null=True,
     )
-    team = models.ForeignKey(
-        Team, 
-        on_delete=models.CASCADE, 
-        blank=True,
-        null=True
-        )
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(
         AppUser,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         default=None,
         blank=True,
         null=True,
