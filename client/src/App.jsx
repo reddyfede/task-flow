@@ -21,7 +21,7 @@ function App() {
     token: localStorage.getItem('token') || null,
     role: localStorage.getItem('role') || null,
     id: localStorage.getItem('id') || null,
-    team: localStorage.getItem('teamId') || null,
+    team: localStorage.getItem('team') || null,
   });
 
   return (

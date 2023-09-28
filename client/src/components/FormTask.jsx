@@ -6,7 +6,6 @@ const FormTask = ({ fetchTasks }) => {
   const { currUser, setCurrUser } = useContext(UserContext);
   console.log(currUser);
   const initState = {
-    id: 0,
     name: '',
     planned_duration: 0,
     due_date: null,

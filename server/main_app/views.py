@@ -266,7 +266,6 @@ def task_detail(request, task_id):
 @api_view(["POST"])
 def task_create(request):
     task_json = request.data
-    print(task_json["team"])
     team = Team.objects.get(id=task_json["team"])
     task_json["team"] = team
     task = Task.objects.create(**task_json)

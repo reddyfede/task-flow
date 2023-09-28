@@ -24,6 +24,7 @@ export default function ManagerPage() {
       if (res.user) {
         setUserData({ ...userData, ...res.user });
         setCurrUser({ ...currUser, team: res.user.teamId });
+        localStorage.setItem('team', res.user.teamId);
         if (res.teamList) {
           setTeamMembers([...res.teamList]);
         }

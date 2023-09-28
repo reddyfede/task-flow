@@ -54,7 +54,7 @@ export async function show(id) {
 }
 
 export async function showTeam(id) {
-  const URL = `${BASE_URL}/team/${id}`;
+  const URL = `${BASE_URL}/tasks/team/${id}`;
   const config = {
     method: "GET",
   };

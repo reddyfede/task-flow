@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import FormTask from '../components/FormTask';
 import ManageTasks from './ManageTasks';
-import { getTasks } from '../api/task-service';
+import { getTasks, getTasksByTeam } from '../api/task-service';
+import { useContext } from 'react';
+import { UserContext } from '../App';
 
 const GanttView = () => {
-
+  const { currUser, setCurrUser } = useContext(UserContext);
   const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    console.log(currUser);
+  }, [currUser]);
 
   async function fetchTasks() {
     try {
-      const response = await getTasks();
+      const response = await getTasksByTeam(currUser.team);
       if (response.length || response.length === 0) {
         let taskList = response;
         setTasks(taskList);
