@@ -48,8 +48,11 @@ export default function FormSignup({ user, setUser }) {
         setCount(2);
       } else {
         setLoading(false);
+        console.log(res);
         displayToast(`User ${res.user} has NOT been created.`, 'error');
-        displayToast(`Error: ${res.error.username}`);
+        if (res.error?.username) {
+          displayToast(res.error.username[0], 'error');
+        }
       }
     } catch (err) {
       console.log(err);

@@ -47,7 +47,7 @@ export default function FormLogin({ user, setUser }) {
       const res = await loginService(data);
       if (res.token) {
         setLoading(true);
-        displayToast(`User ${res.user} has logged in .`, 'success');
+        displayToast(`Logged in as ${res.user}.`, 'success');
         localStorage.setItem('username', res.user);
         localStorage.setItem('token', res.token);
         localStorage.setItem('role', res.role);
@@ -60,9 +60,12 @@ export default function FormLogin({ user, setUser }) {
         });
         setCount(2);
       } else {
-        console.log(res);
+        console.log(res.error);
         setLoading(false);
-        displayToast('Login unsuccesful.', 'error');
+        displayToast(
+          'Login unsuccesful. Bad username-password combination.',
+          'error'
+        );
       }
     } catch (err) {
       console.log(err);

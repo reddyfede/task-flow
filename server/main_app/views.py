@@ -133,7 +133,7 @@ def team_update(request, team_id):
 @api_view(["DELETE"])
 def team_delete(request, team_id):
     Team.objects.filter(id=team_id).delete()
-    return Response({"message":"Team deleted"})
+    return Response({"message": "Team deleted"})
 
 
 @api_view(["PUT"])
@@ -142,7 +142,16 @@ def team_add_user(request, team_id, user_id):
     user = AppUser.objects.get(id=user_id)
     user.team = team
     user.save()
-    return Response({"message": "User has been added to the team"})
+    return Response(
+        {
+            "message": f"User {user.user.first_name} {user.user.last_name} has been added to the team"
+        }
+    )
+
+
+@api_view(["PUT"])
+def team_remove_user(request, team_id, user_id):
+    pass
 
 
 @api_view(["POST"])
