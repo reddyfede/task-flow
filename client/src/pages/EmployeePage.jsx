@@ -5,6 +5,7 @@ import { userDetails } from '../api/users-service';
 export default function EmployeePage() {
   const [loading, setLoading] = useState(true);
   const { currUser } = useContext(UserContext);
+  const [tasks, setTasks] = useState([]);
   const [userData, setUserData] = useState({
     username: null,
     appuserId: null,
@@ -20,6 +21,9 @@ export default function EmployeePage() {
       if (res.user) {
         const data = { ...userData, ...res.user };
         setUserData(data);
+        if (res.tasks) {
+          setTasks([...res.tasks]);
+        }
         setLoading(false);
       } else {
         throw Error('Something went wrong with retrieving the user.');
@@ -52,12 +56,34 @@ export default function EmployeePage() {
               <h2>First Name: {userData.firstName}</h2>
               <h2>Last Name: {userData.lastName}</h2>
               <h2>AppUser ID: {userData.appuserId}</h2>
+              <hr />
               {!userData.teamName ? (
                 <h2>A Manager has not yet assigned you to a team.</h2>
               ) : (
-                <h2>
-                  Team Name : {userData.teamName} - TeamId: {userData.teamId}
-                </h2>
+                <div>
+                  <div>
+                    <h2>
+                      Team Name : {userData.teamName} - TeamId:{userData.teamId}
+                    </h2>
+                  </div>
+                  <hr />
+                  <div>
+                    <h2>Assigned Tasks: {tasks.length}</h2>
+                    {tasks.length ? (
+                      <ul>
+                        {tasks.map((t, idx) => (
+                          <li key={idx}>
+                            <h3>
+                              {t.name} {t.plannedDuration} {t.dueDate}
+                            </h3>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <h3>No tasks assigned yet.</h3>
+                    )}
+                  </div>
+                </div>
               )}
             </div>
           )}

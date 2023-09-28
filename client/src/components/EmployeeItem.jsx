@@ -1,12 +1,36 @@
 import './EmployeeItem.css';
+import { useState } from 'react';
 
-export default function EmployeeItem({ teamMember }) {
+export default function EmployeeItem({ member, handleRemove }) {
+  const [showRemove, setShowRemove] = useState(false);
+
   return (
     <div>
       <h3>
-        Name: {teamMember.firstName} {teamMember.lastName}
+        Name: {member.firstName} {member.lastName}
       </h3>
-      <h3>ID: {teamMember.appuserId} </h3>
+      <h3>ID: {member.appuserId} </h3>
+
+      {showRemove ? (
+        <div>
+          <p>
+            Are you sure you want to remove {member.firstName} {member.lastName}
+            ?
+          </p>
+          <p>All availabilities will be deleted.</p>
+          <button onClick={() => setShowRemove(false)}>Back</button>
+          <button onClick={handleRemove} name={member.appuserId}>
+            Confirm Remove
+          </button>
+        </div>
+      ) : (
+        <div>
+          <button onClick={() => setShowRemove(true)}>
+            Remove user from team
+          </button>
+        </div>
+      )}
+
       <h3>Availability: </h3>
       <table>
         <thead>
@@ -20,7 +44,7 @@ export default function EmployeeItem({ teamMember }) {
           </tr>
         </thead>
         <tbody>
-          {teamMember.availability.map((a) => (
+          {member.availability.map((a) => (
             <tr key={a.day}>
               <td>{a.day}</td>
               <td>{a.firstBegin}</td>
@@ -31,7 +55,7 @@ export default function EmployeeItem({ teamMember }) {
                 <button>Edit</button>
               </td>
             </tr>
-          ))}{' '}
+          ))}
           <tr>
             <td>
               <input type='text' />
@@ -54,8 +78,6 @@ export default function EmployeeItem({ teamMember }) {
           </tr>
         </tbody>
       </table>
-
-      <hr />
     </div>
   );
 }
