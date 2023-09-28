@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getTasks, updateTask } from '../api/task-service';
+import { deleteTask, getTasks, updateTask } from '../api/task-service';
 
 const TaskList = ({ tasks, setTasks }) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -19,7 +19,6 @@ const TaskList = ({ tasks, setTasks }) => {
       if (response.length || response.length === 0) {
         let taskList = response;
         setTasks(taskList);
-        toggleEdit();
         // setLoadingEventList(false);
       } else {
         throw Error('Something went wrong with retrieving tasks.');
@@ -41,7 +40,6 @@ const TaskList = ({ tasks, setTasks }) => {
   }
 
   const handleChange = (e) => {
-    console.log(e);
     const data = {
       ...editTask,
       [e.target.name]: e.target.value,
@@ -49,9 +47,15 @@ const TaskList = ({ tasks, setTasks }) => {
     setEditTask(data);
   };
 
-  const handleDelete = (e) => {
-    console.log(e);
-  };
+  async function handleDelete(e, task) {
+    try {
+      e.preventDefault();
+      await deleteTask(task.id);
+      await fetchTasks();
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <div>
@@ -116,7 +120,7 @@ const TaskList = ({ tasks, setTasks }) => {
                 </p>
 
                 <button onClick={(e) => toggleEdit(e, t)}>EDIT</button>
-                <button onClick={(e) => handleDelete(e)}>DEL</button>
+                <button onClick={(e) => handleDelete(e, t)}>DEL</button>
               </div>
             );
           })}

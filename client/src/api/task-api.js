@@ -71,3 +71,16 @@ export async function update(id, data) {
     throw new Error("Invalid Request");
   }
 }
+
+export async function destroy(id) {
+  const URL = BASE_URL + `/tasks/${id}/delete/`
+  const config = {
+    method: "DELETE",
+  };
+  const res = await fetch(URL, config);
+  if (res.ok) {
+    return res.json();
+  } else {
+    throw new Error("Invalid Request");
+  }
+}

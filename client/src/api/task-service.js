@@ -37,3 +37,14 @@ export async function updateTask(id, data) {
         return err
     }
 }
+
+
+
+export async function deleteTask(id){
+    try{
+       const data = await tasksAPI.destroy(id)
+       return data
+    }catch(err){
+        return err
+    }
+}
