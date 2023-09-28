@@ -1,9 +1,9 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { BrowserRouter as Router } from 'react-router-dom'
-import App from './App.jsx'
-import './index.css'
-import 'react-toastify/dist/ReactToastify.css'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router } from 'react-router-dom';
+import App from './App.jsx';
+import './index.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Router>
@@ -11,4 +11,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <App />
     </React.StrictMode>
   </Router>
-)
+);

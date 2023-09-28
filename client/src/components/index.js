@@ -4,6 +4,9 @@ import BtnLogin from "./BtnLogin"
 import BtnLogout from "./BtnLogout"
 import FormSignup from "./FormSignup"
 import FormLogin from "./FormLogin"
+import ManagerTeam from './ManagerTeam'
+import EmployeeList from './EmployeeList'
+import EmployeeItem from './EmployeeItem'
 
 export {
   Header,
@@ -12,4 +15,7 @@ export {
   BtnLogout,
   FormSignup,
   FormLogin,
+  ManagerTeam,
+  EmployeeList,
+  EmployeeItem,
 }
