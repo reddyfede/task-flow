@@ -62,10 +62,24 @@ def user_detail(request, user_id):
         data["teamName"] = team.name
     else:
         data["teamName"] = team
-    # if user is an employee return data
+    # if user is an employee retrieve his own tasks
     if user.appuser.role == "E":
-        return Response({"user": data})
-    # if the user is a manager data is not enough
+        tasks = user.appuser.task_set.all()
+        tasklist = [
+            {
+                "name": t.name,
+                "dueDate": t.due_date,
+                "plannedDuration": t.planned_duration,
+                "plannedStart": t.planned_start,
+                "plannedEnd": t.planned_end,
+                "actualDuration": t.actual_duration,
+                "actualStart": t.actual_start,
+                "actualEnd": t.actual_end,
+            }
+            for t in tasks
+        ]
+        return Response({"user": data, "tasks": tasklist})
+    # if the user is a manager retrieve different data
     if user.appuser.role == "M":
         if team:
             # retrieve all users that are not managers and part of the team
