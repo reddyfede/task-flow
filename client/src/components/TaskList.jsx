@@ -113,7 +113,7 @@ const TaskList = ({ tasks, setTasks }) => {
         <div>
           {tasks.map((t) => {
             return (
-              <div>
+              <div key={t.id}>
                 <p>
                   id: {t.id} | Name: {t.name} | Due: {t.due_date} | Duration:{' '}
                   {t.planned_duration} | Planned Start: {t.planned_start}
