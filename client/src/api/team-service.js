@@ -9,9 +9,18 @@ export async function createTeam(data){
     }
 }
 
-export async function updateTeam(data){
+export async function updateTeam(id,data){
     try{
-       const resp = await teamAPI.update(data)
+       const resp = await teamAPI.update(id,data)
+       return resp
+    }catch(err){
+        return err
+    }
+}
+
+export async function deleteTeam(id){
+    try{
+       const resp = await teamAPI.destroy(id)
        return resp
     }catch(err){
         return err

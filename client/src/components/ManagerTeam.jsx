@@ -1,6 +1,6 @@
 import { EmployeeList } from '.';
 import { useState } from 'react';
-import { createTeam, updateTeam } from '../api/team-service';
+import { createTeam, updateTeam, deleteTeam } from '../api/team-service';
 
 export default function ManagerTeam({
   retrieveUser,
@@ -12,6 +12,10 @@ export default function ManagerTeam({
   setNonTeamMembers,
 }) {
   const [teamName, setTeamName] = useState(userData.teamName || '');
+
+  function handleChange(e) {
+    setTeamName(e.target.value);
+  }
 
   async function handleCreate(e) {
     e.preventDefault();
@@ -30,9 +34,9 @@ export default function ManagerTeam({
 
   async function handleUpdate(e) {
     e.preventDefault();
-    const data = { team: teamName, id: userData.teamId };
+    const data = { teamName };
     try {
-      const res = await updateTeam(data);
+      const res = await updateTeam(userData.teamId, teamName);
       if (res.teamName) {
         setUserData({ ...userData, ...res });
       } else {
@@ -43,8 +47,18 @@ export default function ManagerTeam({
     }
   }
 
-  function handleChange(e) {
-    setTeamName(e.target.value);
+  async function handleDelete(e) {
+    e.preventDefault();
+    try {
+      const res = await deleteTeam(userData.teamId);
+      if (res) {
+        console.log(res);
+      } else {
+        throw Error('Something went wrong updating the team.');
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
@@ -68,7 +82,7 @@ export default function ManagerTeam({
             <button>Edit Team</button>
           </form>
           <br />
-          <button>Delete Team</button>
+          <button onClick={handleDelete}>Delete Team</button>
           <hr />
           <hr />
           <EmployeeList

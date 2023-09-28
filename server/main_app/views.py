@@ -132,7 +132,8 @@ def team_update(request, team_id):
 
 @api_view(["DELETE"])
 def team_delete(request, team_id):
-    pass
+    Team.objects.filter(id=team_id).delete()
+    return Response("Team deleted")
 
 
 @api_view(["POST"])
