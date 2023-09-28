@@ -122,6 +122,19 @@ def team_create(request):
     return Response({"teamName": team.name, "teamId": team.id})
 
 
+@api_view(["PUT"])
+def team_update(request, team_id):
+    team = Team.objects.get(id=team_id)
+    team.name = request.data
+    team.save()
+    return Response({"teamName": team.name, "teamId": team.id})
+
+
+@api_view(["DELETE"])
+def team_delete(request, team_id):
+    pass
+
+
 @api_view(["POST"])
 def signup(request):
     serializer = UserSerializer(data=request.data)

@@ -1,10 +1,11 @@
 import { EmployeeList } from '.';
 import { useState } from 'react';
-import { createTeam } from '../api/team-service';
+import { createTeam, updateTeam } from '../api/team-service';
 
 export default function ManagerTeam({
   retrieveUser,
   userData,
+  setUserData,
   teamMembers,
   setTeamMembers,
   nonTeamMembers,
@@ -20,7 +21,22 @@ export default function ManagerTeam({
       if (res.teamName) {
         retrieveUser();
       } else {
-        throw Error('Something went wrong creating a team.');
+        throw Error('Something went wrong creating the team.');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function handleUpdate(e) {
+    e.preventDefault();
+    const data = { team: teamName, id: userData.teamId };
+    try {
+      const res = await updateTeam(data);
+      if (res.teamName) {
+        setUserData({ ...userData, ...res });
+      } else {
+        throw Error('Something went wrong updating the team.');
       }
     } catch (err) {
       console.log(err);
@@ -47,7 +63,11 @@ export default function ManagerTeam({
           <h2>
             Team Name : {userData.teamName} - TeamId: {userData.teamId}
           </h2>
-          <button>Edit Team Name</button>
+          <form onSubmit={handleUpdate}>
+            <input type='text' value={teamName} onChange={handleChange} />
+            <button>Edit Team</button>
+          </form>
+          <br />
           <button>Delete Team</button>
           <hr />
           <hr />

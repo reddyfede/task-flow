@@ -9,6 +9,8 @@ urlpatterns = [
     path("user/signup/", views.signup),
     path("user/<int:user_id>/", views.user_detail),
     path("team/create/", views.team_create),
+    path("team/<int:team_id>/update/", views.team_update),
+    path("team/<int:team_id>/delete/", views.team_delete),
     path("tasks/", views.tasks_index, name="task"),
     path("tasks/<int:task_id>/", views.task_detail, name="task_detail"),
     path("tasks/create/", views.task_create, name="task_create"),
