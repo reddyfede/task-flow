@@ -1,7 +1,7 @@
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
-export async function signup(data) {
-  const URL = BASE_URL + '/user/signup/';
+export async function create(data) {
+  const URL = BASE_URL + '/team/create/';
   const config = {
     method: "POST",
     headers: {
@@ -17,10 +17,10 @@ export async function signup(data) {
   }
 }
 
-export async function login(data) {
-  const URL = BASE_URL + '/user/login/';
+export async function update(id,data) {
+  const URL = `${BASE_URL}/team/${id}/update/`;
   const config = {
-    method: "POST",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
@@ -34,13 +34,23 @@ export async function login(data) {
   }
 }
 
-export async function details(data) {
-  const URL = `${BASE_URL}/user/${data.id}`;
+export async function destroy(id) {
+  const URL = `${BASE_URL}/team/${id}/delete/`;
   const config = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    }
+    method: "DELETE",
+  };
+  const res = await fetch(URL, config);
+  if (res.ok) {
+    return res.json();
+  } else {
+    throw new Error("Invalid Request");
+  }
+}
+
+export async function addUser(teamId,userId) {
+  const URL = `${BASE_URL}/team/${teamId}/add_user/${userId}/`;
+  const config = {
+    method: "PUT",
   };
   const res = await fetch(URL, config);
   if (res.ok) {
