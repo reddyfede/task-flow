@@ -81,6 +81,7 @@ const GanttView = () => {
             }}
           >
             <h5>GANTT CHART</h5>
+            <GanttChart />
           </div>
           <ManageTasks
             tasks={tasks}
