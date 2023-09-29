@@ -90,7 +90,6 @@ export default function AvailabilityTable({
 
   return (
     <form action='' onSubmit={handleSubmit}>
-      {console.log(days)}
       <table>
         <thead>
           <tr>
