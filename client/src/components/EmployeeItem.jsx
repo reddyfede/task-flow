@@ -2,7 +2,12 @@ import './EmployeeItem.css';
 import { useState } from 'react';
 import { AvailabilityTable } from '.';
 
-export default function EmployeeItem({ member, handleRemove }) {
+export default function EmployeeItem({
+  member,
+  teamMembers,
+  setTeamMembers,
+  handleRemove,
+}) {
   const [showRemove, setShowRemove] = useState(false);
 
   return (
@@ -33,7 +38,11 @@ export default function EmployeeItem({ member, handleRemove }) {
       )}
 
       <h3>Availability: </h3>
-      <AvailabilityTable member={member} />
+      <AvailabilityTable
+        member={member}
+        teamMembers={teamMembers}
+        setTeamMembers={setTeamMembers}
+      />
     </div>
   );
 }

@@ -75,7 +75,12 @@ export default function EmployeeList({
         <hr />
         {teamMembers.map((member) => (
           <div key={member.appuserId}>
-            <EmployeeItem member={member} handleRemove={handleRemove} />
+            <EmployeeItem
+              member={member}
+              teamMembers={teamMembers}
+              setTeamMembers={setTeamMembers}
+              handleRemove={handleRemove}
+            />
             <hr />
           </div>
         ))}
