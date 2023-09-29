@@ -11,7 +11,7 @@ export default function AvailabilityTable({
   teamMembers,
   setTeamMembers,
 }) {
-  const [days, setDays] = useState([]);
+  const [days, setDays] = useState([0, 1, 2, 3, 4, 5, 6]);
   const initState = {
     day: '',
     firstBegin: '',
@@ -23,15 +23,15 @@ export default function AvailabilityTable({
   const [addDay, setAddDay] = useState(initState);
 
   function availableDays() {
-    let init = [0, 1, 2, 3, 4, 5, 6];
-    let arr = [];
-    member.availability.map((a) => {
-      let pos = init.indexOf(a.day);
-      init.splice(pos, 1);
-    });
-
-    setDays(init);
-    setAddDay({ ...addDay, day: init[0] });
+    let arr = [...days];
+    for (const a of member.availability) {
+      let pos = arr.indexOf(parseInt(a.day));
+      if (pos > -1) {
+        arr.splice(pos, 1);
+        setDays(arr);
+      }
+    }
+    setAddDay({ ...addDay, day: arr[0] });
   }
 
   useEffect(() => {
@@ -71,6 +71,7 @@ export default function AvailabilityTable({
 
   return (
     <form action='' onSubmit={handleAddSubmit}>
+      {console.log(days)}
       <table>
         <thead>
           <tr>
@@ -89,11 +90,9 @@ export default function AvailabilityTable({
               <td>{a.firstEnd}</td>
               <td>{a.secondBegin}</td>
               <td>{a.secondEnd}</td>
+
               <td>
-                <button>Edit</button>
-              </td>
-              <td>
-                <button>Remove</button>
+                <span onClick={() => console.log('asd')}>Remove</span>
               </td>
             </tr>
           ))}
