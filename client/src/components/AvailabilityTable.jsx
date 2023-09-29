@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { getDay } from '../utilities/days';
 import {
   createAvailability,
-  updateAvailability,
   deleteAvailability,
 } from '../api/availability-service';
 
@@ -38,12 +37,12 @@ export default function AvailabilityTable({
     availableDays();
   }, []);
 
-  function handleAdd(e) {
+  function handleChange(e) {
     const data = { ...addDay, [e.target.name]: e.target.value };
     setAddDay(data);
   }
 
-  async function handleAddSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     let data = { ...addDay, userId: member.appuserId };
     if (data.secondBegin === '') {
@@ -69,9 +68,28 @@ export default function AvailabilityTable({
     }
   }
 
+  async function handleRemove(id, day) {
+    const d = day;
+    try {
+      const res = await deleteAvailability(id);
+      if (res.updatedAvailability) {
+        member.availability = [...res.updatedAvailability];
+        let arr = [...teamMembers];
+        let pos = arr.indexOf(member);
+        arr[pos] = { ...member };
+        setTeamMembers(arr);
+        let days_arr = [...days, day].sort();
+        setDays(days_arr);
+      } else {
+        throw Error('Something went wrong with deleting an availability.');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
-    <form action='' onSubmit={handleAddSubmit}>
-      {console.log(days)}
+    <form action='' onSubmit={handleSubmit}>
       <table>
         <thead>
           <tr>
@@ -92,7 +110,7 @@ export default function AvailabilityTable({
               <td>{a.secondEnd}</td>
 
               <td>
-                <span onClick={() => console.log('asd')}>Remove</span>
+                <a onClick={() => handleRemove(a.id, a.day)}>Remove</a>
               </td>
             </tr>
           ))}
@@ -100,7 +118,11 @@ export default function AvailabilityTable({
           {days.length ? (
             <tr>
               <td>
-                <select name='day' defaultValue={days[0]} onChange={handleAdd}>
+                <select
+                  name='day'
+                  defaultValue={days[0]}
+                  onChange={handleChange}
+                >
                   {days.map((d) => (
                     <option value={d} key={d}>
                       {getDay(d)}
@@ -114,7 +136,7 @@ export default function AvailabilityTable({
                   name='firstBegin'
                   value={addDay.firstBegin}
                   max={addDay.firstEnd}
-                  onChange={handleAdd}
+                  onChange={handleChange}
                   required
                 />
               </td>
@@ -125,7 +147,7 @@ export default function AvailabilityTable({
                   min={addDay.firstBegin}
                   value={addDay.firstEnd}
                   max={addDay.secondBegin}
-                  onChange={handleAdd}
+                  onChange={handleChange}
                   required
                 />
               </td>
@@ -136,7 +158,7 @@ export default function AvailabilityTable({
                   min={addDay.firstEnd}
                   value={addDay.secondBegin}
                   max={addDay.secondEnd}
-                  onChange={handleAdd}
+                  onChange={handleChange}
                   required={addDay.secondEnd}
                 />
               </td>
@@ -146,7 +168,7 @@ export default function AvailabilityTable({
                   name='secondEnd'
                   min={addDay.secondBegin}
                   value={addDay.secondEnd}
-                  onChange={handleAdd}
+                  onChange={handleChange}
                   required={addDay.secondBegin}
                 />
               </td>

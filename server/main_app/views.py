@@ -217,6 +217,7 @@ def signup(request):
 def test_token(request):
     return Response("Token success")
 
+
 @api_view(["GET"])
 def tasks_index(request):
     task = Task.objects.all().values()
@@ -228,21 +229,22 @@ def team_task_detail(request, team_id):
     team = Team.objects.get(id=team_id)
     tasks = team.task_set.all()
     tasklist = [
-            {
-                "id": t.id,
-                "name": t.name,
-                "dueDate": t.due_date,
-                "plannedDuration": t.planned_duration,
-                "plannedStart": t.planned_start,
-                "plannedEnd": t.planned_end,
-                "actualDuration": t.actual_duration,
-                "actualStart": t.actual_start,
-                "actualEnd": t.actual_end,
-                "user": t.user.id if t.user else t.user
-            }
-            for t in tasks
-        ]
+        {
+            "id": t.id,
+            "name": t.name,
+            "dueDate": t.due_date,
+            "plannedDuration": t.planned_duration,
+            "plannedStart": t.planned_start,
+            "plannedEnd": t.planned_end,
+            "actualDuration": t.actual_duration,
+            "actualStart": t.actual_start,
+            "actualEnd": t.actual_end,
+            "user": t.user.id if t.user else t.user,
+        }
+        for t in tasks
+    ]
     return Response(tasklist)
+
 
 @api_view(["GET"])
 def task_detail(request, task_id):
@@ -272,7 +274,7 @@ def task_destroy(request, task_id):
     Task.objects.filter(id=task_id).delete()
     return Response("Task deleted", status=status.HTTP_204_NO_CONTENT)
 
-  
+
 @api_view(["PUT"])
 def task_add_user(request, task_id, user_id):
     print(user_id)
@@ -283,7 +285,7 @@ def task_add_user(request, task_id, user_id):
     print(task)
     return Response("Task assigned user", status=status.HTTP_204_NO_CONTENT)
 
-  
+
 @api_view(["POST"])
 def availability_create(request):
     new_av = Availability.objects.create(
@@ -308,9 +310,19 @@ def availability_create(request):
 
 @api_view(["DELETE"])
 def availability_delete(request, availability_id):
-    Availability.objects.filter(id=availability_id).delete()
-    return Response({"message": "Availability deleted"})
-
-
-
-
+    av_to_delete = Availability.objects.get(id=availability_id)
+    user_id = av_to_delete.user.id
+    av_to_delete.delete()
+    user = AppUser.objects.get(id=user_id)
+    updated_user_av = [
+        {
+            "id": a.id,
+            "day": a.day,
+            "firstBegin": a.first_part_shift_begin,
+            "firstEnd": a.first_part_shift_end,
+            "secondBegin": a.second_part_shift_begin,
+            "secondEnd": a.second_part_shift_end,
+        }
+        for a in user.availability_set.all()
+    ]
+    return Response({"updatedAvailability": updated_user_av})
