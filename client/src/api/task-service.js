@@ -19,9 +19,19 @@ export async function createTask(newData){
 }
 
 
-export async function showEvent(id){
+export async function showTask(id){
     try{
        const resp = await tasksAPI.show(id)
+       return resp
+    }catch(err){
+        return err
+    }
+}
+
+
+export async function getTasksByTeam(id){
+    try{
+       const resp = await tasksAPI.showTeam(id)
        return resp
     }catch(err){
         return err
@@ -44,6 +54,15 @@ export async function deleteTask(id){
     try{
        const data = await tasksAPI.destroy(id)
        return data
+    }catch(err){
+        return err
+    }
+}
+
+export async function updateTaskAssignment(taskId, empId) {
+    try{
+       const resp = await tasksAPI.updateAssignment(taskId, empId)
+       return resp
     }catch(err){
         return err
     }
