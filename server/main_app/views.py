@@ -314,5 +314,15 @@ def availability_delete(request, availability_id):
     user_id = av_to_delete.user.id
     av_to_delete.delete()
     user = AppUser.objects.get(id=user_id)
-    updated_user_av = user.availability_set.all().values()
+    updated_user_av = [
+        {
+            "id": a.id,
+            "day": a.day,
+            "firstBegin": a.first_part_shift_begin,
+            "firstEnd": a.first_part_shift_end,
+            "secondBegin": a.second_part_shift_begin,
+            "secondEnd": a.second_part_shift_end,
+        }
+        for a in user.availability_set.all()
+    ]
     return Response({"updatedAvailability": updated_user_av})
