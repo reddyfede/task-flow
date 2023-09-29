@@ -216,24 +216,32 @@ def signup(request):
 def test_token(request):
     return Response("Token success")
 
-
-# @api_view(['GET'])
-# def task_(request):
-#   user = get_object_or_404(User, username=request.data['username'])
-#   if not user.check_password(request.data['password']):
-#       return Response("Username or Password invalid.", status=status.HTTP_404_NOT_FOUND)
-#   token, created = Token.objects.get_or_create(user=user)
-#   app_user = AppUser.objects.get(user = user)
-
-#   serializer = UserSerializer(user)
-#   return Response({'token': token.key, 'user': serializer.data['username'], 'role': app_user.role})
-
-
 @api_view(["GET"])
 def tasks_index(request):
     task = Task.objects.all().values()
     return Response(task)
 
+
+@api_view(["GET"])
+def team_task_detail(request, team_id):
+    team = Team.objects.get(id=team_id)
+    tasks = team.task_set.all()
+    tasklist = [
+            {
+                "id": t.id,
+                "name": t.name,
+                "dueDate": t.due_date,
+                "plannedDuration": t.planned_duration,
+                "plannedStart": t.planned_start,
+                "plannedEnd": t.planned_end,
+                "actualDuration": t.actual_duration,
+                "actualStart": t.actual_start,
+                "actualEnd": t.actual_end,
+                "user": t.user.id if t.user else t.user
+            }
+            for t in tasks
+        ]
+    return Response(tasklist)
 
 @api_view(["GET"])
 def task_detail(request, task_id):
@@ -245,7 +253,6 @@ def task_detail(request, task_id):
 @api_view(["POST"])
 def task_create(request):
     task_json = request.data
-    print(task_json["team"])
     team = Team.objects.get(id=task_json["team"])
     task_json["team"] = team
     task = Task.objects.create(**task_json)
@@ -263,3 +270,15 @@ def task_update(request, task_id):
 def task_destroy(request, task_id):
     Task.objects.filter(id=task_id).delete()
     return Response("Task deleted", status=status.HTTP_204_NO_CONTENT)
+
+
+
+@api_view(["PUT"])
+def task_add_user(request, task_id, user_id):
+    print(user_id)
+    print(task_id)
+    user = AppUser.objects.get(id=user_id)
+    print(user)
+    task = Task.objects.filter(id=task_id).update(user=user)
+    print(task)
+    return Response("Task assigned user", status=status.HTTP_204_NO_CONTENT)

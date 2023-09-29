@@ -1,6 +1,7 @@
 import { EmployeeList } from '.';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { createTeam, updateTeam, deleteTeam } from '../api/team-service';
+import { UserContext } from '../App';
 
 export default function ManagerTeam({
   retrieveUser,
@@ -14,6 +15,7 @@ export default function ManagerTeam({
   const [teamName, setTeamName] = useState(userData.teamName || '');
   const [showEdit, setShowEdit] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const { currUser, setCurrUser } = useContext(UserContext);
 
   function handleChange(e) {
     setTeamName(e.target.value);
@@ -25,6 +27,7 @@ export default function ManagerTeam({
     try {
       const res = await createTeam(data);
       if (res.teamName) {
+        setCurrUser({ ...currUser, team: res.teamId });
         retrieveUser();
       } else {
         throw Error('Something went wrong creating the team.');
