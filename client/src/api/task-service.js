@@ -58,3 +58,12 @@ export async function deleteTask(id){
         return err
     }
 }
+
+export async function updateTaskAssignment(taskId, empId) {
+    try{
+       const resp = await tasksAPI.updateAssignment(taskId, empId)
+       return resp
+    }catch(err){
+        return err
+    }
+}

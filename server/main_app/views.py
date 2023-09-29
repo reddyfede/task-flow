@@ -219,7 +219,6 @@ def test_token(request):
 @api_view(["GET"])
 def tasks_index(request):
     task = Task.objects.all().values()
-
     return Response(task)
 
 
@@ -229,6 +228,7 @@ def team_task_detail(request, team_id):
     tasks = team.task_set.all()
     tasklist = [
             {
+                "id": t.id,
                 "name": t.name,
                 "dueDate": t.due_date,
                 "plannedDuration": t.planned_duration,

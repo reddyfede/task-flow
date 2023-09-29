@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { deleteTask, getTasks, updateTask } from '../api/task-service';
+import FormTaskAssign from './FormTaskAssign';
 
-const TaskList = ({ tasks, setTasks }) => {
+const TaskList = ({ tasks, setTasks, teamMembers }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [editTask, setEditTask] = useState({});
+
+  console.log(tasks);
+
   const toggleEdit = (e, task) => {
     if (task !== undefined) {
       setEditTask({ ...task });
@@ -16,13 +20,10 @@ const TaskList = ({ tasks, setTasks }) => {
   async function fetchTasks() {
     try {
       const response = await getTasks();
-      if (response.length || response.length === 0) {
-        let taskList = response;
-        setTasks(taskList);
-        // setLoadingEventList(false);
-      } else {
-        throw Error('Something went wrong with retrieving tasks.');
-      }
+      let taskList = response;
+      console.log(taskList);
+      setTasks(taskList);
+      // setLoadingEventList(false);
     } catch (err) {
       console.log(err);
     }
@@ -33,7 +34,7 @@ const TaskList = ({ tasks, setTasks }) => {
     try {
       const data = { ...editTask };
       await updateTask(editTask.id, data);
-      await fetchTasks();
+      // await fetchTasks();
     } catch (err) {
       console.log(err);
     }
@@ -51,7 +52,7 @@ const TaskList = ({ tasks, setTasks }) => {
     try {
       e.preventDefault();
       await deleteTask(task.id);
-      await fetchTasks();
+      // await fetchTasks();
     } catch (err) {
       console.log(err);
     }
@@ -118,7 +119,11 @@ const TaskList = ({ tasks, setTasks }) => {
                   id: {t.id} | Name: {t.name} | Due: {t.due_date} | Duration:{' '}
                   {t.planned_duration} | Planned Start: {t.planned_start}
                 </p>
-
+                <FormTaskAssign
+                  teamMembers={teamMembers}
+                  taskId={t.id}
+                  fetchTasks={fetchTasks}
+                />
                 <button onClick={(e) => toggleEdit(e, t)}>EDIT</button>
                 <button onClick={(e) => handleDelete(e, t)}>DEL</button>
               </div>
