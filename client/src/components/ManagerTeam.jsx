@@ -2,6 +2,7 @@ import { EmployeeList } from '.';
 import { useContext, useState } from 'react';
 import { createTeam, updateTeam, deleteTeam } from '../api/team-service';
 import { UserContext } from '../App';
+import GanttView from './GanttView';
 
 export default function ManagerTeam({
   retrieveUser,
@@ -14,6 +15,7 @@ export default function ManagerTeam({
 }) {
   const [teamName, setTeamName] = useState(userData.teamName || '');
   const [showEdit, setShowEdit] = useState(false);
+  const [toggleGantt, setToggleGantt] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const { currUser, setCurrUser } = useContext(UserContext);
 
@@ -72,6 +74,20 @@ export default function ManagerTeam({
 
   return (
     <div>
+      <button
+        onClick={() => {
+          setToggleGantt(false);
+        }}
+      >
+        Details
+      </button>
+      <button
+        onClick={() => {
+          setToggleGantt(true);
+        }}
+      >
+        Gantt
+      </button>
       {!userData.teamName ? (
         <>
           <h2>You don't have a team yet.</h2>
@@ -83,45 +99,68 @@ export default function ManagerTeam({
         </>
       ) : (
         <>
-          <h2>
-            Team Name : {userData.teamName} - TeamId: {userData.teamId}
-          </h2>
-          {showEdit ? (
+          {toggleGantt ? (
             <div>
-              <form onSubmit={handleUpdate}>
-                <label htmlFor=''>Team Name: </label>
-                <input type='text' value={teamName} onChange={handleChange} />
-                <button>Confirm Edit</button>
-              </form>
-              <button onClick={() => setShowEdit(false)}>Back</button>
+                <GanttView
+                  userData={userData}
+                  retrieveUser={retrieveUser}
+                  setUserData={setUserData}
+                  teamMembers={teamMembers}
+                  setTeamMembers={setTeamMembers}
+                  nonTeamMembers={nonTeamMembers}
+                  setNonTeamMembers={setNonTeamMembers}  />
             </div>
           ) : (
-            <div>
-              <button onClick={() => setShowEdit(true)}>Edit Team</button>
-            </div>
-          )}
-          <br />
-          {showDelete ? (
-            <div>
-              <p>Are you sure you want to delete team {userData.teamName}?</p>
-              <button onClick={() => setShowDelete(false)}>Back</button>
-              <button onClick={handleDelete}>Confirm Delete</button>
-            </div>
-          ) : (
-            <div>
-              <button onClick={() => setShowDelete(true)}>Delete Team</button>
-            </div>
-          )}
+            <>
+              <h2>
+                Team Name : {userData.teamName} - TeamId: {userData.teamId}
+              </h2>
+              {showEdit ? (
+                <div>
+                  <form onSubmit={handleUpdate}>
+                    <label htmlFor=''>Team Name: </label>
+                    <input
+                      type='text'
+                      value={teamName}
+                      onChange={handleChange}
+                    />
+                    <button>Confirm Edit</button>
+                  </form>
+                  <button onClick={() => setShowEdit(false)}>Back</button>
+                </div>
+              ) : (
+                <div>
+                  <button onClick={() => setShowEdit(true)}>Edit Team</button>
+                </div>
+              )}
+              <br />
+              {showDelete ? (
+                <div>
+                  <p>
+                    Are you sure you want to delete team {userData.teamName}?
+                  </p>
+                  <button onClick={() => setShowDelete(false)}>Back</button>
+                  <button onClick={handleDelete}>Confirm Delete</button>
+                </div>
+              ) : (
+                <div>
+                  <button onClick={() => setShowDelete(true)}>
+                    Delete Team
+                  </button>
+                </div>
+              )}
 
-          <hr />
-          <hr />
-          <EmployeeList
-            userData={userData}
-            teamMembers={teamMembers}
-            setTeamMembers={setTeamMembers}
-            nonTeamMembers={nonTeamMembers}
-            setNonTeamMembers={setNonTeamMembers}
-          />
+              <hr />
+              <hr />
+              <EmployeeList
+                userData={userData}
+                teamMembers={teamMembers}
+                setTeamMembers={setTeamMembers}
+                nonTeamMembers={nonTeamMembers}
+                setNonTeamMembers={setNonTeamMembers}
+              />
+            </>
+          )}
         </>
       )}
     </div>

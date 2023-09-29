@@ -7,7 +7,16 @@ import { UserContext } from '../App';
 import { userDetails } from '../api/users-service';
 import GanttChart from './GanttChart';
 
-const GanttView = () => {
+const GanttView = ({
+  userData,
+  retrieveUser,
+  userData,
+  setUserData,
+  teamMembers,
+  setTeamMembers,
+  nonTeamMembers,
+  setNonTeamMembers,
+}) => {
   const { currUser, setCurrUser } = useContext(UserContext);
   const [tasks, setTasks] = useState([]);
   const [userData, setUserData] = useState([]);
