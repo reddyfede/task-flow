@@ -21,6 +21,12 @@ const GanttView = () => {
     fetchTasks();
   }, []);
 
+  // function user-tasklist{
+  //   for each userID in teamMembers
+  //     -> task if task.userID === teamMembers.userID
+  //     _> user tasklist
+  // }
+
   async function retrieveUser() {
     try {
       const res = await userDetails({ id: currUser.id });
