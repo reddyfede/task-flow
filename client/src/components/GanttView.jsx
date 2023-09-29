@@ -5,10 +5,12 @@ import { getTasks, getTasksByTeam } from '../api/task-service';
 import { useContext } from 'react';
 import { UserContext } from '../App';
 import { userDetails } from '../api/users-service';
+import GanttChart from './GanttChart';
 
 const GanttView = () => {
   const { currUser, setCurrUser } = useContext(UserContext);
   const [tasks, setTasks] = useState([]);
+  const [userData, setUserData] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -23,7 +25,7 @@ const GanttView = () => {
     try {
       const res = await userDetails({ id: currUser.id });
       if (res.user) {
-        // setUserData({ ...userData, ...res.user });
+        setUserData({ ...userData, ...res.user });
         setCurrUser({ ...currUser, team: res.user.teamId });
         if (res.teamList) {
           setTeamMembers([...res.teamList]);
@@ -67,21 +69,11 @@ const GanttView = () => {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
+            width: '90vw',
           }}
         >
           <h1>Team Gantt Page</h1>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              border: '1px solid blue',
-              backgroundColor: 'gray',
-              height: '20rem',
-              width: '55rem',
-            }}
-          >
-            <h5>GANTT CHART</h5>
-          </div>
+          <GanttChart />
           <ManageTasks
             tasks={tasks}
             fetchTasks={fetchTasks}
