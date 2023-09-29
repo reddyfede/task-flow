@@ -34,7 +34,8 @@ const TaskList = ({ tasks, setTasks, teamMembers }) => {
     try {
       const data = { ...editTask };
       await updateTask(editTask.id, data);
-      // await fetchTasks();
+      await fetchTasks();
+      toggleEdit();
     } catch (err) {
       console.log(err);
     }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { updateTaskAssignment } from '../api/task-service';
 
-const FormTaskAssign = ({ taskId, teamMembers }) => {
+const FormTaskAssign = ({ taskId, teamMembers, fetchTasks }) => {
   console.log(taskId);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
