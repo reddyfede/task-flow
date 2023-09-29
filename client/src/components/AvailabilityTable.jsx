@@ -72,7 +72,6 @@ export default function AvailabilityTable({
     const d = day;
     try {
       const res = await deleteAvailability(id);
-      console.log(res);
       if (res.updatedAvailability) {
         member.availability = [...res.updatedAvailability];
         let arr = [...teamMembers];
@@ -80,7 +79,6 @@ export default function AvailabilityTable({
         arr[pos] = { ...member };
         setTeamMembers(arr);
         let days_arr = [...days, day].sort();
-        console.log('sorted', days_arr);
         setDays(days_arr);
       } else {
         throw Error('Something went wrong with deleting an availability.');

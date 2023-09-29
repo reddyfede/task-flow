@@ -310,9 +310,7 @@ def availability_create(request):
 
 @api_view(["DELETE"])
 def availability_delete(request, availability_id):
-    print(availability_id)
     av_to_delete = Availability.objects.get(id=availability_id)
-    print(av_to_delete.id)
     user_id = av_to_delete.user.id
     av_to_delete.delete()
     user = AppUser.objects.get(id=user_id)
