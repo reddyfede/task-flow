@@ -7,6 +7,7 @@ import FormLogin from "./FormLogin"
 import ManagerTeam from './ManagerTeam'
 import EmployeeList from './EmployeeList'
 import EmployeeItem from './EmployeeItem'
+import AvailabilityTable from './AvailabilityTable'
 
 export {
   Header,
@@ -18,4 +19,5 @@ export {
   ManagerTeam,
   EmployeeList,
   EmployeeItem,
+  AvailabilityTable,
 }
