@@ -75,7 +75,12 @@ export default function EmployeeList({
         <hr />
         {teamMembers.map((member) => (
           <div key={member.appuserId}>
-            <EmployeeItem member={member} handleRemove={handleRemove} />
+            <EmployeeItem
+              member={member}
+              teamMembers={teamMembers}
+              setTeamMembers={setTeamMembers}
+              handleRemove={handleRemove}
+            />
             <hr />
           </div>
         ))}
@@ -89,7 +94,7 @@ export default function EmployeeList({
         <label htmlFor='employee'>
           <span>Select Employee: </span>
         </label>
-        <select name='employee' required onChange={handleChange}>
+        <select name='employee' value={toAdd} required onChange={handleChange}>
           <option value=''>select one</option>
           {nonTeamMembers.map((ntm, idx) => (
             <option value={ntm.appuserId} key={idx}>

@@ -14,7 +14,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from .models import AppUser, Task, Team
+from .models import AppUser, Task, Team, Availability
 from .serializers import UserSerializer
 
 
@@ -92,6 +92,7 @@ def user_detail(request, user_id):
                     "lastName": user.user.last_name,
                     "availability": [
                         {
+                            "id": a.id,
                             "day": a.day,
                             "firstBegin": a.first_part_shift_begin,
                             "firstEnd": a.first_part_shift_end,
@@ -271,8 +272,7 @@ def task_destroy(request, task_id):
     Task.objects.filter(id=task_id).delete()
     return Response("Task deleted", status=status.HTTP_204_NO_CONTENT)
 
-
-
+  
 @api_view(["PUT"])
 def task_add_user(request, task_id, user_id):
     print(user_id)
@@ -282,3 +282,35 @@ def task_add_user(request, task_id, user_id):
     task = Task.objects.filter(id=task_id).update(user=user)
     print(task)
     return Response("Task assigned user", status=status.HTTP_204_NO_CONTENT)
+
+  
+@api_view(["POST"])
+def availability_create(request):
+    new_av = Availability.objects.create(
+        day=request.data["day"],
+        first_part_shift_begin=request.data["firstBegin"],
+        first_part_shift_end=request.data["firstEnd"],
+        second_part_shift_begin=request.data["secondBegin"],
+        second_part_shift_end=request.data["secondEnd"],
+        user_id=request.data["userId"],
+    )
+    return Response(
+        {
+            "id": new_av.id,
+            "day": new_av.day,
+            "firstBegin": new_av.first_part_shift_begin,
+            "firstEnd": new_av.first_part_shift_end,
+            "secondBegin": new_av.second_part_shift_begin,
+            "secondEnd": new_av.second_part_shift_end,
+        }
+    )
+
+
+@api_view(["DELETE"])
+def availability_delete(request, availability_id):
+    Availability.objects.filter(id=availability_id).delete()
+    return Response({"message": "Availability deleted"})
+
+
+
+
