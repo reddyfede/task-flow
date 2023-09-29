@@ -9,15 +9,6 @@ export async function createAvailability(data){
     }
 }
 
-export async function updateAvailability(id,data){
-    try{
-       const resp = await availabilityAPI.update(id,data)
-       return resp
-    }catch(err){
-        return err
-    }
-}
-
 export async function deleteAvailability(id){
     try{
        const resp = await availabilityAPI.destroy(id)

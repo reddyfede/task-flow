@@ -288,13 +288,6 @@ def availability_create(request):
     )
 
 
-@api_view(["PUT"])
-def availability_update(request, availability_id):
-    a = Availability.objects.get(id=availability_id)
-    a.save()
-    return Response({})
-
-
 @api_view(["DELETE"])
 def availability_delete(request, availability_id):
     Availability.objects.filter(id=availability_id).delete()

@@ -9,7 +9,6 @@ urlpatterns = [
     path("user/signup/", views.signup),
     path("user/<int:user_id>/", views.user_detail),
     path("availability/create/", views.availability_create),
-    path("availability/<int:availability_id>/update/", views.availability_update),
     path("availability/<int:availability_id>/delete/", views.availability_delete),
     path("team/create/", views.team_create),
     path("team/<int:team_id>/update/", views.team_update),

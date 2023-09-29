@@ -19,7 +19,7 @@ export default function AvailabilityTable({
     secondBegin: '',
     secondEnd: '',
   };
-  const [editDay, setEditDay] = useState(null);
+
   const [addDay, setAddDay] = useState(initState);
 
   function availableDays() {
