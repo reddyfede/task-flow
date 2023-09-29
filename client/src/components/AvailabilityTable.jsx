@@ -100,12 +100,7 @@ export default function AvailabilityTable({
           {days.length ? (
             <tr>
               <td>
-                <select
-                  name='day'
-                  defaultValue={days[0]}
-                  value={addDay.day}
-                  onChange={handleAdd}
-                >
+                <select name='day' defaultValue={days[0]} onChange={handleAdd}>
                   {days.map((d) => (
                     <option value={d} key={d}>
                       {getDay(d)}
