@@ -137,6 +137,7 @@ def team_add_user(request, team_id, user_id):
     user.save()
     return Response(
         {
+            "userId": user.user.id,
             "appuserId": user.id,
             "first_name": user.user.first_name,
             "last_name": user.user.last_name,
@@ -250,17 +251,10 @@ def task_add_user(request, task_id, user_id):
 @api_view(["POST"])
 def availability_create(request):
     new_av = Availability.objects.create(**request.data)
-    user_id = new_av.user.id
-    user = AppUser.objects.get(id=user_id)
-    updated_user_av = user.availability_set.all().values()
-    return Response({"updatedAvailability": updated_user_av})
+    return Response("Availability created", status=status.HTTP_201_CREATED)
 
 
 @api_view(["DELETE"])
 def availability_delete(request, availability_id):
-    av_to_delete = Availability.objects.get(id=availability_id)
-    user_id = av_to_delete.user.id
-    av_to_delete.delete()
-    user = AppUser.objects.get(id=user_id)
-    updated_user_av = user.availability_set.all().values()
-    return Response({"updatedAvailability": updated_user_av})
+    Availability.objects.get(id=availability_id).delete()
+    return Response("Availability deleted", status=status.HTTP_204_NO_CONTENT)

@@ -12,7 +12,6 @@ export default function EmployeeItem({ member, handleRemove }) {
     try {
       const res = await userDetails({ id: member.userId });
       if (res.user) {
-        console.log(res);
         setEmployeeData({ ...res });
         setLoading(false);
       } else {

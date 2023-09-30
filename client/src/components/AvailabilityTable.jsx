@@ -48,7 +48,7 @@ export default function AvailabilityTable({ employeeData, retrieveEmployee }) {
     }
     try {
       const res = await createAvailability(data);
-      if (res.updatedAvailability) {
+      if (res.ok) {
         await retrieveEmployee();
         let days_arr = [...options];
         const pos = days_arr.indexOf(parseInt(data.day));
@@ -68,7 +68,7 @@ export default function AvailabilityTable({ employeeData, retrieveEmployee }) {
     const d = day;
     try {
       const res = await deleteAvailability(id);
-      if (res.updatedAvailability) {
+      if (res.ok) {
         await retrieveEmployee();
         let days_arr = [...options, day].sort();
         setOptions(days_arr);
