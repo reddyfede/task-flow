@@ -10,8 +10,8 @@ export default function ManagerPage() {
   const [userData, setUserData] = useState({
     username: null,
     appuserId: null,
-    firstName: null,
-    lastName: null,
+    first_name: null,
+    last_name: null,
     teamName: null,
     teamId: null,
   });
@@ -20,7 +20,7 @@ export default function ManagerPage() {
 
   async function retrieveUser() {
     try {
-      const res = await userDetails({ id: currUser.id });
+      const res = await userDetails(currUser.id);
       if (res.user) {
         setUserData({ ...userData, ...res.user });
         setCurrUser({ ...currUser, team: res.user.teamId });
@@ -53,11 +53,7 @@ export default function ManagerPage() {
         </div>
       ) : (
         <div>
-          <div style={{ border: '1px solid red' }}>
-            <Link to='/manager/gantt' style={{ margin: '5rem' }}>
-              Gantt View
-            </Link>
-          </div>
+          <div style={{ border: '1px solid red' }}></div>
           <h1>Manager Page</h1>
           {loading ? (
             <div>
@@ -65,9 +61,10 @@ export default function ManagerPage() {
             </div>
           ) : (
             <div>
-              <h2>First Name: {userData.firstName}</h2>
-              <h2>Last Name: {userData.lastName}</h2>
-              <h2>AppUser ID: {userData.appuserId}</h2>
+              <h2>
+                {userData.first_name} {userData.last_name} -{' '}
+                {userData.appuserId}
+              </h2>
               <hr />
               <hr />
               <ManagerTeam

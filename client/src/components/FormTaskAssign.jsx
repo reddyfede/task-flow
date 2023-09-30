@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { updateTaskAssignment } from '../api/task-service';
 
 const FormTaskAssign = ({ taskId, teamMembers, fetchTasks }) => {
-  console.log(taskId);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
   async function handleSubmit(e) {
@@ -23,8 +22,7 @@ const FormTaskAssign = ({ taskId, teamMembers, fetchTasks }) => {
 
   return (
     <div>
-      <h1>FormTaskAssign</h1>
-
+      <h4>Assign Employee</h4>
       <form action='' onSubmit={handleSubmit}>
         <label htmlFor='employee'>
           <span>Select Employee: </span>
@@ -33,11 +31,11 @@ const FormTaskAssign = ({ taskId, teamMembers, fetchTasks }) => {
           <option value=''>select one</option>
           {teamMembers.map((tm, idx) => (
             <option value={tm.appuserId} key={idx}>
-              {tm.firstName} {tm.lastName} - {tm.appuserId}
+              {tm.first_name} {tm.last_name} - {tm.appuserId}
             </option>
           ))}
         </select>
-        <button>Add to the Team</button>
+        <button>Assign Selected Emplyee</button>
       </form>
     </div>
   );

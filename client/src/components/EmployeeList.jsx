@@ -42,11 +42,9 @@ export default function EmployeeList({
 
   async function handleRemove(e) {
     e.preventDefault();
-    console.log(e.target.name);
     const userId = e.target.name;
     try {
       const res = await removeFromTeam(userData.teamId, userId);
-      console.log(res);
       if (res.appuserId) {
         let arr = [...teamMembers];
         const filtered_arr = arr.filter((el) => el.appuserId !== res.appuserId);
@@ -98,7 +96,7 @@ export default function EmployeeList({
           <option value=''>select one</option>
           {nonTeamMembers.map((ntm, idx) => (
             <option value={ntm.appuserId} key={idx}>
-              {ntm.firstName} {ntm.lastName} - {ntm.appuserId}
+              {ntm.first_name} {ntm.last_name} - {ntm.appuserId}
             </option>
           ))}
         </select>

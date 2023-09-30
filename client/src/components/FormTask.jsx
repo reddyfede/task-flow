@@ -1,20 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { createTask } from '../api/task-service';
-import { UserContext } from '../App';
+import { todayDate } from '../utilities/days';
 
-const FormTask = ({ fetchTasks }) => {
-  const { currUser, setCurrUser } = useContext(UserContext);
-  console.log(currUser);
+const FormTask = ({ userData, fetchTasks }) => {
   const initState = {
     name: '',
-    planned_duration: 0,
-    due_date: null,
-    team: currUser.team,
+    planned_duration: '',
+    due_date: todayDate(),
+    team: userData.teamId,
   };
   const [newTask, setNewTask] = useState(initState);
 
   function handleChange(e) {
-    console.log(e.target.value);
     let updatedData = {
       ...newTask,
       [e.target.name]: e.target.value,
@@ -25,10 +22,9 @@ const FormTask = ({ fetchTasks }) => {
   async function handleSubmit(e) {
     e.preventDefault();
     let newData = { ...newTask };
-    console.log(newData);
     try {
       const res = await createTask(newData);
-      // handleCancel();
+      setNewTask(initState);
       fetchTasks();
     } catch (err) {
       console.log(err);
@@ -37,7 +33,7 @@ const FormTask = ({ fetchTasks }) => {
 
   return (
     <div style={{ border: '3px solid lightblue' }}>
-      <h1>Tasks</h1>
+      <h1>Create new task</h1>
       <form onSubmit={handleSubmit}>
         <div className='form-control'>
           <label className='label' htmlFor='name'>
@@ -55,13 +51,14 @@ const FormTask = ({ fetchTasks }) => {
 
         <div className='form-control'>
           <label className='label' htmlFor='planned_duration'>
-            <span className='label-text'>Task Duration:</span>
+            <span className='label-text'>Task Duration [minutes]:</span>
           </label>
           <input
             type='number'
             required
             name='planned_duration'
-            maxLength={3}
+            min='1'
+            max='480'
             value={newTask.planned_duration}
             onChange={handleChange}
           />
@@ -76,12 +73,13 @@ const FormTask = ({ fetchTasks }) => {
             value={newTask.date}
             onChange={handleChange}
             id='due_date'
+            min={todayDate()}
             required
             name='due_date'
           />
         </div>
         <button className='' type='submit'>
-          Submit
+          Create
         </button>
       </form>
     </div>

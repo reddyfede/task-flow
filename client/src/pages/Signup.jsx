@@ -5,8 +5,8 @@ import { FormSignup } from '../components';
 export default function Signup() {
   const [user, setUser] = useState({
     username: '',
-    firstName: '',
-    lastName: '',
+    first_name: '',
+    last_name: '',
     role: 'E',
     password: '',
   });

@@ -10,8 +10,6 @@ import {
   EmployeePage,
 } from './pages';
 import { Header } from './components';
-import GanttView from './components/GanttView';
-import ManageTasks from './components/ManageTasks';
 
 const UserContext = createContext();
 
@@ -33,8 +31,6 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
           <Route path='/manager' element={<ManagerPage />} />
-          <Route path='/manager/gantt' element={<GanttView />} />
-          <Route path='/manager/tasks' element={<ManageTasks />} />
           <Route path='/employee' element={<EmployeePage />} />
           <Route path='/*' element={<PageNotFound />} />
         </Routes>

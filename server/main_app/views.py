@@ -53,8 +53,8 @@ def user_detail(request, user_id):
     data = {
         "username": user.username,
         "appuserId": user.appuser.id,
-        "firstName": user.first_name,
-        "lastName": user.last_name,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
     }
     # add team info to data, only teamName if team is null
     if team:
@@ -64,43 +64,22 @@ def user_detail(request, user_id):
         data["teamName"] = team
     # if user is an employee retrieve his own tasks
     if user.appuser.role == "E":
-        tasks = user.appuser.task_set.all()
-        tasklist = [
-            {
-                "name": t.name,
-                "dueDate": t.due_date,
-                "plannedDuration": t.planned_duration,
-                "plannedStart": t.planned_start,
-                "plannedEnd": t.planned_end,
-                "actualDuration": t.actual_duration,
-                "actualStart": t.actual_start,
-                "actualEnd": t.actual_end,
-            }
-            for t in tasks
-        ]
-        return Response({"user": data, "tasks": tasklist})
+        tasklist = user.appuser.task_set.all().values()
+        availability = user.appuser.availability_set.all().values()
+        return Response({"user": data, "tasks": tasklist, "availability": availability})
     # if the user is a manager retrieve different data
     if user.appuser.role == "M":
         if team:
             # retrieve all users that are not managers and part of the team
             in_team = team.appuser_set.all().exclude(role__in=["M"])
-            # for each team member retrieve their info and their availability
+            # for each team member retrieve their info
             team_list = [
                 {
                     "appuserId": user.id,
-                    "firstName": user.user.first_name,
-                    "lastName": user.user.last_name,
-                    "availability": [
-                        {
-                            "id": a.id,
-                            "day": a.day,
-                            "firstBegin": a.first_part_shift_begin,
-                            "firstEnd": a.first_part_shift_end,
-                            "secondBegin": a.second_part_shift_begin,
-                            "secondEnd": a.second_part_shift_end,
-                        }
-                        for a in user.availability_set.all()
-                    ],
+                    "userId": user.user.id,
+                    "first_name": user.user.first_name,
+                    "last_name": user.user.last_name,
+                    "availability": [a for a in user.availability_set.all().values()],
                 }
                 for user in in_team
             ]
@@ -112,8 +91,9 @@ def user_detail(request, user_id):
             not_team_list = [
                 {
                     "appuserId": user.id,
-                    "firstName": user.user.first_name,
-                    "lastName": user.user.last_name,
+                    "userId": user.user.id,
+                    "first_name": user.user.first_name,
+                    "last_name": user.user.last_name,
                 }
                 for user in not_in_team
             ]
@@ -158,9 +138,10 @@ def team_add_user(request, team_id, user_id):
     user.save()
     return Response(
         {
+            "userId": user.user.id,
             "appuserId": user.id,
-            "firstName": user.user.first_name,
-            "lastName": user.user.last_name,
+            "first_name": user.user.first_name,
+            "last_name": user.user.last_name,
             "availability": [],
         }
     )
@@ -181,8 +162,8 @@ def team_remove_user(request, team_id, user_id):
         return Response(
             {
                 "appuserId": user.id,
-                "firstName": user.user.first_name,
-                "lastName": user.user.last_name,
+                "first_name": user.user.first_name,
+                "last_name": user.user.last_name,
             }
         )
 
@@ -193,8 +174,8 @@ def signup(request):
     if serializer.is_valid():
         serializer.save()
         user = User.objects.get(username=request.data["username"])
-        user.first_name = request.data["firstName"]
-        user.last_name = request.data["lastName"]
+        user.first_name = request.data["first_name"]
+        user.last_name = request.data["last_name"]
         user.set_password(request.data["password"])
         user.save()
         Token.objects.create(user=user)
@@ -227,22 +208,7 @@ def tasks_index(request):
 @api_view(["GET"])
 def team_task_detail(request, team_id):
     team = Team.objects.get(id=team_id)
-    tasks = team.task_set.all()
-    tasklist = [
-        {
-            "id": t.id,
-            "name": t.name,
-            "dueDate": t.due_date,
-            "plannedDuration": t.planned_duration,
-            "plannedStart": t.planned_start,
-            "plannedEnd": t.planned_end,
-            "actualDuration": t.actual_duration,
-            "actualStart": t.actual_start,
-            "actualEnd": t.actual_end,
-            "user": t.user.id if t.user else t.user,
-        }
-        for t in tasks
-    ]
+    tasklist = team.task_set.all().exclude(user__isnull=False).values()
     return Response(tasklist)
 
 
@@ -277,52 +243,18 @@ def task_destroy(request, task_id):
 
 @api_view(["PUT"])
 def task_add_user(request, task_id, user_id):
-    print(user_id)
-    print(task_id)
     user = AppUser.objects.get(id=user_id)
-    print(user)
-    task = Task.objects.filter(id=task_id).update(user=user)
-    print(task)
+    Task.objects.filter(id=task_id).update(user=user)
     return Response("Task assigned user", status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(["POST"])
 def availability_create(request):
-    new_av = Availability.objects.create(
-        day=request.data["day"],
-        first_part_shift_begin=request.data["firstBegin"],
-        first_part_shift_end=request.data["firstEnd"],
-        second_part_shift_begin=request.data["secondBegin"],
-        second_part_shift_end=request.data["secondEnd"],
-        user_id=request.data["userId"],
-    )
-    return Response(
-        {
-            "id": new_av.id,
-            "day": new_av.day,
-            "firstBegin": new_av.first_part_shift_begin,
-            "firstEnd": new_av.first_part_shift_end,
-            "secondBegin": new_av.second_part_shift_begin,
-            "secondEnd": new_av.second_part_shift_end,
-        }
-    )
+    new_av = Availability.objects.create(**request.data)
+    return Response({"id": new_av.id})
 
 
 @api_view(["DELETE"])
 def availability_delete(request, availability_id):
-    av_to_delete = Availability.objects.get(id=availability_id)
-    user_id = av_to_delete.user.id
-    av_to_delete.delete()
-    user = AppUser.objects.get(id=user_id)
-    updated_user_av = [
-        {
-            "id": a.id,
-            "day": a.day,
-            "firstBegin": a.first_part_shift_begin,
-            "firstEnd": a.first_part_shift_end,
-            "secondBegin": a.second_part_shift_begin,
-            "secondEnd": a.second_part_shift_end,
-        }
-        for a in user.availability_set.all()
-    ]
-    return Response({"updatedAvailability": updated_user_av})
+    Availability.objects.get(id=availability_id).delete()
+    return Response({"id": availability_id})

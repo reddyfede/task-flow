@@ -77,29 +77,29 @@ export default function FormSignup({ user, setUser }) {
         />
       </div>
       <div>
-        <label htmlFor='firstName'>
+        <label htmlFor='first_name'>
           <span>First Name:</span>
         </label>
         <input
           type='text'
-          name='firstName'
+          name='first_name'
           required
           maxLength={20}
-          value={user.firstName}
+          value={user.first_name}
           onChange={handleChange}
           disabled={loading}
         />
       </div>
       <div>
-        <label htmlFor='lastName'>
+        <label htmlFor='last_name'>
           <span>Last Name:</span>
         </label>
         <input
           type='text'
-          name='lastName'
+          name='last_name'
           required
           maxLength={20}
-          value={user.lastName}
+          value={user.last_name}
           onChange={handleChange}
           disabled={loading}
         />
