@@ -35,7 +35,7 @@ const TaskList = ({ tasks, setTasks, teamMembers }) => {
       const data = { ...editTask };
       await updateTask(editTask.id, data);
       await fetchTasks();
-      toggleEdit();
+      // toggleEdit();
     } catch (err) {
       console.log(err);
     }
@@ -53,7 +53,7 @@ const TaskList = ({ tasks, setTasks, teamMembers }) => {
     try {
       e.preventDefault();
       await deleteTask(task.id);
-      // await fetchTasks();
+      await fetchTasks();
     } catch (err) {
       console.log(err);
     }
@@ -86,9 +86,9 @@ const TaskList = ({ tasks, setTasks, teamMembers }) => {
                 className=''
                 type='date'
                 onChange={handleChange}
-                id='due_date'
-                name='due_date'
-                value={editTask.due_date}
+                id='dueDate'
+                name='dueDate'
+                value={editTask.dueDate}
               />
             </div>
 
@@ -98,9 +98,9 @@ const TaskList = ({ tasks, setTasks, teamMembers }) => {
                 className=''
                 type='number'
                 onChange={handleChange}
-                id='planned_duration'
-                name='planned_duration'
-                value={editTask.planned_duration}
+                id='plannedDuration'
+                name='plannedDuration'
+                value={editTask.plannedDuration}
               />
             </div>
 
@@ -117,8 +117,8 @@ const TaskList = ({ tasks, setTasks, teamMembers }) => {
             return (
               <div key={t.id}>
                 <p>
-                  id: {t.id} | Name: {t.name} | Due: {t.due_date} | Duration:{' '}
-                  {t.planned_duration} | Planned Start: {t.planned_start}
+                  id: {t.id} | Name: {t.name} | Due: {t.dueDate} | Duration:{' '}
+                  {t.plannedDuration} | Planned Start: {t.plannedStart}
                 </p>
                 <FormTaskAssign
                   teamMembers={teamMembers}
@@ -127,6 +127,7 @@ const TaskList = ({ tasks, setTasks, teamMembers }) => {
                 />
                 <button onClick={(e) => toggleEdit(e, t)}>EDIT</button>
                 <button onClick={(e) => handleDelete(e, t)}>DEL</button>
+                <hr />
               </div>
             );
           })}

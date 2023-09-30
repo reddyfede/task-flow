@@ -10,49 +10,23 @@ import GanttChart from './GanttChart';
 const GanttView = ({
   userData,
   retrieveUser,
-  userData,
   setUserData,
   teamMembers,
   setTeamMembers,
   nonTeamMembers,
   setNonTeamMembers,
+  fetchTasks,
 }) => {
   const { currUser, setCurrUser } = useContext(UserContext);
   const [tasks, setTasks] = useState([]);
-  const [userData, setUserData] = useState([]);
-  const [teamMembers, setTeamMembers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {}, [currUser]);
+  // useEffect(() => {}, [currUser]);
 
   useEffect(() => {
-    retrieveUser();
+    // retrieveUser();
     fetchTasks();
   }, []);
-
-  // function user-tasklist{
-  //   for each userID in teamMembers
-  //     -> task if task.userID === teamMembers.userID
-  //     _> user tasklist
-  // }
-
-  async function retrieveUser() {
-    try {
-      const res = await userDetails({ id: currUser.id });
-      if (res.user) {
-        setUserData({ ...userData, ...res.user });
-        setCurrUser({ ...currUser, team: res.user.teamId });
-        if (res.teamList) {
-          setTeamMembers([...res.teamList]);
-        }
-        // setLoading(false);
-      } else {
-        throw Error('Something went wrong with retrieving the user.');
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
 
   async function fetchTasks() {
     try {

@@ -264,8 +264,19 @@ def task_create(request):
 
 @api_view(["PUT"])
 def task_update(request, task_id):
-    task_json = request.data
-    Task.objects.filter(id=task_id).update(**task_json)
+    task = Task.objects.get(id=task_id)
+    task.name = request.data['name']
+    task.due_date = request.data['dueDate']
+    task.planned_duration = request.data['plannedDuration']
+    task.planned_start = request.data['plannedStart']
+    task.planned_end = request.data['plannedEnd']
+    task.actual_duration = request.data['actualDuration']
+    task.actual_start = request.data['actualStart']
+    task.actual_end = request.data['actualEnd']
+    if request.data['user']:  
+        user = AppUser.objects.get(id=request.data['user'])
+        task.user = user
+    task.save()
     return Response("Task updated", status=status.HTTP_204_NO_CONTENT)
 
 

@@ -7,8 +7,8 @@ const FormTask = ({ fetchTasks }) => {
   console.log(currUser);
   const initState = {
     name: '',
-    planned_duration: 0,
-    due_date: null,
+    plannedDuration: 0,
+    dueDate: null,
     team: currUser.team,
   };
   const [newTask, setNewTask] = useState(initState);
@@ -54,20 +54,20 @@ const FormTask = ({ fetchTasks }) => {
         </div>
 
         <div className='form-control'>
-          <label className='label' htmlFor='planned_duration'>
+          <label className='label' htmlFor='plannedDuration'>
             <span className='label-text'>Task Duration:</span>
           </label>
           <input
             type='number'
             required
-            name='planned_duration'
+            name='plannedDuration'
             maxLength={3}
-            value={newTask.planned_duration}
+            value={newTask.plannedDuration}
             onChange={handleChange}
           />
         </div>
         <div className='form-control '>
-          <label className='label' htmlFor='due_date'>
+          <label className='label' htmlFor='dueDate'>
             <span className='label-text'>Due date:</span>
           </label>
           <input
@@ -75,9 +75,9 @@ const FormTask = ({ fetchTasks }) => {
             type='date'
             value={newTask.date}
             onChange={handleChange}
-            id='due_date'
+            id='dueDate'
             required
-            name='due_date'
+            name='dueDate'
           />
         </div>
         <button className='' type='submit'>
