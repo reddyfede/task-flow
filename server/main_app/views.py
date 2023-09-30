@@ -64,20 +64,7 @@ def user_detail(request, user_id):
         data["teamName"] = team
     # if user is an employee retrieve his own tasks
     if user.appuser.role == "E":
-        tasks = user.appuser.task_set.all()
-        tasklist = [
-            {
-                "name": t.name,
-                "due_date": t.due_date,
-                "planned_duration": t.planned_duration,
-                "planned_start": t.planned_start,
-                "planned_end": t.planned_end,
-                "actual_duration": t.actual_duration,
-                "actual_start": t.actual_start,
-                "actual_end": t.actual_end,
-            }
-            for t in tasks
-        ]
+        tasklist = user.appuser.task_set.all().values()
         return Response({"user": data, "tasks": tasklist})
     # if the user is a manager retrieve different data
     if user.appuser.role == "M":
@@ -90,17 +77,7 @@ def user_detail(request, user_id):
                     "appuserId": user.id,
                     "first_name": user.user.first_name,
                     "last_name": user.user.last_name,
-                    "availability": [
-                        {
-                            "id": a.id,
-                            "day": a.day,
-                            "first_part_shift_begin": a.first_part_shift_begin,
-                            "first_part_shift_end": a.first_part_shift_end,
-                            "second_part_shift_begin": a.second_part_shift_begin,
-                            "second_part_shift_end": a.second_part_shift_end,
-                        }
-                        for a in user.availability_set.all()
-                    ],
+                    "availability": user.availability_set.all().values(),
                 }
                 for user in in_team
             ]
