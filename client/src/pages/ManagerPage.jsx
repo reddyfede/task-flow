@@ -53,7 +53,6 @@ export default function ManagerPage() {
         </div>
       ) : (
         <div>
-          <div style={{ border: '1px solid red' }}></div>
           {loading ? (
             <div>
               <h2>Loading Data...</h2>

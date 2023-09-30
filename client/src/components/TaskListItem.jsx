@@ -117,7 +117,6 @@ const TaskListItem = ({ task, fetchTasks, teamMembers }) => {
         taskId={task.id}
         fetchTasks={fetchTasks}
       />
-      <hr />
     </div>
   );
 };

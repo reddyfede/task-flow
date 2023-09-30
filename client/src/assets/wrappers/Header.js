@@ -6,7 +6,6 @@ const Wrapper = styled.nav`
     margin: 0;
   }
 
-
   .nav-center {
     display: flex;
     width: 95vw;
@@ -30,7 +29,6 @@ const Wrapper = styled.nav`
     margin: 1rem;
     height: 30px;
   }
-
 
   @media (min-width: 992px) {
     

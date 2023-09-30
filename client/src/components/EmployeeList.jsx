@@ -70,7 +70,6 @@ export default function EmployeeList({
       <ToastContainer transition={Slide} />
       <div>
         <h2>Team Members: {teamMembers.length}</h2>
-        <hr />
         {teamMembers.map((member) => (
           <div key={member.appuserId}>
             <EmployeeItem
@@ -79,12 +78,9 @@ export default function EmployeeList({
               setTeamMembers={setTeamMembers}
               handleRemove={handleRemove}
             />
-            <hr />
           </div>
         ))}
       </div>
-
-      <hr />
 
       <h2>Available Employees: {nonTeamMembers.length}</h2>
 

@@ -129,8 +129,6 @@ export default function ManagerTeam({
               </button>
             </div>
           )}
-          <hr />
-          <hr />
           <button
             className='btn'
             disabled={tab === 1}
@@ -145,8 +143,6 @@ export default function ManagerTeam({
           >
             Team Gant
           </button>
-          <hr />
-          <hr />
           {tab === 1 ? (
             <EmployeeList
               userData={userData}
