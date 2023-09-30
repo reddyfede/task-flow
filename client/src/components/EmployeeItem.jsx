@@ -3,12 +3,7 @@ import { useEffect, useState } from 'react';
 import { AvailabilityTable } from '.';
 import { userDetails } from '../api/users-service';
 
-export default function EmployeeItem({
-  member,
-  teamMembers,
-  setTeamMembers,
-  handleRemove,
-}) {
+export default function EmployeeItem({ member, handleRemove }) {
   const [showRemove, setShowRemove] = useState(false);
   const [employeeData, setEmployeeData] = useState(null);
   const [loading, setLoading] = useState(true);

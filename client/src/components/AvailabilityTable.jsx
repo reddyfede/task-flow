@@ -110,11 +110,7 @@ export default function AvailabilityTable({ employeeData, retrieveEmployee }) {
           {options.length ? (
             <tr>
               <td>
-                <select
-                  name='day'
-                  defaultValue={options[0]}
-                  onChange={handleChange}
-                >
+                <select name='day' onChange={handleChange}>
                   <option value={''}>select one</option>
                   {options.map((d) => (
                     <option value={d} key={d}>

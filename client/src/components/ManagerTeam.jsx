@@ -46,7 +46,6 @@ export default function ManagerTeam({
 
   async function handleUpdate(e) {
     e.preventDefault();
-    const data = { teamName };
     try {
       const res = await updateTeam(userData.teamId, teamName);
       if (res.teamName) {

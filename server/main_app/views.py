@@ -72,14 +72,13 @@ def user_detail(request, user_id):
         if team:
             # retrieve all users that are not managers and part of the team
             in_team = team.appuser_set.all().exclude(role__in=["M"])
-            # for each team member retrieve their info and their availability
+            # for each team member retrieve their info
             team_list = [
                 {
                     "appuserId": user.id,
                     "userId": user.user.id,
                     "first_name": user.user.first_name,
                     "last_name": user.user.last_name,
-                    "availability": user.availability_set.all().values(),
                 }
                 for user in in_team
             ]
