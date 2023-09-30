@@ -141,13 +141,7 @@ export default function ManagerTeam({
           ) : null}
 
           {tab === 2 ? (
-            <GanttView
-              retrieveUser={retrieveUser}
-              userData={userData}
-              setUserData={setUserData}
-              teamMembers={teamMembers}
-              setTeamMembers={setTeamMembers}
-            />
+            <GanttView userData={userData} teamMembers={teamMembers} />
           ) : null}
         </>
       )}

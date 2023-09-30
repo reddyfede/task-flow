@@ -1,51 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import FormTask from '../components/FormTask';
 import ManageTasks from './ManageTasks';
 import { getTasksByTeam } from '../api/task-service';
-import { useContext } from 'react';
-import { UserContext } from '../App';
-import { userDetails } from '../api/users-service';
 import GanttChart from './GanttChart';
 
-const GanttView = ({
-  retrieveUser,
-  userData,
-  setUserData,
-  teamMembers,
-  setTeamMembers,
-}) => {
-  const { currUser, setCurrUser } = useContext(UserContext);
+const GanttView = ({ userData, teamMembers }) => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {}, [currUser]);
-
   useEffect(() => {
-    retrieveUser();
     fetchTasks();
   }, []);
 
-  async function retrieveUser() {
-    try {
-      const res = await userDetails({ id: currUser.id });
-      if (res.user) {
-        setUserData({ ...userData, ...res.user });
-        setCurrUser({ ...currUser, team: res.user.teamId });
-        if (res.teamList) {
-          setTeamMembers([...res.teamList]);
-        }
-        // setLoading(false);
-      } else {
-        throw Error('Something went wrong with retrieving the user.');
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
   async function fetchTasks() {
     try {
-      const response = await getTasksByTeam(currUser.team);
+      const response = await getTasksByTeam(userData.teamId);
       if (response.length || response.length === 0) {
         let taskList = response;
         setTasks(taskList);
