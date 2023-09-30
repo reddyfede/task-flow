@@ -12,7 +12,6 @@ const TaskList = ({ fetchTasks, tasks, teamMembers }) => {
           />
         </div>
       ))}
-      <hr />
     </div>
   );
 };

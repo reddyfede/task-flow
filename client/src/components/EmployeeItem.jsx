@@ -2,6 +2,7 @@ import './EmployeeItem.css';
 import { useEffect, useState } from 'react';
 import { AvailabilityTable } from '.';
 import { userDetails } from '../api/users-service';
+import Wrapper from '../assets/wrappers/EmployeeItem';
 
 export default function EmployeeItem({ member, handleRemove }) {
   const [showRemove, setShowRemove] = useState(false);
@@ -27,34 +28,40 @@ export default function EmployeeItem({ member, handleRemove }) {
   }, []);
 
   return (
-    <div>
-      <h3>
-        Name: {member.first_name} {member.last_name}
-      </h3>
-      <h3>ID: {member.appuserId} </h3>
-
-      {showRemove ? (
-        <div>
-          <p>
-            Are you sure you want to remove {member.first_name}{' '}
-            {member.last_name}?
-          </p>
-          <p>All availabilities will be deleted.</p>
-          <button onClick={() => setShowRemove(false)}>Back</button>
-          <button onClick={handleRemove} name={member.appuserId}>
-            Confirm Remove
-          </button>
-        </div>
-      ) : (
-        <div>
-          <button onClick={() => setShowRemove(true)}>
-            Remove user from team
-          </button>
-        </div>
-      )}
+    <Wrapper>
       {!loading ? (
-        <div>
-          <h3>Availability: </h3>
+        <div className='card'>
+          <div>
+            <h3>
+              Availability for {member.first_name} {member.last_name}{' '}
+            </h3>
+            {showRemove ? (
+              <>
+                <p>
+                  Are you sure you want to remove {member.first_name}{' '}
+                  {member.last_name}?
+                </p>
+                <p>All availabilities will be deleted.</p>
+                <button className='btn' onClick={() => setShowRemove(false)}>
+                  Back
+                </button>
+                <button
+                  className='btn'
+                  onClick={handleRemove}
+                  name={member.appuserId}
+                >
+                  Confirm Remove
+                </button>
+              </>
+            ) : (
+              <>
+                <button className='btn' onClick={() => setShowRemove(true)}>
+                  Remove user from team
+                </button>
+              </>
+            )}
+          </div>
+
           <AvailabilityTable
             employeeData={employeeData}
             retrieveEmployee={retrieveEmployee}
@@ -63,6 +70,6 @@ export default function EmployeeItem({ member, handleRemove }) {
       ) : (
         <p>Loading user data</p>
       )}
-    </div>
+    </Wrapper>
   );
 }

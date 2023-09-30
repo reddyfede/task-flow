@@ -35,7 +35,7 @@ const FormTaskAssign = ({ taskId, teamMembers, fetchTasks }) => {
             </option>
           ))}
         </select>
-        <button>Assign Selected Emplyee</button>
+        <button className='btn'>Assign Selected Emplyee</button>
       </form>
     </div>
   );

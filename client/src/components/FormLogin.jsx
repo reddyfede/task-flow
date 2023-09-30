@@ -73,13 +73,14 @@ export default function FormLogin({ user, setUser }) {
   }
 
   return (
-    <form action='POST' onSubmit={handleSubmit}>
+    <form className='form' action='POST' onSubmit={handleSubmit}>
       <h3>Login Form</h3>
       <div>
-        <label htmlFor='username'>
+        <label className='form-label' htmlFor='username'>
           <span>Username:</span>
         </label>
         <input
+          className='form-input'
           type='text'
           name='username'
           required
@@ -90,10 +91,11 @@ export default function FormLogin({ user, setUser }) {
         />
       </div>
       <div>
-        <label htmlFor='password'>
+        <label className='form-label' htmlFor='password'>
           <span>Password:</span>
         </label>
         <input
+          className='form-input'
           type='password'
           name='password'
           required
@@ -103,7 +105,9 @@ export default function FormLogin({ user, setUser }) {
           disabled={loading}
         />
       </div>
-      <button disabled={loading}>Submit</button>
+      <button className='btn' disabled={loading}>
+        Submit
+      </button>
     </form>
   );
 }

@@ -68,23 +68,6 @@ export default function EmployeeList({
   return (
     <div>
       <ToastContainer transition={Slide} />
-      <div>
-        <h2>Team Members: {teamMembers.length}</h2>
-        <hr />
-        {teamMembers.map((member) => (
-          <div key={member.appuserId}>
-            <EmployeeItem
-              member={member}
-              teamMembers={teamMembers}
-              setTeamMembers={setTeamMembers}
-              handleRemove={handleRemove}
-            />
-            <hr />
-          </div>
-        ))}
-      </div>
-
-      <hr />
 
       <h2>Available Employees: {nonTeamMembers.length}</h2>
 
@@ -100,8 +83,22 @@ export default function EmployeeList({
             </option>
           ))}
         </select>
-        <button>Add to the Team</button>
+        <button className='btn'>Add to the Team</button>
       </form>
+
+      <div>
+        <h2>Team Members: {teamMembers.length}</h2>
+        {teamMembers.map((member) => (
+          <div key={member.appuserId}>
+            <EmployeeItem
+              member={member}
+              teamMembers={teamMembers}
+              setTeamMembers={setTeamMembers}
+              handleRemove={handleRemove}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

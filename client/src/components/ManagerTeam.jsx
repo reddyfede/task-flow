@@ -3,6 +3,7 @@ import { useContext, useState } from 'react';
 import { createTeam, updateTeam, deleteTeam } from '../api/team-service';
 import { UserContext } from '../App';
 import { GanttView } from '../components';
+import Wrapper from '../assets/wrappers/ManagerTeam';
 
 export default function ManagerTeam({
   retrieveUser,
@@ -77,57 +78,78 @@ export default function ManagerTeam({
   }
 
   return (
-    <div>
+    <Wrapper>
       {!userData.teamName ? (
-        <>
+        <div className='create-team-container'>
           <h2>You don't have a team yet.</h2>
           <h3>Create a team.</h3>
-          <form onSubmit={handleCreate}>
-            <input type='text' value={teamName} onChange={handleChange} />
-            <button>Create Team</button>
+          <form className='form' onSubmit={handleCreate}>
+            <div className='form-row'>
+              <label className='form-label'>
+                Name:{' '}
+                <input
+                  className='form-input'
+                  type='text'
+                  value={teamName}
+                  onChange={handleChange}
+                />
+              </label>
+            </div>
+            <button className='btn'>Create Team</button>
           </form>
-        </>
+        </div>
       ) : (
-        <>
-          <h2>
-            Team Name : {userData.teamName} - TeamId: {userData.teamId}
-          </h2>
+        <div className='container'>
+          <h2>Team Name: {userData.teamName}</h2>
           {showEdit ? (
             <div>
-              <form onSubmit={handleUpdate}>
+              <form className='form' onSubmit={handleUpdate}>
                 <label htmlFor=''>Team Name: </label>
                 <input type='text' value={teamName} onChange={handleChange} />
-                <button>Confirm Edit</button>
+                <button className='btn' onClick={() => setShowEdit(false)}>
+                  Back
+                </button>
+                <button className='btn'>Confirm Edit</button>
               </form>
-              <button onClick={() => setShowEdit(false)}>Back</button>
             </div>
           ) : (
             <div>
-              <button onClick={() => setShowEdit(true)}>Edit Team</button>
+              <button onClick={() => setShowEdit(true)} className='btn'>
+                Edit Team
+              </button>
             </div>
           )}
-          <br />
           {showDelete ? (
             <div>
               <p>Are you sure you want to delete team {userData.teamName}?</p>
-              <button onClick={() => setShowDelete(false)}>Back</button>
-              <button onClick={handleDelete}>Confirm Delete</button>
+              <button className='btn' onClick={() => setShowDelete(false)}>
+                Back
+              </button>
+              <button onClick={handleDelete} className='btn btn-danger'>
+                Confirm Delete
+              </button>
             </div>
           ) : (
             <div>
-              <button onClick={() => setShowDelete(true)}>Delete Team</button>
+              <button className='btn' onClick={() => setShowDelete(true)}>
+                Delete Team
+              </button>
             </div>
           )}
-          <hr />
-          <hr />
-          <button disabled={tab === 1} onClick={(e) => handleTab(e, 1)}>
+          <button
+            className='btn'
+            disabled={tab === 1}
+            onClick={(e) => handleTab(e, 1)}
+          >
             Employee List
           </button>
-          <button disabled={tab === 2} onClick={(e) => handleTab(e, 2)}>
+          <button
+            className='btn'
+            disabled={tab === 2}
+            onClick={(e) => handleTab(e, 2)}
+          >
             Team Gant
           </button>
-          <hr />
-          <hr />
           {tab === 1 ? (
             <EmployeeList
               userData={userData}
@@ -141,8 +163,8 @@ export default function ManagerTeam({
           {tab === 2 ? (
             <GanttView userData={userData} teamMembers={teamMembers} />
           ) : null}
-        </>
+        </div>
       )}
-    </div>
+    </Wrapper>
   );
 }

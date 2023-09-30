@@ -56,7 +56,6 @@ export default function EmployeePage() {
               <h2>First Name: {userData.first_name}</h2>
               <h2>Last Name: {userData.last_name}</h2>
               <h2>AppUser ID: {userData.appuserId}</h2>
-              <hr />
               {!userData.teamName ? (
                 <h2>A Manager has not yet assigned you to a team.</h2>
               ) : (
@@ -66,7 +65,6 @@ export default function EmployeePage() {
                       Team Name : {userData.teamName} - TeamId:{userData.teamId}
                     </h2>
                   </div>
-                  <hr />
                   <div>
                     <h2>Assigned Tasks: {tasks.length}</h2>
                     {tasks.length ? (

@@ -5,7 +5,11 @@ import {
   deleteAvailability,
 } from '../api/availability-service';
 
-export default function AvailabilityTable({ employeeData, retrieveEmployee }) {
+export default function AvailabilityTable({
+  employeeData,
+  retrieveEmployee,
+  showRemove,
+}) {
   const [options, setOptions] = useState([0, 1, 2, 3, 4, 5, 6]);
   const initState = {
     day: '',
@@ -107,63 +111,76 @@ export default function AvailabilityTable({ employeeData, retrieveEmployee }) {
           ))}
 
           {options.length ? (
-            <tr>
-              <td>
-                <select name='day' onChange={handleChange}>
-                  <option value={''}>select one</option>
-                  {options.map((d) => (
-                    <option value={d} key={d}>
-                      {getDay(d)}
-                    </option>
-                  ))}
-                </select>
-              </td>
-              <td>
-                <input
-                  type='time'
-                  name='first_part_shift_begin'
-                  value={addDay.first_part_shift_begin}
-                  max={addDay.first_part_shift_end}
-                  onChange={handleChange}
-                  required
-                />
-              </td>
-              <td>
-                <input
-                  type='time'
-                  name='first_part_shift_end'
-                  min={addDay.first_part_shift_begin}
-                  value={addDay.first_part_shift_end}
-                  max={addDay.second_part_shift_begin}
-                  onChange={handleChange}
-                  required
-                />
-              </td>
-              <td>
-                <input
-                  type='time'
-                  name='second_part_shift_begin'
-                  min={addDay.first_part_shift_end}
-                  value={addDay.second_part_shift_begin}
-                  max={addDay.second_part_shift_end}
-                  onChange={handleChange}
-                  required={addDay.second_part_shift_end}
-                />
-              </td>
-              <td>
-                <input
-                  type='time'
-                  name='second_part_shift_end'
-                  min={addDay.second_part_shift_begin}
-                  value={addDay.second_part_shift_end}
-                  onChange={handleChange}
-                  required={addDay.second_part_shift_begin}
-                />
-              </td>
-              <td>
-                <button type='submit'>Add New</button>
-              </td>
-            </tr>
+            <>
+              <tr>
+                <td>
+                  <select
+                    className='form-select'
+                    name='day'
+                    onChange={handleChange}
+                  >
+                    <option value={''}>select one</option>
+                    {options.map((d) => (
+                      <option value={d} key={d}>
+                        {getDay(d)}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+                <td>
+                  <input
+                    className='form-input'
+                    type='time'
+                    name='first_part_shift_begin'
+                    value={addDay.first_part_shift_begin}
+                    max={addDay.first_part_shift_end}
+                    onChange={handleChange}
+                    required
+                  />
+                </td>
+                <td>
+                  <input
+                    className='form-input'
+                    type='time'
+                    name='first_part_shift_end'
+                    min={addDay.first_part_shift_begin}
+                    value={addDay.first_part_shift_end}
+                    max={addDay.second_part_shift_begin}
+                    onChange={handleChange}
+                    required
+                  />
+                </td>
+                <td>
+                  <input
+                    className='form-input'
+                    type='time'
+                    name='second_part_shift_begin'
+                    min={addDay.first_part_shift_end}
+                    value={addDay.second_part_shift_begin}
+                    max={addDay.second_part_shift_end}
+                    onChange={handleChange}
+                    required={addDay.second_part_shift_end}
+                  />
+                </td>
+                <td>
+                  <input
+                    className='form-input'
+                    type='time'
+                    name='second_part_shift_end'
+                    min={addDay.second_part_shift_begin}
+                    value={addDay.second_part_shift_end}
+                    onChange={handleChange}
+                    required={addDay.second_part_shift_begin}
+                  />
+                </td>
+              </tr>
+              <div className='flex-ctr-ctr'>
+                <button className='btn' type='submit'>
+                  Add New
+                </button>
+                
+              </div>
+            </>
           ) : null}
         </tbody>
       </table>

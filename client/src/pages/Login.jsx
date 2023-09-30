@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Slide, ToastContainer, toast } from 'react-toastify';
 import { FormLogin } from '../components';
+import Wrapper from '../assets/page-wrappers/Login';
 
 export default function Login() {
   let username = '';
@@ -14,10 +15,9 @@ export default function Login() {
   });
 
   return (
-    <div>
-      <h1>Login Page</h1>
+    <Wrapper>
       <ToastContainer transition={Slide} />
       <FormLogin user={user} setUser={setUser} />
-    </div>
+    </Wrapper>
   );
 }

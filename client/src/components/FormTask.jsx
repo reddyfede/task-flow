@@ -32,7 +32,7 @@ const FormTask = ({ userData, fetchTasks }) => {
   }
 
   return (
-    <div style={{ border: '3px solid lightblue' }}>
+    <div>
       <h1>Create new task</h1>
       <form onSubmit={handleSubmit}>
         <div className='form-control'>
@@ -78,7 +78,7 @@ const FormTask = ({ userData, fetchTasks }) => {
             name='due_date'
           />
         </div>
-        <button className='' type='submit'>
+        <button className='btn' type='submit'>
           Create
         </button>
       </form>
