@@ -11,8 +11,6 @@ const ManageTasks = ({ userData, tasks, fetchTasks, teamMembers }) => {
       <hr />
 
       <h3>Assigned Tasks</h3>
-      {console.log(teamMembers)}
-
       {teamMembers.map((member) => (
         <div key={member.appuserId}>
           <AssignedTaskList member={member} tasks={tasks} />

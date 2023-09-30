@@ -52,7 +52,6 @@ export default function AvailabilityTable({ employeeData, retrieveEmployee }) {
         await retrieveEmployee();
         let days_arr = [...options];
         const pos = days_arr.indexOf(parseInt(data.day));
-        console.log(pos);
         days_arr.splice(pos, 1);
         setOptions(days_arr);
         setAddDay(initState);

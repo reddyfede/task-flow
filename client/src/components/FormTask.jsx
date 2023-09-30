@@ -22,7 +22,6 @@ const FormTask = ({ userData, fetchTasks }) => {
   async function handleSubmit(e) {
     e.preventDefault();
     let newData = { ...newTask };
-    console.log(newData);
     try {
       const res = await createTask(newData);
       setNewTask(initState);

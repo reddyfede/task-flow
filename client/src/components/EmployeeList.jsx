@@ -42,7 +42,6 @@ export default function EmployeeList({
 
   async function handleRemove(e) {
     e.preventDefault();
-    console.log(e.target.name);
     const userId = e.target.name;
     try {
       const res = await removeFromTeam(userData.teamId, userId);

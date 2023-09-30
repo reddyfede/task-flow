@@ -25,7 +25,6 @@ export async function create(data) {
     body: JSON.stringify(data),
   };
   const res = await fetch(`${URL}`, config);
-  console.log(res.status === 201)
   if (res.status === 201) {
     return res.json({'msg':'Task created successfully'});
   } else {

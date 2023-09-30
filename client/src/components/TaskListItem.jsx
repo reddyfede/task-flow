@@ -56,7 +56,6 @@ const TaskListItem = ({ task, fetchTasks, teamMembers }) => {
       {isEdit ? (
         <div>
           <h4>Edit Task</h4>
-          {console.log(task)}
           <form method='dialog' className='' onSubmit={handleSubmit}>
             <div className='form-control'>
               <label className=''>Edit name:</label>
