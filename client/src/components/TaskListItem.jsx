@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { deleteTask, updateTask } from '../api/task-service';
 import FormTaskAssign from './FormTaskAssign';
 
-const TaskListItem = ({ t, fetchTasks, teamMembers }) => {
+const TaskListItem = ({ task, fetchTasks, teamMembers }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [editTask, setEditTask] = useState({});
 
@@ -47,17 +47,16 @@ const TaskListItem = ({ t, fetchTasks, teamMembers }) => {
 
   return (
     <div>
-      <h3>{t.name}</h3>
+      <h4>Task name: {task.name}</h4>
 
-      <h4>
-        {' '}
-        Due: {t.due_date} || Duration: {t.planned_duration} | |Planned Start:
-        {t.planned_start} || Employee:{t.user_id}
-      </h4>
+      <p>
+        Due: {task.due_date} | Duration: {task.planned_duration} minutes
+      </p>
 
       {isEdit ? (
         <div>
           <h4>Edit Task</h4>
+          {console.log(task)}
           <form method='dialog' className='' onSubmit={handleSubmit}>
             <div className='form-control'>
               <label className=''>Edit name:</label>
@@ -104,13 +103,13 @@ const TaskListItem = ({ t, fetchTasks, teamMembers }) => {
         </div>
       ) : (
         <>
-          <button onClick={(e) => toggleEdit(e, t)}>EDIT</button>
-          <button onClick={(e) => handleDelete(e, t)}>DEL</button>
+          <button onClick={(e) => toggleEdit(e, task)}>EDIT</button>
+          <button onClick={(e) => handleDelete(e, task)}>DEL</button>
         </>
       )}
       <FormTaskAssign
         teamMembers={teamMembers}
-        taskId={t.id}
+        taskId={task.id}
         fetchTasks={fetchTasks}
       />
       <hr />

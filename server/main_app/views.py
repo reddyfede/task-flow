@@ -207,8 +207,7 @@ def tasks_index(request):
 @api_view(["GET"])
 def team_task_detail(request, team_id):
     team = Team.objects.get(id=team_id)
-    tasklist = team.task_set.all().values()
-
+    tasklist = team.task_set.all().exclude(user__isnull=False).values()
     return Response(tasklist)
 
 
@@ -244,17 +243,17 @@ def task_destroy(request, task_id):
 @api_view(["PUT"])
 def task_add_user(request, task_id, user_id):
     user = AppUser.objects.get(id=user_id)
-    task = Task.objects.filter(id=task_id).update(user=user)
+    Task.objects.filter(id=task_id).update(user=user)
     return Response("Task assigned user", status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(["POST"])
 def availability_create(request):
     new_av = Availability.objects.create(**request.data)
-    return Response("Availability created", status=status.HTTP_201_CREATED)
+    return Response({"id": new_av.id})
 
 
 @api_view(["DELETE"])
 def availability_delete(request, availability_id):
     Availability.objects.get(id=availability_id).delete()
-    return Response("Availability deleted", status=status.HTTP_204_NO_CONTENT)
+    return Response({"id": availability_id})

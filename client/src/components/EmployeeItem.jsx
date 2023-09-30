@@ -10,7 +10,7 @@ export default function EmployeeItem({ member, handleRemove }) {
 
   async function retrieveEmployee() {
     try {
-      const res = await userDetails({ id: member.userId });
+      const res = await userDetails(member.userId);
       if (res.user) {
         setEmployeeData({ ...res });
         setLoading(false);

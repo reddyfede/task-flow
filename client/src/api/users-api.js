@@ -34,8 +34,8 @@ export async function login(data) {
   }
 }
 
-export async function details(data) {
-  const URL = `${BASE_URL}/user/${data.id}`;
+export async function details(id) {
+  const URL = `${BASE_URL}/user/${id}`;
   const config = {
     method: "GET",
     headers: {

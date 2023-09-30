@@ -20,7 +20,7 @@ export default function ManagerPage() {
 
   async function retrieveUser() {
     try {
-      const res = await userDetails({ id: currUser.id });
+      const res = await userDetails(currUser.id);
       if (res.user) {
         setUserData({ ...userData, ...res.user });
         setCurrUser({ ...currUser, team: res.user.teamId });

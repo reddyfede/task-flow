@@ -9,6 +9,9 @@ import EmployeeList from './EmployeeList'
 import EmployeeItem from './EmployeeItem'
 import AvailabilityTable from './AvailabilityTable'
 import GanttView from './GanttView'
+import AssignedTaskList from './AssignedTaskList'
+import AssignedTaskListItem from './AssignedTaskList'
+
 
 export {
   Header,
@@ -22,4 +25,6 @@ export {
   EmployeeItem,
   AvailabilityTable,
   GanttView,
+  AssignedTaskList,
+  AssignedTaskListItem,
 }

@@ -46,7 +46,6 @@ export default function EmployeeList({
     const userId = e.target.name;
     try {
       const res = await removeFromTeam(userData.teamId, userId);
-      console.log(res);
       if (res.appuserId) {
         let arr = [...teamMembers];
         const filtered_arr = arr.filter((el) => el.appuserId !== res.appuserId);
