@@ -54,11 +54,7 @@ export default function ManagerPage() {
         </div>
       ) : (
         <div>
-          <div style={{ border: '1px solid red' }}>
-            <Link to='/manager/gantt' style={{ margin: '5rem' }}>
-              Gantt View
-            </Link>
-          </div>
+          <div style={{ border: '1px solid red' }}></div>
           <h1>Manager Page</h1>
           {loading ? (
             <div>
@@ -66,9 +62,10 @@ export default function ManagerPage() {
             </div>
           ) : (
             <div>
-              <h2>First Name: {userData.first_name}</h2>
-              <h2>Last Name: {userData.last_name}</h2>
-              <h2>AppUser ID: {userData.appuserId}</h2>
+              <h2>
+                {userData.first_name} {userData.last_name} -{' '}
+                {userData.appuserId}
+              </h2>
               <hr />
               <hr />
               <ManagerTeam

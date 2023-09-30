@@ -2,6 +2,7 @@ import { EmployeeList } from '.';
 import { useContext, useState } from 'react';
 import { createTeam, updateTeam, deleteTeam } from '../api/team-service';
 import { UserContext } from '../App';
+import { GanttView } from '../components';
 
 export default function ManagerTeam({
   retrieveUser,
@@ -16,6 +17,13 @@ export default function ManagerTeam({
   const [showEdit, setShowEdit] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const { currUser, setCurrUser } = useContext(UserContext);
+  const [tab, setTab] = useState(1);
+
+  function handleTab(e, num) {
+    console.log(tab);
+    e.preventDefault();
+    setTab(num);
+  }
 
   function handleChange(e) {
     setTeamName(e.target.value);
@@ -112,16 +120,27 @@ export default function ManagerTeam({
               <button onClick={() => setShowDelete(true)}>Delete Team</button>
             </div>
           )}
+          <hr />
+          <hr />
+          <button disabled={tab === 1} onClick={(e) => handleTab(e, 1)}>
+            Employee List
+          </button>
+          <button disabled={tab === 2} onClick={(e) => handleTab(e, 2)}>
+            Team Gant
+          </button>
+          <hr />
+          <hr />
+          {tab === 1 ? (
+            <EmployeeList
+              userData={userData}
+              teamMembers={teamMembers}
+              setTeamMembers={setTeamMembers}
+              nonTeamMembers={nonTeamMembers}
+              setNonTeamMembers={setNonTeamMembers}
+            />
+          ) : null}
 
-          <hr />
-          <hr />
-          <EmployeeList
-            userData={userData}
-            teamMembers={teamMembers}
-            setTeamMembers={setTeamMembers}
-            nonTeamMembers={nonTeamMembers}
-            setNonTeamMembers={setNonTeamMembers}
-          />
+          {tab === 2 ? <GanttView /> : null}
         </>
       )}
     </div>

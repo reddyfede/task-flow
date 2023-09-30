@@ -8,6 +8,7 @@ import ManagerTeam from './ManagerTeam'
 import EmployeeList from './EmployeeList'
 import EmployeeItem from './EmployeeItem'
 import AvailabilityTable from './AvailabilityTable'
+import GanttView from './GanttView'
 
 export {
   Header,
@@ -20,4 +21,5 @@ export {
   EmployeeList,
   EmployeeItem,
   AvailabilityTable,
+  GanttView,
 }
