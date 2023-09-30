@@ -10,7 +10,7 @@ import EmployeeItem from './EmployeeItem'
 import AvailabilityTable from './AvailabilityTable'
 import GanttView from './GanttView'
 import AssignedTaskList from './AssignedTaskList'
-import AssignedTaskListItem from './AssignedTaskList'
+import AssignedTaskListItem from './AssignedTaskListItem'
 
 
 export {

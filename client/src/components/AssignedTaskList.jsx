@@ -1,5 +1,6 @@
 import { userDetails } from '../api/users-service';
 import { useEffect, useState } from 'react';
+import { AssignedTaskListItem } from '.';
 
 export default function AssignedTaskList({ member, tasks }) {
   const [employeeData, setEmployeeData] = useState(null);
@@ -38,8 +39,7 @@ export default function AssignedTaskList({ member, tasks }) {
               <ul>
                 {employeeData.tasks.map((task) => (
                   <li key={task.id}>
-                    Task: {task.name} | Due {task.due_date} | Duration:{' '}
-                    {task.planned_duration}
+                    <AssignedTaskListItem task={task} />
                   </li>
                 ))}
               </ul>
