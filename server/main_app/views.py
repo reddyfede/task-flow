@@ -65,7 +65,8 @@ def user_detail(request, user_id):
     # if user is an employee retrieve his own tasks
     if user.appuser.role == "E":
         tasklist = user.appuser.task_set.all().values()
-        return Response({"user": data, "tasks": tasklist})
+        availability = user.appuser.availability_set.all().values()
+        return Response({"user": data, "tasks": tasklist, "availability": availability})
     # if the user is a manager retrieve different data
     if user.appuser.role == "M":
         if team:

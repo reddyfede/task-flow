@@ -18,6 +18,7 @@ export default function EmployeePage() {
   async function retrieveUser() {
     try {
       const res = await userDetails({ id: currUser.id });
+      console.log(res);
       if (res.user) {
         const data = { ...userData, ...res.user };
         setUserData(data);
