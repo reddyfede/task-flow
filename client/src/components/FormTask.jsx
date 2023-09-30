@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { createTask } from '../api/task-service';
+import { todayDate } from '../utilities/days';
 
 const FormTask = ({ userData, fetchTasks }) => {
   const initState = {
     name: '',
     planned_duration: '',
-    due_date: null,
+    due_date: todayDate(),
     team: userData.teamId,
   };
   const [newTask, setNewTask] = useState(initState);
@@ -73,6 +74,7 @@ const FormTask = ({ userData, fetchTasks }) => {
             value={newTask.date}
             onChange={handleChange}
             id='due_date'
+            min={todayDate()}
             required
             name='due_date'
           />
