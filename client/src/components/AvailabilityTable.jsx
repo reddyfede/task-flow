@@ -161,7 +161,9 @@ export default function AvailabilityTable({ employeeData, retrieveEmployee }) {
                 />
               </td>
               <td>
-                <button type='submit'>Add New</button>
+                <button className='btn' type='submit'>
+                  Add New
+                </button>
               </td>
             </tr>
           ) : null}

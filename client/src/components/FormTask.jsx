@@ -78,7 +78,7 @@ const FormTask = ({ userData, fetchTasks }) => {
             name='due_date'
           />
         </div>
-        <button className='' type='submit'>
+        <button className='btn' type='submit'>
           Create
         </button>
       </form>

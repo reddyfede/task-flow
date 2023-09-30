@@ -40,14 +40,20 @@ export default function EmployeeItem({ member, handleRemove }) {
             {member.last_name}?
           </p>
           <p>All availabilities will be deleted.</p>
-          <button onClick={() => setShowRemove(false)}>Back</button>
-          <button onClick={handleRemove} name={member.appuserId}>
+          <button className='btn' onClick={() => setShowRemove(false)}>
+            Back
+          </button>
+          <button
+            className='btn'
+            onClick={handleRemove}
+            name={member.appuserId}
+          >
             Confirm Remove
           </button>
         </div>
       ) : (
         <div>
-          <button onClick={() => setShowRemove(true)}>
+          <button className='btn' onClick={() => setShowRemove(true)}>
             Remove user from team
           </button>
         </div>

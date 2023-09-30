@@ -54,19 +54,12 @@ export default function ManagerPage() {
       ) : (
         <div>
           <div style={{ border: '1px solid red' }}></div>
-          <h1>Manager Page</h1>
           {loading ? (
             <div>
               <h2>Loading Data...</h2>
             </div>
           ) : (
             <div>
-              <h2>
-                {userData.first_name} {userData.last_name} -{' '}
-                {userData.appuserId}
-              </h2>
-              <hr />
-              <hr />
               <ManagerTeam
                 retrieveUser={retrieveUser}
                 userData={userData}

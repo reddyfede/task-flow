@@ -84,7 +84,7 @@ export default function ManagerTeam({
           <h3>Create a team.</h3>
           <form onSubmit={handleCreate}>
             <input type='text' value={teamName} onChange={handleChange} />
-            <button>Create Team</button>
+            <button className='btn'>Create Team</button>
           </form>
         </>
       ) : (
@@ -97,33 +97,52 @@ export default function ManagerTeam({
               <form onSubmit={handleUpdate}>
                 <label htmlFor=''>Team Name: </label>
                 <input type='text' value={teamName} onChange={handleChange} />
-                <button>Confirm Edit</button>
+
+                <button className='btn'>Confirm Edit</button>
               </form>
-              <button onClick={() => setShowEdit(false)}>Back</button>
+              <button className='btn' onClick={() => setShowEdit(false)}>
+                Back
+              </button>
             </div>
           ) : (
             <div>
-              <button onClick={() => setShowEdit(true)}>Edit Team</button>
+              <button onClick={() => setShowEdit(true)} className='btn'>
+                Edit Team
+              </button>
             </div>
           )}
           <br />
           {showDelete ? (
             <div>
               <p>Are you sure you want to delete team {userData.teamName}?</p>
-              <button onClick={() => setShowDelete(false)}>Back</button>
-              <button onClick={handleDelete}>Confirm Delete</button>
+              <button className='btn' onClick={() => setShowDelete(false)}>
+                Back
+              </button>
+              <button onClick={handleDelete} className='btn btn-danger'>
+                Confirm Delete
+              </button>
             </div>
           ) : (
             <div>
-              <button onClick={() => setShowDelete(true)}>Delete Team</button>
+              <button className='btn' onClick={() => setShowDelete(true)}>
+                Delete Team
+              </button>
             </div>
           )}
           <hr />
           <hr />
-          <button disabled={tab === 1} onClick={(e) => handleTab(e, 1)}>
+          <button
+            className='btn'
+            disabled={tab === 1}
+            onClick={(e) => handleTab(e, 1)}
+          >
             Employee List
           </button>
-          <button disabled={tab === 2} onClick={(e) => handleTab(e, 2)}>
+          <button
+            className='btn'
+            disabled={tab === 2}
+            onClick={(e) => handleTab(e, 2)}
+          >
             Team Gant
           </button>
           <hr />

@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 
 export default function BtnSignup() {
   return (
-    <div>
+    <button className='btn'>
       <Link to='/signup'>Signup</Link>
-    </div>
+    </button>
   );
 }

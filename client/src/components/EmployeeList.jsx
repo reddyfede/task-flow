@@ -100,7 +100,7 @@ export default function EmployeeList({
             </option>
           ))}
         </select>
-        <button>Add to the Team</button>
+        <button className='btn'>Add to the Team</button>
       </form>
     </div>
   );

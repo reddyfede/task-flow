@@ -93,17 +93,23 @@ const TaskListItem = ({ task, fetchTasks, teamMembers }) => {
               />
             </div>
 
-            <button className='' type='submit'>
+            <button className='btn' type='submit'>
               Edit
             </button>
           </form>
 
-          <button onClick={() => toggleEdit()}>Cancel</button>
+          <button className='btn' onClick={() => toggleEdit()}>
+            Cancel
+          </button>
         </div>
       ) : (
         <>
-          <button onClick={(e) => toggleEdit(e, task)}>EDIT</button>
-          <button onClick={(e) => handleDelete(e, task)}>DEL</button>
+          <button className='btn' onClick={(e) => toggleEdit(e, task)}>
+            EDIT
+          </button>
+          <button className='btn' onClick={(e) => handleDelete(e, task)}>
+            DEL
+          </button>
         </>
       )}
       <FormTaskAssign

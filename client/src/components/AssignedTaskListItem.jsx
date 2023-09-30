@@ -4,7 +4,7 @@ export default function AssignedTaskListItem({ task }) {
   return (
     <div>
       Task: {task.name} | Due {task.due_date} | Duration:{' '}
-      {task.planned_duration} <button>Remove</button>
+      {task.planned_duration} <button className='btn'>Remove</button>
     </div>
   );
 }

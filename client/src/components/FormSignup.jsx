@@ -133,7 +133,9 @@ export default function FormSignup({ user, setUser }) {
           disabled={loading}
         />
       </div>
-      <button disabled={loading}>Submit</button>
+      <button className='btn' disabled={loading}>
+        Submit
+      </button>
     </form>
   );
 }
