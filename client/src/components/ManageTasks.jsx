@@ -2,7 +2,7 @@ import React from 'react';
 import FormTask from './FormTask';
 import TaskList from './TaskList';
 
-const ManageTasks = ({ tasks, fetchTasks, teamMembers }) => {
+const ManageTasks = ({ userData, tasks, fetchTasks, teamMembers }) => {
   return (
     <div style={{ border: '2px solid lightgreen', width: '90%' }}>
       <h1>Manage Tasks</h1>
@@ -11,7 +11,7 @@ const ManageTasks = ({ tasks, fetchTasks, teamMembers }) => {
         tasks={tasks}
         teamMembers={teamMembers}
       />
-      <FormTask fetchTasks={fetchTasks} />
+      <FormTask userData={userData} fetchTasks={fetchTasks} />
     </div>
   );
 };

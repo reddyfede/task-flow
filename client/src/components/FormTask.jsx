@@ -1,14 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { createTask } from '../api/task-service';
-import { UserContext } from '../App';
 
-const FormTask = ({ fetchTasks }) => {
-  const { currUser, setCurrUser } = useContext(UserContext);
+const FormTask = ({ userData, fetchTasks }) => {
   const initState = {
     name: '',
     planned_duration: 0,
     due_date: null,
-    team: currUser.team,
+    team: userData.teamId,
   };
   const [newTask, setNewTask] = useState(initState);
 

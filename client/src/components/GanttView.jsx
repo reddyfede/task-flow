@@ -46,6 +46,7 @@ const GanttView = ({ userData, teamMembers }) => {
           <h1>Team Gantt Page</h1>
           <GanttChart />
           <ManageTasks
+            userData={userData}
             tasks={tasks}
             fetchTasks={fetchTasks}
             teamMembers={teamMembers}
