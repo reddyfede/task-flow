@@ -204,22 +204,7 @@ def tasks_index(request):
 @api_view(["GET"])
 def team_task_detail(request, team_id):
     team = Team.objects.get(id=team_id)
-    tasks = team.task_set.all()
-    tasklist = [
-        {
-            "id": t.id,
-            "name": t.name,
-            "due_date": t.due_date,
-            "planned_duration": t.planned_duration,
-            "planned_start": t.planned_start,
-            "planned_end": t.planned_end,
-            "actual_duration": t.actual_duration,
-            "actual_start": t.actual_start,
-            "actual_end": t.actual_end,
-            "user": t.user.id if t.user else t.user,
-        }
-        for t in tasks
-    ]
+    tasklist = team.task_set.all().values()
     return Response(tasklist)
 
 
@@ -254,12 +239,8 @@ def task_destroy(request, task_id):
 
 @api_view(["PUT"])
 def task_add_user(request, task_id, user_id):
-    print(user_id)
-    print(task_id)
     user = AppUser.objects.get(id=user_id)
-    print(user)
     task = Task.objects.filter(id=task_id).update(user=user)
-    print(task)
     return Response("Task assigned user", status=status.HTTP_204_NO_CONTENT)
 
 
@@ -291,15 +272,5 @@ def availability_delete(request, availability_id):
     user_id = av_to_delete.user.id
     av_to_delete.delete()
     user = AppUser.objects.get(id=user_id)
-    updated_user_av = [
-        {
-            "id": a.id,
-            "day": a.day,
-            "first_part_shift_begin": a.first_part_shift_begin,
-            "first_part_shift_end": a.first_part_shift_end,
-            "second_part_shift_begin": a.second_part_shift_begin,
-            "second_part_shift_end": a.second_part_shift_end,
-        }
-        for a in user.availability_set.all()
-    ]
+    updated_user_av = user.availability_set.all().values()
     return Response({"updatedAvailability": updated_user_av})
