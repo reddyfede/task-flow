@@ -4,7 +4,7 @@ import { createTask } from '../api/task-service';
 const FormTask = ({ userData, fetchTasks }) => {
   const initState = {
     name: '',
-    planned_duration: 0,
+    planned_duration: '',
     due_date: null,
     team: userData.teamId,
   };
@@ -51,13 +51,14 @@ const FormTask = ({ userData, fetchTasks }) => {
 
         <div className='form-control'>
           <label className='label' htmlFor='planned_duration'>
-            <span className='label-text'>Task Duration:</span>
+            <span className='label-text'>Task Duration [minutes]:</span>
           </label>
           <input
             type='number'
             required
             name='planned_duration'
-            maxLength={3}
+            min='1'
+            max='480'
             value={newTask.planned_duration}
             onChange={handleChange}
           />
