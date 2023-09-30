@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FormTask from '../components/FormTask';
 import ManageTasks from './ManageTasks';
-import { getTasks, getTasksByTeam } from '../api/task-service';
+import { getTasksByTeam } from '../api/task-service';
 import { useContext } from 'react';
 import { UserContext } from '../App';
 import { userDetails } from '../api/users-service';
@@ -25,12 +25,6 @@ const GanttView = ({
     fetchTasks();
   }, []);
 
-  // function user-tasklist{
-  //   for each userID in teamMembers
-  //     -> task if task.userID === teamMembers.userID
-  //     _> user tasklist
-  // }
-
   async function retrieveUser() {
     try {
       const res = await userDetails({ id: currUser.id });
@@ -52,7 +46,6 @@ const GanttView = ({
   async function fetchTasks() {
     try {
       const response = await getTasksByTeam(currUser.team);
-      console.log(response);
       if (response.length || response.length === 0) {
         let taskList = response;
         setTasks(taskList);
@@ -87,7 +80,6 @@ const GanttView = ({
           <ManageTasks
             tasks={tasks}
             fetchTasks={fetchTasks}
-            setTasks={setTasks}
             teamMembers={teamMembers}
           />
         </div>
