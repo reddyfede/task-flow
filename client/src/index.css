@@ -159,6 +159,33 @@ ul {
 .link {
   color: var(--white)
 }
+
+  
+.card {
+  width: 90vw;
+  background: var(--white);
+  border-radius: var(--borderRadius);
+  box-shadow: var(--shadow-2);
+  transition: var(--transition);
+}
+
+/* Flex boxes */
+
+.flex-ctr-ctr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-row {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
 /* buttons */
 
 .btn {

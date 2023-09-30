@@ -99,21 +99,18 @@ export default function ManagerTeam({
           </form>
         </div>
       ) : (
-        <>
-          <h2>
-            Team Name : {userData.teamName} - TeamId: {userData.teamId}
-          </h2>
+        <div className='container'>
+          <h2>Team Name: {userData.teamName}</h2>
           {showEdit ? (
             <div>
-              <form onSubmit={handleUpdate}>
+              <form className='form' onSubmit={handleUpdate}>
                 <label htmlFor=''>Team Name: </label>
                 <input type='text' value={teamName} onChange={handleChange} />
-
+                <button className='btn' onClick={() => setShowEdit(false)}>
+                  Back
+                </button>
                 <button className='btn'>Confirm Edit</button>
               </form>
-              <button className='btn' onClick={() => setShowEdit(false)}>
-                Back
-              </button>
             </div>
           ) : (
             <div>
@@ -122,7 +119,6 @@ export default function ManagerTeam({
               </button>
             </div>
           )}
-          <br />
           {showDelete ? (
             <div>
               <p>Are you sure you want to delete team {userData.teamName}?</p>
@@ -167,7 +163,7 @@ export default function ManagerTeam({
           {tab === 2 ? (
             <GanttView userData={userData} teamMembers={teamMembers} />
           ) : null}
-        </>
+        </div>
       )}
     </Wrapper>
   );

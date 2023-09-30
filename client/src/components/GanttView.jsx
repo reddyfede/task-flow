@@ -33,16 +33,7 @@ const GanttView = ({ userData, teamMembers }) => {
           <h2>Loading Data...</h2>
         </div>
       ) : (
-        <div
-          style={{
-            border: '1px solid blue',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '90vw',
-          }}
-        >
+        <div>
           <h1>Team Gantt Page</h1>
           <GanttChart />
           <ManageTasks

@@ -8,15 +8,18 @@ import Logo from '../assets/images/logo.png';
 export default function Header() {
   const { currUser } = useContext(UserContext);
 
+  function logoLink() {
+    if (currUser.role === 'M') return '/manager';
+    else if (currUser.role === 'M') return '/employee';
+    else return '/';
+  }
+
   return (
     <Wrapper>
       <div className='nav-center'>
-        <Link to='/' className='logo-container'>
-          <img className='logo' src={Logo} alt='Task Flow Logo' srcset='' />
+        <Link to={`${logoLink()}`} className='logo-container'>
+          <img className='logo' src={Logo} alt='Task Flow Logo' />
           <h1>Task Flow</h1>
-        </Link>
-        <Link to='/' className='link'>
-          Home{' '}
         </Link>
         {currUser.token ? (
           <>

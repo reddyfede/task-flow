@@ -82,7 +82,7 @@ const TaskListItem = ({ task, fetchTasks, teamMembers }) => {
             </div>
 
             <div className='form-control'>
-              <label className=''>Duration:</label>
+              <label className='form-label'>Duration:</label>
               <input
                 className=''
                 type='number'
