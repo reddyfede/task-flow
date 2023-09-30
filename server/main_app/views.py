@@ -246,24 +246,11 @@ def task_add_user(request, task_id, user_id):
 
 @api_view(["POST"])
 def availability_create(request):
-    new_av = Availability.objects.create(
-        day=request.data["day"],
-        first_part_shift_begin=request.data["first_part_shift_begin"],
-        first_part_shift_end=request.data["first_part_shift_end"],
-        second_part_shift_begin=request.data["second_part_shift_begin"],
-        second_part_shift_end=request.data["second_part_shift_end"],
-        user_id=request.data["userId"],
-    )
-    return Response(
-        {
-            "id": new_av.id,
-            "day": new_av.day,
-            "first_part_shift_begin": new_av.first_part_shift_begin,
-            "first_part_shift_end": new_av.first_part_shift_end,
-            "second_part_shift_begin": new_av.second_part_shift_begin,
-            "second_part_shift_end": new_av.second_part_shift_end,
-        }
-    )
+    new_av = Availability.objects.create(**request.data)
+    user_id = new_av.user.id
+    user = AppUser.objects.get(id=user_id)
+    updated_user_av = user.availability_set.all().values()
+    return Response({"updatedAvailability": updated_user_av})
 
 
 @api_view(["DELETE"])

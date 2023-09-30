@@ -44,7 +44,7 @@ export default function AvailabilityTable({
 
   async function handleSubmit(e) {
     e.preventDefault();
-    let data = { ...addDay, userId: member.appuserId };
+    let data = { ...addDay, user_id: member.appuserId };
     if (data.second_part_shift_begin === '') {
       data.second_part_shift_begin = null;
     }
@@ -53,8 +53,8 @@ export default function AvailabilityTable({
     }
     try {
       const res = await createAvailability(data);
-      if (res.id) {
-        member.availability.push(res);
+      if (res.updatedAvailability) {
+        member.availability = [...res.updatedAvailability];
         let arr = [...teamMembers];
         let pos = arr.indexOf(member);
         arr[pos] = { ...member };
