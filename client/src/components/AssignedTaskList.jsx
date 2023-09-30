@@ -2,7 +2,7 @@ import { userDetails } from '../api/users-service';
 import { useEffect, useState } from 'react';
 import { AssignedTaskListItem } from '.';
 
-export default function AssignedTaskList({ member, tasks }) {
+export default function AssignedTaskList({ member, tasks, fetchTasks }) {
   const [employeeData, setEmployeeData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -39,7 +39,7 @@ export default function AssignedTaskList({ member, tasks }) {
               <ul>
                 {employeeData.tasks.map((task) => (
                   <li key={task.id}>
-                    <AssignedTaskListItem task={task} />
+                    <AssignedTaskListItem task={task} fetchTasks={fetchTasks} />
                   </li>
                 ))}
               </ul>
