@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { BtnSignup, BtnLogin, BtnLogout } from '.';
 import { UserContext } from '../App';
 import Wrapper from '../assets/wrappers/Header';
+import Logo from '../assets/images/logo.png';
 
 export default function Header() {
   const { currUser } = useContext(UserContext);
@@ -10,6 +11,10 @@ export default function Header() {
   return (
     <Wrapper>
       <div className='nav-center'>
+        <div className='logo-container'>
+          <img className='logo' src={Logo} alt='Task Flow Logo' srcset='' />
+          <h1>Task Flow</h1>
+        </div>
         <Link to='/' className='link'>
           Home{' '}
         </Link>
