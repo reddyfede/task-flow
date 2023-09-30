@@ -15,16 +15,16 @@ html {
 
 :root {
   /* colors */
-  --primary-50: #e0fcff;
-  --primary-100: #bef8fd;
-  --primary-200: #87eaf2;
-  --primary-300: #54d1db;
-  --primary-400: #38bec9;
-  --primary-500: #2cb1bc;
-  --primary-600: #14919b;
-  --primary-700: #0e7c86;
-  --primary-800: #0a6c74;
-  --primary-900: #044e54;
+  --primary-50: #e0e3ff;
+  --primary-100: #bec6fd;
+  --primary-200: #8987f2;
+  --primary-300: #5478db;
+  --primary-400: #3842c9;
+  --primary-500: #2c42bc;
+  --primary-600: #14289b;
+  --primary-700: #0e1e86;
+  --primary-800: #0a1874;
+  --primary-900: #040954;
 
   /* grey */
   --grey-50: #f0f4f8;
@@ -154,6 +154,10 @@ ul {
   width: 100%;
   display: block;
   object-fit: cover;
+}
+
+.link {
+  color: var(--white)
 }
 /* buttons */
 

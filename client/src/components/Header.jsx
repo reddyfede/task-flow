@@ -11,10 +11,10 @@ export default function Header() {
   return (
     <Wrapper>
       <div className='nav-center'>
-        <div className='logo-container'>
+        <Link to='/' className='logo-container'>
           <img className='logo' src={Logo} alt='Task Flow Logo' srcset='' />
           <h1>Task Flow</h1>
-        </div>
+        </Link>
         <Link to='/' className='link'>
           Home{' '}
         </Link>

@@ -3,6 +3,7 @@ import { useContext, useState } from 'react';
 import { createTeam, updateTeam, deleteTeam } from '../api/team-service';
 import { UserContext } from '../App';
 import { GanttView } from '../components';
+import Wrapper from '../assets/wrappers/ManagerTeam';
 
 export default function ManagerTeam({
   retrieveUser,
@@ -77,16 +78,26 @@ export default function ManagerTeam({
   }
 
   return (
-    <div>
+    <Wrapper>
       {!userData.teamName ? (
-        <>
+        <div className='create-team-container'>
           <h2>You don't have a team yet.</h2>
           <h3>Create a team.</h3>
-          <form onSubmit={handleCreate}>
-            <input type='text' value={teamName} onChange={handleChange} />
+          <form className='form' onSubmit={handleCreate}>
+            <div className='form-row'>
+              <label className='form-label'>
+                Name:{' '}
+                <input
+                  className='form-input'
+                  type='text'
+                  value={teamName}
+                  onChange={handleChange}
+                />
+              </label>
+            </div>
             <button className='btn'>Create Team</button>
           </form>
-        </>
+        </div>
       ) : (
         <>
           <h2>
@@ -158,6 +169,6 @@ export default function ManagerTeam({
           ) : null}
         </>
       )}
-    </div>
+    </Wrapper>
   );
 }
