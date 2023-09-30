@@ -1,7 +1,7 @@
 import { userDetails } from '../api/users-service';
 import { useEffect, useState } from 'react';
 
-export default function AssignedTaskList({ member }) {
+export default function AssignedTaskList({ member, tasks }) {
   const [employeeData, setEmployeeData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -21,7 +21,7 @@ export default function AssignedTaskList({ member }) {
 
   useEffect(() => {
     retrieveEmployee();
-  }, []);
+  }, [tasks]);
 
   return (
     <div>
