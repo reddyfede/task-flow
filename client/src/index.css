@@ -5,6 +5,8 @@
 ::after,
 ::before {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
@@ -136,6 +138,15 @@ button:disabled {
 ul {
   list-style-type: none;
   padding: 0;
+}
+
+.link {
+  color: white;
+  text-decoration: none;
+}
+.link:hover {
+  color: var(--grey-50);
+  text-decoration: underline;
 }
 
 .img {

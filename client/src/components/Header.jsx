@@ -10,19 +10,27 @@ export default function Header() {
   return (
     <Wrapper>
       <div className='nav-center'>
-        <Link to='/'>Home </Link>
+        <Link to='/' className='link'>
+          Home{' '}
+        </Link>
         {currUser.token ? (
           <>
             {currUser.role === 'M' ? (
-              <Link to='/manager'> Manager Page</Link>
+              <Link className='link' to='/manager'>
+                {' '}
+                Manager Page
+              </Link>
             ) : (
-              <Link to='/employee'> Employee Page</Link>
+              <Link className='link' to='/employee'>
+                {' '}
+                Employee Page
+              </Link>
             )}
-            <p>Welcome, {currUser.username}</p>
+            <div>Welcome, {currUser.username}</div>
             <BtnLogout />
           </>
         ) : (
-          <div>
+          <div className='nav-right'>
             <BtnSignup />
             <BtnLogin />
           </div>
