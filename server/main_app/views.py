@@ -79,6 +79,7 @@ def user_detail(request, user_id):
                     "userId": user.user.id,
                     "first_name": user.user.first_name,
                     "last_name": user.user.last_name,
+                    "availability": [a for a in user.availability_set.all().values()],
                 }
                 for user in in_team
             ]
