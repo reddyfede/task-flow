@@ -4,7 +4,7 @@ import TaskList from './TaskList';
 
 const ManageTasks = ({ tasks, fetchTasks, teamMembers }) => {
   return (
-    <div style={{ border: '2px solid lightgreen' }}>
+    <div style={{ border: '2px solid lightgreen', width: '90%' }}>
       <h1>Manage Tasks</h1>
       <TaskList
         fetchTasks={fetchTasks}

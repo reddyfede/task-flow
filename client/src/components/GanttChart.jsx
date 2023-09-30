@@ -7,9 +7,9 @@ const GanttChart = () => {
   return (
     <Wrapper>
       <div className='chart-grid'>
-        {timeBlock.map((idx) => {
-          return <div className='chart-item' key={idx}></div>;
-        })}
+        {timeBlock.map((el, idx) => (
+          <div className='chart-item' key={idx}></div>
+        ))}
       </div>
     </Wrapper>
   );
