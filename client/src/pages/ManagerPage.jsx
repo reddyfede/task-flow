@@ -10,8 +10,8 @@ export default function ManagerPage() {
   const [userData, setUserData] = useState({
     username: null,
     appuserId: null,
-    firstName: null,
-    lastName: null,
+    first_name: null,
+    last_name: null,
     teamName: null,
     teamId: null,
   });
@@ -26,6 +26,7 @@ export default function ManagerPage() {
         setCurrUser({ ...currUser, team: res.user.teamId });
         localStorage.setItem('team', res.user.teamId);
         if (res.teamList) {
+          console.log(res.teamList);
           setTeamMembers([...res.teamList]);
         }
         if (res.notTeamList) {
@@ -65,8 +66,8 @@ export default function ManagerPage() {
             </div>
           ) : (
             <div>
-              <h2>First Name: {userData.firstName}</h2>
-              <h2>Last Name: {userData.lastName}</h2>
+              <h2>First Name: {userData.first_name}</h2>
+              <h2>Last Name: {userData.last_name}</h2>
               <h2>AppUser ID: {userData.appuserId}</h2>
               <hr />
               <hr />

@@ -98,7 +98,7 @@ export default function EmployeeList({
           <option value=''>select one</option>
           {nonTeamMembers.map((ntm, idx) => (
             <option value={ntm.appuserId} key={idx}>
-              {ntm.firstName} {ntm.lastName} - {ntm.appuserId}
+              {ntm.first_name} {ntm.last_name} - {ntm.appuserId}
             </option>
           ))}
         </select>

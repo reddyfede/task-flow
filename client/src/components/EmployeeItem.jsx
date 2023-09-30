@@ -13,15 +13,15 @@ export default function EmployeeItem({
   return (
     <div>
       <h3>
-        Name: {member.firstName} {member.lastName}
+        Name: {member.first_name} {member.last_name}
       </h3>
       <h3>ID: {member.appuserId} </h3>
 
       {showRemove ? (
         <div>
           <p>
-            Are you sure you want to remove {member.firstName} {member.lastName}
-            ?
+            Are you sure you want to remove {member.first_name}{' '}
+            {member.last_name}?
           </p>
           <p>All availabilities will be deleted.</p>
           <button onClick={() => setShowRemove(false)}>Back</button>

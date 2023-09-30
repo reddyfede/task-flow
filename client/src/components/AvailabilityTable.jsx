@@ -13,10 +13,10 @@ export default function AvailabilityTable({
   const [days, setDays] = useState([0, 1, 2, 3, 4, 5, 6]);
   const initState = {
     day: '',
-    firstBegin: '',
-    firstEnd: '',
-    secondBegin: '',
-    secondEnd: '',
+    first_part_shift_begin: '',
+    first_part_shift_end: '',
+    second_part_shift_begin: '',
+    second_part_shift_end: '',
   };
 
   const [addDay, setAddDay] = useState(initState);
@@ -45,11 +45,11 @@ export default function AvailabilityTable({
   async function handleSubmit(e) {
     e.preventDefault();
     let data = { ...addDay, userId: member.appuserId };
-    if (data.secondBegin === '') {
-      data.secondBegin = null;
+    if (data.second_part_shift_begin === '') {
+      data.second_part_shift_begin = null;
     }
-    if (data.secondEnd === '') {
-      data.secondEnd = null;
+    if (data.second_part_shift_end === '') {
+      data.second_part_shift_end = null;
     }
     try {
       const res = await createAvailability(data);
@@ -104,10 +104,10 @@ export default function AvailabilityTable({
           {member.availability.map((a) => (
             <tr key={a.id}>
               <td>{getDay(a.day)}</td>
-              <td>{a.firstBegin}</td>
-              <td>{a.firstEnd}</td>
-              <td>{a.secondBegin}</td>
-              <td>{a.secondEnd}</td>
+              <td>{a.first_part_shift_begin}</td>
+              <td>{a.first_part_shift_end}</td>
+              <td>{a.second_part_shift_begin}</td>
+              <td>{a.second_part_shift_end}</td>
 
               <td>
                 <a onClick={() => handleRemove(a.id, a.day)}>Remove</a>
@@ -133,9 +133,9 @@ export default function AvailabilityTable({
               <td>
                 <input
                   type='time'
-                  name='firstBegin'
-                  value={addDay.firstBegin}
-                  max={addDay.firstEnd}
+                  name='first_part_shift_begin'
+                  value={addDay.first_part_shift_begin}
+                  max={addDay.first_part_shift_end}
                   onChange={handleChange}
                   required
                 />
@@ -143,10 +143,10 @@ export default function AvailabilityTable({
               <td>
                 <input
                   type='time'
-                  name='firstEnd'
-                  min={addDay.firstBegin}
-                  value={addDay.firstEnd}
-                  max={addDay.secondBegin}
+                  name='first_part_shift_end'
+                  min={addDay.first_part_shift_begin}
+                  value={addDay.first_part_shift_end}
+                  max={addDay.second_part_shift_begin}
                   onChange={handleChange}
                   required
                 />
@@ -154,22 +154,22 @@ export default function AvailabilityTable({
               <td>
                 <input
                   type='time'
-                  name='secondBegin'
-                  min={addDay.firstEnd}
-                  value={addDay.secondBegin}
-                  max={addDay.secondEnd}
+                  name='second_part_shift_begin'
+                  min={addDay.first_part_shift_end}
+                  value={addDay.second_part_shift_begin}
+                  max={addDay.second_part_shift_end}
                   onChange={handleChange}
-                  required={addDay.secondEnd}
+                  required={addDay.second_part_shift_end}
                 />
               </td>
               <td>
                 <input
                   type='time'
-                  name='secondEnd'
-                  min={addDay.secondBegin}
-                  value={addDay.secondEnd}
+                  name='second_part_shift_end'
+                  min={addDay.second_part_shift_begin}
+                  value={addDay.second_part_shift_end}
                   onChange={handleChange}
-                  required={addDay.secondBegin}
+                  required={addDay.second_part_shift_begin}
                 />
               </td>
               <td>

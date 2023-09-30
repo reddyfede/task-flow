@@ -9,8 +9,8 @@ export default function EmployeePage() {
   const [userData, setUserData] = useState({
     username: null,
     appuserId: null,
-    firstName: null,
-    lastName: null,
+    first_name: null,
+    last_name: null,
     teamName: null,
     teamId: null,
   });
@@ -53,8 +53,8 @@ export default function EmployeePage() {
             </div>
           ) : (
             <div>
-              <h2>First Name: {userData.firstName}</h2>
-              <h2>Last Name: {userData.lastName}</h2>
+              <h2>First Name: {userData.first_name}</h2>
+              <h2>Last Name: {userData.last_name}</h2>
               <h2>AppUser ID: {userData.appuserId}</h2>
               <hr />
               {!userData.teamName ? (
@@ -74,7 +74,7 @@ export default function EmployeePage() {
                         {tasks.map((t, idx) => (
                           <li key={idx}>
                             <h3>
-                              {t.name} {t.plannedDuration} {t.dueDate}
+                              {t.name} {t.planned_duration} {t.due_date}
                             </h3>
                           </li>
                         ))}

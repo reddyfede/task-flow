@@ -53,8 +53,8 @@ def user_detail(request, user_id):
     data = {
         "username": user.username,
         "appuserId": user.appuser.id,
-        "firstName": user.first_name,
-        "lastName": user.last_name,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
     }
     # add team info to data, only teamName if team is null
     if team:
@@ -68,13 +68,13 @@ def user_detail(request, user_id):
         tasklist = [
             {
                 "name": t.name,
-                "dueDate": t.due_date,
-                "plannedDuration": t.planned_duration,
-                "plannedStart": t.planned_start,
-                "plannedEnd": t.planned_end,
-                "actualDuration": t.actual_duration,
-                "actualStart": t.actual_start,
-                "actualEnd": t.actual_end,
+                "due_date": t.due_date,
+                "planned_duration": t.planned_duration,
+                "planned_start": t.planned_start,
+                "planned_end": t.planned_end,
+                "actual_duration": t.actual_duration,
+                "actual_start": t.actual_start,
+                "actual_end": t.actual_end,
             }
             for t in tasks
         ]
@@ -88,16 +88,16 @@ def user_detail(request, user_id):
             team_list = [
                 {
                     "appuserId": user.id,
-                    "firstName": user.user.first_name,
-                    "lastName": user.user.last_name,
+                    "first_name": user.user.first_name,
+                    "last_name": user.user.last_name,
                     "availability": [
                         {
                             "id": a.id,
                             "day": a.day,
-                            "firstBegin": a.first_part_shift_begin,
-                            "firstEnd": a.first_part_shift_end,
-                            "secondBegin": a.second_part_shift_begin,
-                            "secondEnd": a.second_part_shift_end,
+                            "first_part_shift_begin": a.first_part_shift_begin,
+                            "first_part_shift_end": a.first_part_shift_end,
+                            "second_part_shift_begin": a.second_part_shift_begin,
+                            "second_part_shift_end": a.second_part_shift_end,
                         }
                         for a in user.availability_set.all()
                     ],
@@ -112,8 +112,8 @@ def user_detail(request, user_id):
             not_team_list = [
                 {
                     "appuserId": user.id,
-                    "firstName": user.user.first_name,
-                    "lastName": user.user.last_name,
+                    "first_name": user.user.first_name,
+                    "last_name": user.user.last_name,
                 }
                 for user in not_in_team
             ]
@@ -159,8 +159,8 @@ def team_add_user(request, team_id, user_id):
     return Response(
         {
             "appuserId": user.id,
-            "firstName": user.user.first_name,
-            "lastName": user.user.last_name,
+            "first_name": user.user.first_name,
+            "last_name": user.user.last_name,
             "availability": [],
         }
     )
@@ -181,8 +181,8 @@ def team_remove_user(request, team_id, user_id):
         return Response(
             {
                 "appuserId": user.id,
-                "firstName": user.user.first_name,
-                "lastName": user.user.last_name,
+                "first_name": user.user.first_name,
+                "last_name": user.user.last_name,
             }
         )
 
@@ -193,8 +193,8 @@ def signup(request):
     if serializer.is_valid():
         serializer.save()
         user = User.objects.get(username=request.data["username"])
-        user.first_name = request.data["firstName"]
-        user.last_name = request.data["lastName"]
+        user.first_name = request.data["first_name"]
+        user.last_name = request.data["last_name"]
         user.set_password(request.data["password"])
         user.save()
         Token.objects.create(user=user)
@@ -232,13 +232,13 @@ def team_task_detail(request, team_id):
         {
             "id": t.id,
             "name": t.name,
-            "dueDate": t.due_date,
-            "plannedDuration": t.planned_duration,
-            "plannedStart": t.planned_start,
-            "plannedEnd": t.planned_end,
-            "actualDuration": t.actual_duration,
-            "actualStart": t.actual_start,
-            "actualEnd": t.actual_end,
+            "due_date": t.due_date,
+            "planned_duration": t.planned_duration,
+            "planned_start": t.planned_start,
+            "planned_end": t.planned_end,
+            "actual_duration": t.actual_duration,
+            "actual_start": t.actual_start,
+            "actual_end": t.actual_end,
             "user": t.user.id if t.user else t.user,
         }
         for t in tasks
@@ -290,20 +290,20 @@ def task_add_user(request, task_id, user_id):
 def availability_create(request):
     new_av = Availability.objects.create(
         day=request.data["day"],
-        first_part_shift_begin=request.data["firstBegin"],
-        first_part_shift_end=request.data["firstEnd"],
-        second_part_shift_begin=request.data["secondBegin"],
-        second_part_shift_end=request.data["secondEnd"],
+        first_part_shift_begin=request.data["first_part_shift_begin"],
+        first_part_shift_end=request.data["first_part_shift_end"],
+        second_part_shift_begin=request.data["second_part_shift_begin"],
+        second_part_shift_end=request.data["second_part_shift_end"],
         user_id=request.data["userId"],
     )
     return Response(
         {
             "id": new_av.id,
             "day": new_av.day,
-            "firstBegin": new_av.first_part_shift_begin,
-            "firstEnd": new_av.first_part_shift_end,
-            "secondBegin": new_av.second_part_shift_begin,
-            "secondEnd": new_av.second_part_shift_end,
+            "first_part_shift_begin": new_av.first_part_shift_begin,
+            "first_part_shift_end": new_av.first_part_shift_end,
+            "second_part_shift_begin": new_av.second_part_shift_begin,
+            "second_part_shift_end": new_av.second_part_shift_end,
         }
     )
 
@@ -318,10 +318,10 @@ def availability_delete(request, availability_id):
         {
             "id": a.id,
             "day": a.day,
-            "firstBegin": a.first_part_shift_begin,
-            "firstEnd": a.first_part_shift_end,
-            "secondBegin": a.second_part_shift_begin,
-            "secondEnd": a.second_part_shift_end,
+            "first_part_shift_begin": a.first_part_shift_begin,
+            "first_part_shift_end": a.first_part_shift_end,
+            "second_part_shift_begin": a.second_part_shift_begin,
+            "second_part_shift_end": a.second_part_shift_end,
         }
         for a in user.availability_set.all()
     ]
