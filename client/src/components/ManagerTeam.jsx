@@ -20,7 +20,6 @@ export default function ManagerTeam({
   const [tab, setTab] = useState(1);
 
   function handleTab(e, num) {
-    console.log(tab);
     e.preventDefault();
     setTab(num);
   }

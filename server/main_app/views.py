@@ -205,7 +205,7 @@ def tasks_index(request):
 def team_task_detail(request, team_id):
     team = Team.objects.get(id=team_id)
     tasklist = team.task_set.all().values()
-    print(tasklist)
+
     return Response(tasklist)
 
 
