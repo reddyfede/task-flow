@@ -76,6 +76,7 @@ def user_detail(request, user_id):
             team_list = [
                 {
                     "appuserId": user.id,
+                    "userId": user.user.id,
                     "first_name": user.user.first_name,
                     "last_name": user.user.last_name,
                     "availability": user.availability_set.all().values(),
@@ -90,6 +91,7 @@ def user_detail(request, user_id):
             not_team_list = [
                 {
                     "appuserId": user.id,
+                    "userId": user.user.id,
                     "first_name": user.user.first_name,
                     "last_name": user.user.last_name,
                 }

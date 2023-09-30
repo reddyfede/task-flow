@@ -5,12 +5,8 @@ import {
   deleteAvailability,
 } from '../api/availability-service';
 
-export default function AvailabilityTable({
-  member,
-  teamMembers,
-  setTeamMembers,
-}) {
-  const [days, setDays] = useState([0, 1, 2, 3, 4, 5, 6]);
+export default function AvailabilityTable({ employeeData, retrieveEmployee }) {
+  const [options, setOptions] = useState([0, 1, 2, 3, 4, 5, 6]);
   const initState = {
     day: '',
     first_part_shift_begin: '',
@@ -18,16 +14,15 @@ export default function AvailabilityTable({
     second_part_shift_begin: '',
     second_part_shift_end: '',
   };
-
   const [addDay, setAddDay] = useState(initState);
 
   function availableDays() {
-    let arr = [...days];
-    for (const a of member.availability) {
+    let arr = [...options];
+    for (const a of employeeData.availability) {
       let pos = arr.indexOf(parseInt(a.day));
       if (pos > -1) {
         arr.splice(pos, 1);
-        setDays(arr);
+        setOptions(arr);
       }
     }
     setAddDay({ ...addDay, day: arr[0] });
@@ -44,7 +39,7 @@ export default function AvailabilityTable({
 
   async function handleSubmit(e) {
     e.preventDefault();
-    let data = { ...addDay, user_id: member.appuserId };
+    let data = { ...addDay, user_id: employeeData.user.appuserId };
     if (data.second_part_shift_begin === '') {
       data.second_part_shift_begin = null;
     }
@@ -54,12 +49,13 @@ export default function AvailabilityTable({
     try {
       const res = await createAvailability(data);
       if (res.updatedAvailability) {
-        member.availability = [...res.updatedAvailability];
-        let arr = [...teamMembers];
-        let pos = arr.indexOf(member);
-        arr[pos] = { ...member };
-        setTeamMembers(arr);
-        availableDays();
+        await retrieveEmployee();
+        let days_arr = [...options];
+        const pos = days_arr.indexOf(parseInt(data.day));
+        console.log(pos);
+        days_arr.splice(pos, 1);
+        setOptions(days_arr);
+        setAddDay(initState);
       } else {
         throw Error('Something went wrong with creating an availability.');
       }
@@ -73,13 +69,9 @@ export default function AvailabilityTable({
     try {
       const res = await deleteAvailability(id);
       if (res.updatedAvailability) {
-        member.availability = [...res.updatedAvailability];
-        let arr = [...teamMembers];
-        let pos = arr.indexOf(member);
-        arr[pos] = { ...member };
-        setTeamMembers(arr);
-        let days_arr = [...days, day].sort();
-        setDays(days_arr);
+        await retrieveEmployee();
+        let days_arr = [...options, day].sort();
+        setOptions(days_arr);
       } else {
         throw Error('Something went wrong with deleting an availability.');
       }
@@ -101,7 +93,7 @@ export default function AvailabilityTable({
           </tr>
         </thead>
         <tbody>
-          {member.availability.map((a) => (
+          {employeeData.availability.map((a) => (
             <tr key={a.id}>
               <td>{getDay(a.day)}</td>
               <td>{a.first_part_shift_begin}</td>
@@ -115,15 +107,16 @@ export default function AvailabilityTable({
             </tr>
           ))}
 
-          {days.length ? (
+          {options.length ? (
             <tr>
               <td>
                 <select
                   name='day'
-                  defaultValue={days[0]}
+                  defaultValue={options[0]}
                   onChange={handleChange}
                 >
-                  {days.map((d) => (
+                  <option value={''}>select one</option>
+                  {options.map((d) => (
                     <option value={d} key={d}>
                       {getDay(d)}
                     </option>
