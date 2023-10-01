@@ -237,7 +237,7 @@ def task_create(request):
     task_json = request.data
     team = Team.objects.get(id=task_json["team"])
     task_json["team"] = team
-    task = Task.objects.create(**task_json)
+    Task.objects.create(**task_json)
     return Response("Task created", status=status.HTTP_201_CREATED)
 
 
@@ -262,29 +262,77 @@ def task_add_user(request, task_id, user_id):
     day_of_week = req_date.weekday()
     user_av = user.availability_set.filter(day=day_of_week).values()
     message = ""
+    # if user has availability on the day -> calculate total availability
     if user_av:
         user_av_tot = user_av[0]["total_first_part"]
         if user_av[0]["total_second_part"]:
             user_av_tot += user_av[0]["total_second_part"]
+        # if enough availability -> check if user has tasks on the same day
         if user_av_tot >= task.planned_duration:
-            user_tasks = user.task_set.filter(planned_start=req_date).values()
+            all_user_tasks = user.task_set.all().order_by("planned_end").values()
+            user_tasks = [
+                t for t in all_user_tasks if t["planned_start"].date() == req_date
+            ]
+            print(user_tasks)
             if user_tasks:
                 user_tasks_duration = 0
                 durations = [t["planned_duration"] for t in user_tasks]
                 user_tasks_duration = sum(durations)
                 remaining_av = user_av_tot - user_tasks_duration
+                # if user has enough remaining availability set start time of the new task
+                # as the end time of the last task already assigned on that day
                 if remaining_av >= task.planned_duration:
                     message = "ready to assign after other tasks"
+                    last_task_end_datetime = user_tasks[-1]["planned_end"]
+                    print(last_task_end_datetime)
+                    start_date_time = last_task_end_datetime
+                    print(start_date_time)
+                    # check if previous tasks end after lunch or previous tasks + new task end before lunch
+                    # if yes -> set end time as start + duration
+                    if (
+                        user_tasks_duration > user_av[0]["total_first_part"]
+                        or user_tasks_duration + task.planned_duration
+                        < user_av[0]["total_first_part"]
+                    ):
+                        end_date_time = start_date_time + timedelta(
+                            minutes=task.planned_duration
+                        )
+                    # if no -> set end time of task as the time after lunch + difference between the duration of all the tasks
+                    # and the duration of the pre-lunch shift
+                    else:
+                        shift_datetime = datetime.combine(
+                            req_date, user_av[0]["second_part_shift_begin"]
+                        )
+                        end_date_time = shift_datetime + timedelta(
+                            minutes=(
+                                user_tasks_duration
+                                + task.planned_duration
+                                - user_av[0]["total_first_part"]
+                            )
+                        )
+                    # update the task with the calculated times
+                    Task.objects.filter(id=task_id).update(
+                        user=user,
+                        planned_start=start_date_time,
+                        planned_end=end_date_time,
+                    )
+                    return Response({"taskId": task_id})
+                # display a message that user has not enough remining availability
                 else:
                     message = f"{user.user.first_name} {user.user.last_name} has not enought residual availability  for {DAYS[day_of_week][1]}: remaining {remaining_av} minutes."
+            # set the start time of the new task as the start time of user availability
+            # check if task end before lunch
             else:
                 message = "ready to assign at the start of day"
                 start_time = user_av[0]["first_part_shift_begin"]
                 start_date_time = datetime.combine(req_date, start_time)
+                # if yes -> set end time of task as start + duration
                 if task.planned_duration <= user_av[0]["total_first_part"]:
                     end_date_time = start_date_time + timedelta(
                         minutes=task.planned_duration
                     )
+                # if no -> set end time of task as the time after lunch + difference between the duration of the task
+                # and the duration of the pre-lunch shift
                 else:
                     shift_datetime = datetime.combine(
                         req_date, user_av[0]["second_part_shift_begin"]
@@ -292,19 +340,21 @@ def task_add_user(request, task_id, user_id):
                     end_date_time = shift_datetime + timedelta(
                         minutes=(task.planned_duration - user_av[0]["total_first_part"])
                     )
+                # update the task with the calculated times
                 Task.objects.filter(id=task_id).update(
                     user=user,
                     planned_start=start_date_time,
                     planned_end=end_date_time,
                 )
+                return Response({"taskId": task_id})
+        # display a message that user has not enough remining availability set for the day
         else:
             message = f"{user.user.first_name} {user.user.last_name} has not enought availability set for {DAYS[day_of_week][1]}: tot {user_av_tot} minutes."
+    # display a message that user has no availability
     else:
         message = f"{user.user.first_name} {user.user.last_name} has no availability set for {DAYS[day_of_week][1]}."
     print(message)
-
-    return Response("Task assigned user", status=status.HTTP_204_NO_CONTENT)
-    pass
+    return Response({"message": message})
 
 
 @api_view(["POST"])
