@@ -1,4 +1,5 @@
 import { updateTask } from '../api/task-service';
+import Wrapper from '../assets/wrappers/AssignedTaskListItem';
 import { fullDateDisplay, dateDisplay } from '../utilities/days';
 
 export default function AssignedTaskListItem({ task, fetchTasks }) {
@@ -13,13 +14,21 @@ export default function AssignedTaskListItem({ task, fetchTasks }) {
   }
 
   return (
-    <div>
-      Task: {task.name} | Due: {task.due_date} | Duration:{' '}
-      {task.planned_duration} | Start: {task.planned_start} | End:{' '}
-      {task.planned_end}
-      <button className='btn' onClick={handleRemove}>
+    <Wrapper>
+      <div className='task-container'>
+        <span>Task: {task.name}</span>
+        <div className='task-details'>
+          <span>Due: {task.due_date}</span>
+          <span>Start: {task.planned_start}</span>
+        </div>
+        <div className='task-details'>
+          <span>Duration: {task.planned_duration}</span>
+          <span>End: {task.planned_end}</span>
+        </div>
+      </div>
+      <button className='btn ' onClick={handleRemove}>
         Remove
       </button>
-    </div>
+    </Wrapper>
   );
 }
