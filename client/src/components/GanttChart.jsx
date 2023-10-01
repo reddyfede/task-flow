@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Wrapper from '../assets/wrappers/GanttChart';
 import { userDetails } from '../api/users-service';
 
-const GanttChart = ({ member }) => {
+const GanttChart = ({ member, tasks }) => {
   const timeBlock = new Array(24).fill();
   const [employeeData, setEmployeeData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -63,7 +63,7 @@ const GanttChart = ({ member }) => {
 
   useEffect(() => {
     retrieveEmployee();
-  }, []);
+  }, [tasks]);
 
   useEffect(() => {
     populateTaskBlocks();
