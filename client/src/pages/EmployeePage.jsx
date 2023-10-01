@@ -37,6 +37,23 @@ export default function EmployeePage() {
     retrieveUser();
   }, []);
 
+  function renderTodayTasks(t, idx) {
+    const d = new Date();
+    const td = new Date(t.planned_start);
+    let todayDate = d.getDate();
+    let taskDate = td.getDate();
+
+    if (todayDate === taskDate) {
+      return (
+        <>
+          <td>{t.name}</td>
+          <td>{t.planned_start}</td>
+          <td>{t.planned_end}</td>
+        </>
+      );
+    }
+  }
+
   return (
     <div>
       {currUser.role !== 'E' ? (
@@ -57,22 +74,28 @@ export default function EmployeePage() {
               ) : (
                 <div>
                   <div>
-                    <h2>Team Name : {userData.teamName}</h2>
+                    <h2>Team Name: {userData.teamName}</h2>
                   </div>
                   <div>
-                    <h2>Assigned Tasks: {tasks.length}</h2>
+                    <h2>
+                      Assigned Tasks for {new Date().getMonth() + 1}/
+                      {new Date().getDate()}:
+                    </h2>
                     {tasks.length ? (
-                      <ul>
-                        {tasks.map((t, idx) => (
-                          <div className='card flex-ctr-ctr form-row'>
-                            <li key={idx}>
-                              <div>
-                                {t.name} {t.planned_duration} {t.due_date}
-                              </div>
-                            </li>
-                          </div>
-                        ))}
-                      </ul>
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Start</th>
+                            <th>End</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {tasks.map((t, idx) => (
+                            <tr key={t.id}>{renderTodayTasks(t, idx)}</tr>
+                          ))}
+                        </tbody>
+                      </table>
                     ) : (
                       <h3>No tasks assigned yet.</h3>
                     )}

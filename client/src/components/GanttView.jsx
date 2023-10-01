@@ -37,6 +37,10 @@ const GanttView = ({ userData, teamMembers }) => {
       ) : (
         <div>
           <div className='card'>
+            <h2>
+              Employee Gantt for {new Date().getMonth() + 1}/
+              {new Date().getDate()}:
+            </h2>
             {teamMembers.map((member) => (
               <div key={member.appuserId}>
                 <GanttChart member={member} tasks={tasks} />
