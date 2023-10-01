@@ -36,10 +36,10 @@ export default function AssignedTaskListItem({ task, fetchTasks }) {
                 <span>{task.planned_duration}</span>
               </td>
               <td>
-                <span>{task.planned_start}</span>
+                <span>{fullDateDisplay(task.planned_start)}</span>
               </td>
               <td>
-                <span>{task.planned_end}</span>
+                <span>{fullDateDisplay(task.planned_end)}</span>
               </td>
             </tr>
           </tbody>
