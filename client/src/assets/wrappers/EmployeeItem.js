@@ -10,7 +10,10 @@ const Wrapper = styled.div`
     display: inline;
   }
 
-  
+  .remove-team-btn {
+    float: right;
+  }
+
   
 `
 
