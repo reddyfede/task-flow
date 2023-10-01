@@ -26,9 +26,9 @@ export default function AssignedTaskList({ member, tasks, fetchTasks }) {
 
   return (
     <div>
-      <h4>
-        Employee {member.first_name} {member.last_name} tasklist
-      </h4>
+      <h5>
+        {member.first_name} {member.last_name}
+      </h5>
 
       {loading ? (
         <p>Loading employee data...</p>
@@ -38,7 +38,7 @@ export default function AssignedTaskList({ member, tasks, fetchTasks }) {
             <div>
               <ul>
                 {employeeData.tasks.map((task) => (
-                  <li key={task.id}>
+                  <li className='card' key={task.id}>
                     <AssignedTaskListItem task={task} fetchTasks={fetchTasks} />
                   </li>
                 ))}

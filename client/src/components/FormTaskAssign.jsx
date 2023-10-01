@@ -21,13 +21,17 @@ const FormTaskAssign = ({ taskId, teamMembers, fetchTasks }) => {
   };
 
   return (
-    <div>
-      <h4>Assign Employee</h4>
-      <form action='' onSubmit={handleSubmit}>
+    <div className='flex-col'>
+      <form className='' action='' onSubmit={handleSubmit}>
         <label htmlFor='employee'>
-          <span>Select Employee: </span>
+          <span className='form-label'>Select Employee: </span>
         </label>
-        <select name='employee' required onChange={handleChange}>
+        <select
+          className='form-select'
+          name='employee'
+          required
+          onChange={handleChange}
+        >
           <option value=''>select one</option>
           {teamMembers.map((tm, idx) => (
             <option value={tm.appuserId} key={idx}>
@@ -35,7 +39,7 @@ const FormTaskAssign = ({ taskId, teamMembers, fetchTasks }) => {
             </option>
           ))}
         </select>
-        <button className='btn'>Assign Selected Emplyee</button>
+        <button className='btn'>Assign Task</button>
       </form>
     </div>
   );

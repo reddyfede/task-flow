@@ -46,72 +46,75 @@ const TaskListItem = ({ task, fetchTasks, teamMembers }) => {
   }
 
   return (
-    <div>
-      <h4>Task name: {task.name}</h4>
+    <div className='card'>
+      <h5>{task.name}</h5>
+      <div className='flex-col'>
+        <span>
+          Due: {task.due_date} | Duration: {task.planned_duration} minutes
+        </span>
 
-      <p>
-        Due: {task.due_date} | Duration: {task.planned_duration} minutes
-      </p>
+        {isEdit ? (
+          <div className=''>
+            <form method='dialog' className='card' onSubmit={handleSubmit}>
+              <h4>Edit Task</h4>
+              <div className='form-control'>
+                <label className='form-label'>Edit name:</label>
+                <input
+                  className='form-input'
+                  type='text'
+                  name='name'
+                  required
+                  onChange={handleChange}
+                  value={editTask.name}
+                />
+              </div>
 
-      {isEdit ? (
-        <div>
-          <h4>Edit Task</h4>
-          <form method='dialog' className='' onSubmit={handleSubmit}>
-            <div className='form-control'>
-              <label className=''>Edit name:</label>
-              <input
-                type='text'
-                name='name'
-                required
-                onChange={handleChange}
-                className=''
-                value={editTask.name}
-              />
-            </div>
+              <div className='form-control'>
+                <label className='form-label'>Due:</label>
+                <input
+                  className='form-input'
+                  type='date'
+                  onChange={handleChange}
+                  id='due_date'
+                  name='due_date'
+                  value={editTask.due_date}
+                />
+              </div>
 
-            <div className='form-control'>
-              <label className=''>Due:</label>
-              <input
-                className=''
-                type='date'
-                onChange={handleChange}
-                id='due_date'
-                name='due_date'
-                value={editTask.due_date}
-              />
-            </div>
+              <div className='form-control'>
+                <label className='form-label'>Duration:</label>
+                <input
+                  className='form-input'
+                  type='number'
+                  onChange={handleChange}
+                  id='planned_duration'
+                  name='planned_duration'
+                  value={editTask.planned_duration}
+                />
+              </div>
 
-            <div className='form-control'>
-              <label className='form-label'>Duration:</label>
-              <input
-                className=''
-                type='number'
-                onChange={handleChange}
-                id='planned_duration'
-                name='planned_duration'
-                value={editTask.planned_duration}
-              />
-            </div>
-
-            <button className='btn' type='submit'>
-              Edit
+              <button className='btn' type='submit'>
+                Edit
+              </button>
+              <button className='btn' onClick={() => toggleEdit()}>
+                Cancel
+              </button>
+            </form>
+          </div>
+        ) : (
+          <div>
+            <button className='btn' onClick={(e) => toggleEdit(e, task)}>
+              EDIT
             </button>
-          </form>
-
-          <button className='btn' onClick={() => toggleEdit()}>
-            Cancel
-          </button>
-        </div>
-      ) : (
-        <>
-          <button className='btn' onClick={(e) => toggleEdit(e, task)}>
-            EDIT
-          </button>
-          <button className='btn' onClick={(e) => handleDelete(e, task)}>
-            DEL
-          </button>
-        </>
-      )}
+            <button
+              className='btn btn-danger'
+              onClick={(e) => handleDelete(e, task)}
+            >
+              DEL
+            </button>
+          </div>
+        )}
+      </div>
       <FormTaskAssign
         teamMembers={teamMembers}
         taskId={task.id}

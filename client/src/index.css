@@ -186,6 +186,8 @@ ul {
 .flex-col {
   display: flex;
   flex-direction: column;
+  margin: 1rem;
+  padding: 1rem;
 }
 
 
