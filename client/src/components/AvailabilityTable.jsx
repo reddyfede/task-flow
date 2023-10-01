@@ -85,7 +85,7 @@ export default function AvailabilityTable({
 
   return (
     <form action='' onSubmit={handleSubmit}>
-      <table>
+      <table style={{ width: '100%' }}>
         <thead>
           <tr>
             <th>Day</th>
@@ -93,6 +93,7 @@ export default function AvailabilityTable({
             <th>Lunch Start</th>
             <th>Lunch End</th>
             <th>Shift End</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
