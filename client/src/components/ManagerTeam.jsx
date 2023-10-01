@@ -100,42 +100,53 @@ export default function ManagerTeam({
         </div>
       ) : (
         <div className='container'>
-          <h2>Team Name: {userData.teamName}</h2>
-          {showEdit ? (
+          <div className='card'>
+            <h2>Team Name: {userData.teamName}</h2>
             <div>
-              <form className='form' onSubmit={handleUpdate}>
-                <label htmlFor=''>Team Name: </label>
-                <input type='text' value={teamName} onChange={handleChange} />
-                <button className='btn' onClick={() => setShowEdit(false)}>
-                  Back
-                </button>
-                <button className='btn'>Confirm Edit</button>
-              </form>
+              {showEdit ? (
+                <div className='card'>
+                  <form onSubmit={handleUpdate}>
+                    <label htmlFor=''>Team Name: </label>
+                    <input
+                      type='text'
+                      value={teamName}
+                      onChange={handleChange}
+                    />
+                    <br />
+                    <button className='btn' onClick={() => setShowEdit(false)}>
+                      Back
+                    </button>
+                    <button className='btn'>Confirm Edit</button>
+                  </form>
+                </div>
+              ) : (
+                <div>
+                  <button onClick={() => setShowEdit(true)} className='btn'>
+                    Edit Team
+                  </button>
+                </div>
+              )}
+              {showDelete ? (
+                <div className='card'>
+                  <p>
+                    Are you sure you want to delete team {userData.teamName}?
+                  </p>
+                  <button className='btn' onClick={() => setShowDelete(false)}>
+                    Back
+                  </button>
+                  <button onClick={handleDelete} className='btn btn-danger'>
+                    Confirm Delete
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <button className='btn' onClick={() => setShowDelete(true)}>
+                    Delete Team
+                  </button>
+                </div>
+              )}
             </div>
-          ) : (
-            <div>
-              <button onClick={() => setShowEdit(true)} className='btn'>
-                Edit Team
-              </button>
-            </div>
-          )}
-          {showDelete ? (
-            <div>
-              <p>Are you sure you want to delete team {userData.teamName}?</p>
-              <button className='btn' onClick={() => setShowDelete(false)}>
-                Back
-              </button>
-              <button onClick={handleDelete} className='btn btn-danger'>
-                Confirm Delete
-              </button>
-            </div>
-          ) : (
-            <div>
-              <button className='btn' onClick={() => setShowDelete(true)}>
-                Delete Team
-              </button>
-            </div>
-          )}
+          </div>
           <button
             className='btn'
             disabled={tab === 1}
@@ -148,7 +159,7 @@ export default function ManagerTeam({
             disabled={tab === 2}
             onClick={(e) => handleTab(e, 2)}
           >
-            Team Gant
+            Team Gantt
           </button>
           {tab === 1 ? (
             <EmployeeList

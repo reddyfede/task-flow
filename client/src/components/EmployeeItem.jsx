@@ -30,13 +30,13 @@ export default function EmployeeItem({ member, handleRemove }) {
   return (
     <Wrapper>
       {!loading ? (
-        <div className='card'>
+        <div className=''>
           <div>
             <h3>
               Availability for {member.first_name} {member.last_name}{' '}
             </h3>
             {showRemove ? (
-              <>
+              <div className='card'>
                 <p>
                   Are you sure you want to remove {member.first_name}{' '}
                   {member.last_name}?
@@ -46,13 +46,13 @@ export default function EmployeeItem({ member, handleRemove }) {
                   Back
                 </button>
                 <button
-                  className='btn'
+                  className='btn btn-danger'
                   onClick={handleRemove}
                   name={member.appuserId}
                 >
                   Confirm Remove
                 </button>
-              </>
+              </div>
             ) : (
               <>
                 <button className='btn' onClick={() => setShowRemove(true)}>

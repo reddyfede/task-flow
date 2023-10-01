@@ -68,25 +68,31 @@ export default function EmployeeList({
   return (
     <div>
       <ToastContainer transition={Slide} />
+      <div className='card'>
+        <h2>Unassigned Employees: {nonTeamMembers.length}</h2>
 
-      <h2>Available Employees: {nonTeamMembers.length}</h2>
-
-      <form action='' onSubmit={handleAdd}>
-        <label htmlFor='employee'>
-          <span>Select Employee: </span>
-        </label>
-        <select name='employee' value={toAdd} required onChange={handleChange}>
-          <option value=''>select one</option>
-          {nonTeamMembers.map((ntm, idx) => (
-            <option value={ntm.appuserId} key={idx}>
-              {ntm.first_name} {ntm.last_name} - {ntm.appuserId}
-            </option>
-          ))}
-        </select>
-        <button className='btn'>Add to the Team</button>
-      </form>
-
-      <div>
+        <form action='' onSubmit={handleAdd}>
+          <label className='form-label' htmlFor='employee'>
+            <span>Select Employee: </span>
+          </label>
+          <select
+            className='form-select'
+            name='employee'
+            value={toAdd}
+            required
+            onChange={handleChange}
+          >
+            <option value=''>select one</option>
+            {nonTeamMembers.map((ntm, idx) => (
+              <option value={ntm.appuserId} key={idx}>
+                {ntm.first_name} {ntm.last_name} - {ntm.appuserId}
+              </option>
+            ))}
+          </select>
+          <button className='btn'>Add to the Team</button>
+        </form>
+      </div>
+      <div className='card'>
         <h2>Team Members: {teamMembers.length}</h2>
         {teamMembers.map((member) => (
           <div key={member.appuserId}>
