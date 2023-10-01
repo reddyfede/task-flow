@@ -21,7 +21,6 @@ export default function Header() {
       <div className='nav-center'>
         <Link to={`${logoLink()}`} className='logo-container'>
           <img className='logo' src={Logo} alt='Task Flow Logo' />
-          <h1>Task Flow</h1>
         </Link>
         {currUser.token ? (
           <>
