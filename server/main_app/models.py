@@ -68,6 +68,16 @@ class Availability(models.Model):
         blank=True,
         null=True,
     )
+    total_first_part = models.IntegerField(
+        default=None,
+        blank=True,
+        null=True,
+    )
+    total_second_part = models.IntegerField(
+        default=None,
+        blank=True,
+        null=True,
+    )
     user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
 
     def __str__(self):
