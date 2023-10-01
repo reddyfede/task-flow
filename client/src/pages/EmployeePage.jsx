@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../App';
 import { userDetails } from '../api/users-service';
+import { fullDateDisplay } from '../utilities/days';
 
 export default function EmployeePage() {
   const [loading, setLoading] = useState(true);
@@ -47,8 +48,8 @@ export default function EmployeePage() {
       return (
         <>
           <td>{t.name}</td>
-          <td>{t.planned_start}</td>
-          <td>{t.planned_end}</td>
+          <td>{fullDateDisplay(t.planned_start)}</td>
+          <td>{fullDateDisplay(t.planned_end)}</td>
         </>
       );
     }

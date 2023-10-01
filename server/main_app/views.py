@@ -228,7 +228,6 @@ def team_task_detail(request, team_id):
 @api_view(["GET"])
 def task_detail(request, task_id):
     task = Task.objects.values().get(id=task_id)
-    print(task)
     return Response(task)
 
 
@@ -273,7 +272,6 @@ def task_add_user(request, task_id, user_id):
             user_tasks = [
                 t for t in all_user_tasks if t["planned_start"].date() == req_date
             ]
-            print(user_tasks)
             if user_tasks:
                 user_tasks_duration = 0
                 durations = [t["planned_duration"] for t in user_tasks]
@@ -284,9 +282,7 @@ def task_add_user(request, task_id, user_id):
                 if remaining_av >= task.planned_duration:
                     message = "ready to assign after other tasks"
                     last_task_end_datetime = user_tasks[-1]["planned_end"]
-                    print(last_task_end_datetime)
                     start_date_time = last_task_end_datetime
-                    print(start_date_time)
                     # check if previous tasks end after lunch or previous tasks + new task end before lunch
                     # if yes -> set end time as start + duration
                     if (
@@ -353,7 +349,6 @@ def task_add_user(request, task_id, user_id):
     # display a message that user has no availability
     else:
         message = f"{user.user.first_name} {user.user.last_name} has no availability set for {DAYS[day_of_week][1]}."
-    print(message)
     return Response({"message": message})
 
 
