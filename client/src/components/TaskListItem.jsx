@@ -117,7 +117,7 @@ const TaskListItem = ({ task, fetchTasks, teamMembers }) => {
       </div>
       <FormTaskAssign
         teamMembers={teamMembers}
-        taskId={task.id}
+        task={task}
         fetchTasks={fetchTasks}
       />
     </div>

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { updateTaskAssignment } from '../api/task-service';
+import { updateTask } from '../api/task-service';
 
-const FormTaskAssign = ({ taskId, teamMembers, fetchTasks }) => {
+const FormTaskAssign = ({ task, teamMembers, fetchTasks }) => {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
   async function handleSubmit(e) {
     e.preventDefault();
+    const data = { ...task, user_id: selectedEmployee };
     try {
-      const res = await updateTaskAssignment(taskId, selectedEmployee);
-      // handleCancel();
+      const res = await updateTask(task.id, data);
       fetchTasks();
     } catch (err) {
       console.log(err);
@@ -22,6 +22,7 @@ const FormTaskAssign = ({ taskId, teamMembers, fetchTasks }) => {
 
   return (
     <div className='flex-col'>
+      {console.log(task)}
       <form className='' action='' onSubmit={handleSubmit}>
         <label htmlFor='employee'>
           <span className='form-label'>Select Employee: </span>
