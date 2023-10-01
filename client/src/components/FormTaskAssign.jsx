@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { updateTaskAssignment } from '../api/task-service';
 import { todayDate } from '../utilities/days';
+import { displayToast } from '../utilities/toast';
 
 const FormTaskAssign = ({ task, teamMembers, fetchTasks }) => {
   const [formData, setFormData] = useState({ employee: '', date: '' });
@@ -16,6 +17,7 @@ const FormTaskAssign = ({ task, teamMembers, fetchTasks }) => {
         fetchTasks();
       } else if (res.message) {
         setMsg(res.message);
+        displayToast(res.message, 'error');
       }
     } catch (err) {
       console.log(err);

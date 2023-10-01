@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { EmployeeItem } from '.';
 import { addToTeam, removeFromTeam } from '../api/team-service';
 import { displayToast } from '../utilities/toast';
-import { Slide, ToastContainer } from 'react-toastify';
 
 export default function EmployeeList({
   userData,
@@ -67,7 +66,6 @@ export default function EmployeeList({
 
   return (
     <div>
-      <ToastContainer transition={Slide} />
       <div className='card'>
         <h2>Unassigned Employees: {nonTeamMembers.length}</h2>
 
