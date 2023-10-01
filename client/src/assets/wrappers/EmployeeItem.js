@@ -7,7 +7,10 @@ const Wrapper = styled.div`
 
   h3 {
     margin: 1rem 0rem 0rem 0rem;
+    display: inline;
   }
+
+  
   
 `
 
