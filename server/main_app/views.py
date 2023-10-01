@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.core.serializers import serialize
+from datetime import *
 import json
 from rest_framework.decorators import (
     api_view,
@@ -252,7 +253,20 @@ def task_add_user(request, task_id, user_id):
 
 @api_view(["POST"])
 def availability_create(request):
-    new_av = Availability.objects.create(**request.data)
+    created = Availability.objects.create(**request.data)
+    new_av = Availability.objects.get(id=created.id)
+    first_start = datetime.strptime(str(new_av.first_part_shift_begin), "%H:%M:%S")
+    first_end = datetime.strptime(str(new_av.first_part_shift_end), "%H:%M:%S")
+    first_diff = (first_end - first_start).total_seconds() / 60
+    new_av.total_first_part = first_diff
+    if new_av.second_part_shift_begin:
+        second_start = datetime.strptime(
+            str(new_av.second_part_shift_begin), "%H:%M:%S"
+        )
+        second_end = datetime.strptime(str(new_av.second_part_shift_end), "%H:%M:%S")
+        second_diff = (second_end - second_start).total_seconds() / 60
+        new_av.total_second_part = second_diff
+    new_av.save()
     return Response({"id": new_av.id})
 
 
