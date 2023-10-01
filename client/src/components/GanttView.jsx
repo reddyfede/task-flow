@@ -3,6 +3,7 @@ import ManageTasks from './ManageTasks';
 import { getTasksByTeam } from '../api/task-service';
 import GanttChart from './GanttChart';
 import { TeamAvailability } from '.';
+import { userDetails } from '../api/users-service';
 
 const GanttView = ({ userData, teamMembers }) => {
   const [tasks, setTasks] = useState([]);
@@ -35,9 +36,13 @@ const GanttView = ({ userData, teamMembers }) => {
         </div>
       ) : (
         <div>
-          {/* <div className='card'>
-            <GanttChart />
-          </div> */}
+          <div className='card'>
+            {teamMembers.map((member) => (
+              <div key={member.appuserId}>
+                <GanttChart member={member} />
+              </div>
+            ))}
+          </div>
           <div className='card'>
             <TeamAvailability teamMembers={teamMembers} />
             <ManageTasks
