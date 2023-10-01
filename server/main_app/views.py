@@ -18,6 +18,16 @@ from rest_framework.authtoken.models import Token
 from .models import AppUser, Task, Team, Availability
 from .serializers import UserSerializer
 
+DAYS = (
+    (0, "Monday"),
+    (1, "Tuesday"),
+    (2, "Wednesday"),
+    (3, "Thursday"),
+    (4, "Friday"),
+    (5, "Saturday"),
+    (6, "Sunday"),
+)
+
 
 def home(request):
     return render(request, "home.html")
@@ -72,7 +82,7 @@ def user_detail(request, user_id):
     if user.appuser.role == "M":
         if team:
             # retrieve all users that are not managers and part of the team
-            in_team = team.appuser_set.all().exclude(role__in=["M"])
+            in_team = team.appuser_set.exclude(role__in=["M"])
             # for each team member retrieve their info
             team_list = [
                 {
@@ -246,9 +256,35 @@ def task_destroy(request, task_id):
 
 @api_view(["PUT"])
 def task_add_user(request, task_id, user_id):
+    task = Task.objects.get(id=task_id)
     user = AppUser.objects.get(id=user_id)
-    Task.objects.filter(id=task_id).update(user=user)
+    req_date = datetime.strptime(request.data, "%Y-%m-%d").date()
+    print(req_date)
+    day_of_week = req_date.weekday()
+    print(day_of_week)
+    user_av = user.availability_set.filter(day=day_of_week).values()
+    print(user_av[0])
+    message = ""
+    if user_av:
+        user_av_tot = user_av[0]["total_first_part"]
+        if user_av[0]["total_second_part"]:
+            user_av_tot += user_av[0]["total_second_part"]
+        print(user_av_tot)
+        print(task.planned_duration)
+        if user_av_tot >= task.planned_duration:
+            user_tasks = user.task_set.filter(planned_start=req_date).values()
+            durations = [t["duration"] for t in user_tasks]
+            print(durations)
+            print(user_tasks)
+            message = "ready to assign"
+        else:
+            message = f"{user.user.first_name} {user.user.last_name} has not enought availability set for {DAYS[day_of_week][1]}: tot {user_av_tot} minutes."
+    else:
+        message = f"{user.user.first_name} {user.user.last_name} has no availability set for {DAYS[day_of_week][1]}."
+    print(message)
+    Task.objects.filter(id=task_id).update(user=user, planned_start=req_date)
     return Response("Task assigned user", status=status.HTTP_204_NO_CONTENT)
+    pass
 
 
 @api_view(["POST"])

@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { updateTask } from '../api/task-service';
+import { updateTaskAssignment } from '../api/task-service';
+import { todayDate } from '../utilities/days';
 
 const FormTaskAssign = ({ task, teamMembers, fetchTasks }) => {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [formData, setFormData] = useState({ employee: '', date: '' });
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const data = { ...task, user_id: selectedEmployee };
+    const data = { ...formData };
     try {
-      const res = await updateTask(task.id, data);
+      const res = await updateTaskAssignment(task.id, data.employee, data.date);
       fetchTasks();
     } catch (err) {
       console.log(err);
@@ -16,8 +18,8 @@ const FormTaskAssign = ({ task, teamMembers, fetchTasks }) => {
   }
 
   const handleChange = (e) => {
-    const employeeId = e.target.value;
-    setSelectedEmployee(employeeId);
+    const data = { ...formData, [e.target.name]: e.target.value };
+    setFormData(data);
   };
 
   return (
@@ -25,7 +27,7 @@ const FormTaskAssign = ({ task, teamMembers, fetchTasks }) => {
       {console.log(task)}
       <form className='' action='' onSubmit={handleSubmit}>
         <label htmlFor='employee'>
-          <span className='form-label'>Select Employee: </span>
+          <span className='form-label'>Assign to an employee: </span>
         </label>
         <select
           className='form-select'
@@ -40,6 +42,15 @@ const FormTaskAssign = ({ task, teamMembers, fetchTasks }) => {
             </option>
           ))}
         </select>
+        <input
+          className='form-input'
+          type='date'
+          name='date'
+          min={todayDate()}
+          value={formData.date}
+          onChange={handleChange}
+          required
+        />
         <button className='btn'>Assign Task</button>
       </form>
     </div>

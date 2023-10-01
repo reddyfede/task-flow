@@ -77,7 +77,7 @@ export async function update(id, data) {
   }
 }
 
-  export async function updateAssignment(taskId, empId) {
+  export async function updateAssignment(taskId, empId, data) {
     const URL = BASE_URL + `/tasks/${taskId}/assign/${empId}/`
   
     const config = {
@@ -85,6 +85,7 @@ export async function update(id, data) {
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(data),
     };
   
   const res = await fetch(URL, config);
