@@ -16,19 +16,38 @@ export default function AssignedTaskListItem({ task, fetchTasks }) {
   return (
     <Wrapper>
       <div className='task-container'>
-        <span>Task: {task.name}</span>
-        <div className='task-details'>
-          <span>Due: {task.due_date}</span>
-          <span>Start: {task.planned_start}</span>
-        </div>
-        <div className='task-details'>
-          <span>Duration: {task.planned_duration}</span>
-          <span>End: {task.planned_end}</span>
-        </div>
+        <h4>Task: {task.name}</h4>
+
+        <table className='task-details-table'>
+          <thead>
+            <tr>
+              <th>Due</th>
+              <th>Duration</th>
+              <th>Start</th>
+              <th>End</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span>{task.due_date}</span>
+              </td>
+              <td>
+                <span>{task.planned_duration}</span>
+              </td>
+              <td>
+                <span>{task.planned_start}</span>
+              </td>
+              <td>
+                <span>{task.planned_end}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button className='btn' onClick={handleRemove}>
+          Remove
+        </button>
       </div>
-      <button className='btn ' onClick={handleRemove}>
-        Remove
-      </button>
     </Wrapper>
   );
 }

@@ -7,11 +7,10 @@ const Wrapper = styled.div`
    flex-direction: column;
    justify-content: space-around;
   }
-
-  .task-details {
-   display: flex;
-   justify-content: space-around;
+  .task-details-table {
+    width: 100%
   }
+
 
   span{
     margin: 1rem;
