@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { deleteTask, updateTask } from '../api/task-service';
 import FormTaskAssign from './FormTaskAssign';
+import { todayDate } from '../utilities/days';
 
 const TaskListItem = ({ task, fetchTasks, teamMembers }) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -77,6 +78,7 @@ const TaskListItem = ({ task, fetchTasks, teamMembers }) => {
                   onChange={handleChange}
                   id='due_date'
                   name='due_date'
+                  min={todayDate()}
                   value={editTask.due_date}
                 />
               </div>
@@ -86,6 +88,8 @@ const TaskListItem = ({ task, fetchTasks, teamMembers }) => {
                 <input
                   className='form-input'
                   type='number'
+                  min='1'
+                  max='480'
                   onChange={handleChange}
                   id='planned_duration'
                   name='planned_duration'
