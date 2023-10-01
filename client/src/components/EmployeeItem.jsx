@@ -55,8 +55,11 @@ export default function EmployeeItem({ member, handleRemove }) {
               </div>
             ) : (
               <>
-                <button className='btn remove-team-btn' onClick={() => setShowRemove(true)}>
-                  Remove user from team
+                <button
+                  className='btn btn-round remove-team-btn'
+                  onClick={() => setShowRemove(true)}
+                >
+                  X
                 </button>
               </>
             )}
