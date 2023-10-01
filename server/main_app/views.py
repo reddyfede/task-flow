@@ -319,7 +319,7 @@ def task_add_user(request, task_id, user_id):
                     return Response({"taskId": task_id})
                 # display a message that user has not enough remining availability
                 else:
-                    message = f"{user.user.first_name} {user.user.last_name} has not enought residual availability  for {DAYS[day_of_week][1]}: remaining {remaining_av} minutes."
+                    message = f"{user.user.first_name} {user.user.last_name} has not enough residual availability  for {DAYS[day_of_week][1]}: remaining {remaining_av} minutes."
             # set the start time of the new task as the start time of user availability
             # check if task end before lunch
             else:
@@ -349,7 +349,7 @@ def task_add_user(request, task_id, user_id):
                 return Response({"taskId": task_id})
         # display a message that user has not enough remining availability set for the day
         else:
-            message = f"{user.user.first_name} {user.user.last_name} has not enought availability set for {DAYS[day_of_week][1]}: tot {user_av_tot} minutes."
+            message = f"{user.user.first_name} {user.user.last_name} has not enough availability set for {DAYS[day_of_week][1]}: tot {user_av_tot} minutes."
     # display a message that user has no availability
     else:
         message = f"{user.user.first_name} {user.user.last_name} has no availability set for {DAYS[day_of_week][1]}."

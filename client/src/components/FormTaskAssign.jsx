@@ -3,15 +3,20 @@ import { updateTaskAssignment } from '../api/task-service';
 import { todayDate } from '../utilities/days';
 
 const FormTaskAssign = ({ task, teamMembers, fetchTasks }) => {
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [formData, setFormData] = useState({ employee: '', date: '' });
+  const [msg, setMsg] = useState('');
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setMsg('');
     const data = { ...formData };
     try {
       const res = await updateTaskAssignment(task.id, data.employee, data.date);
-      fetchTasks();
+      if (res.taskId) {
+        fetchTasks();
+      } else if (res.message) {
+        setMsg(res.message);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -52,6 +57,7 @@ const FormTaskAssign = ({ task, teamMembers, fetchTasks }) => {
           required
         />
         <button className='btn'>Assign Task</button>
+        <h5 style={{ color: 'red' }}>{msg}</h5>
       </form>
     </div>
   );
