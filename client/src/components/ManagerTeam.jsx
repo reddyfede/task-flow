@@ -1,8 +1,7 @@
-import { EmployeeList } from '.';
 import { useContext, useState } from 'react';
 import { createTeam, updateTeam, deleteTeam } from '../api/team-service';
 import { UserContext } from '../App';
-import { GanttView } from '../components';
+import { EmployeeList, GanttView } from '../components';
 import Wrapper from '../assets/wrappers/ManagerTeam';
 
 export default function ManagerTeam({
@@ -23,6 +22,7 @@ export default function ManagerTeam({
   function handleTab(e, num) {
     e.preventDefault();
     setTab(num);
+    retrieveUser();
   }
 
   function handleChange(e) {

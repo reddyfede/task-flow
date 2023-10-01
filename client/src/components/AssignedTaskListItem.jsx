@@ -13,7 +13,6 @@ export default function AssignedTaskListItem({ task, fetchTasks }) {
 
   return (
     <div>
-      {console.log(task)}
       Task: {task.name} | Due {task.due_date} | Duration:{' '}
       {task.planned_duration}
       <button className='btn' onClick={handleRemove}>

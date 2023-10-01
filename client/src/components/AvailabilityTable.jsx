@@ -99,13 +99,14 @@ export default function AvailabilityTable({
           {employeeData.availability.map((a) => (
             <tr key={a.id}>
               <td>{getDay(a.day)}</td>
-              <td>{a.first_part_shift_begin}</td>
-              <td>{a.first_part_shift_end}</td>
-              <td>{a.second_part_shift_begin}</td>
-              <td>{a.second_part_shift_end}</td>
-
+              <td>{a.first_part_shift_begin?.slice(0, 5)}</td>
+              <td>{a.first_part_shift_end?.slice(0, 5)}</td>
+              <td>{a.second_part_shift_begin?.slice(0, 5)}</td>
+              <td>{a.second_part_shift_end?.slice(0, 5)}</td>
               <td>
-                <a onClick={() => handleRemove(a.id, a.day)}>Remove</a>
+                <a className='btn' onClick={() => handleRemove(a.id, a.day)}>
+                  Remove
+                </a>
               </td>
             </tr>
           ))}
@@ -173,13 +174,12 @@ export default function AvailabilityTable({
                     required={addDay.second_part_shift_begin}
                   />
                 </td>
+                <td>
+                  <button className='btn' type='submit'>
+                    Add New
+                  </button>
+                </td>
               </tr>
-              <div className='flex-ctr-ctr'>
-                <button className='btn' type='submit'>
-                  Add New
-                </button>
-                
-              </div>
             </>
           ) : null}
         </tbody>

@@ -11,7 +11,7 @@ import AvailabilityTable from './AvailabilityTable'
 import GanttView from './GanttView'
 import AssignedTaskList from './AssignedTaskList'
 import AssignedTaskListItem from './AssignedTaskListItem'
-
+import TeamAvailability from './TeamAvailability'
 
 export {
   Header,
@@ -27,4 +27,5 @@ export {
   GanttView,
   AssignedTaskList,
   AssignedTaskListItem,
+  TeamAvailability,
 }
