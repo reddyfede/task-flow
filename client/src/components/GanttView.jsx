@@ -11,7 +11,7 @@ const GanttView = ({ userData, teamMembers }) => {
 
   useEffect(() => {
     fetchTasks();
-  }, []);
+  }, [tasks]);
 
   async function fetchTasks() {
     try {
