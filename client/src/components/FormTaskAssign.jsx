@@ -31,7 +31,6 @@ const FormTaskAssign = ({ task, teamMembers, fetchTasks }) => {
 
   return (
     <div className='flex-col'>
-      {console.log(task)}
       <form className='' action='' onSubmit={handleSubmit}>
         <label htmlFor='employee'>
           <span className='form-label'>Assign to an employee: </span>

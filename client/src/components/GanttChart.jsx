@@ -34,12 +34,10 @@ const GanttChart = ({ member }) => {
           let taskSpan = task.planned_duration / 60;
           let h = new Date(task.planned_start).getHours();
           for (let i = 0; i < taskSpan; i++) {
-            console.log(task.planned_start);
             taskHours.push(h + i);
           }
         }
       });
-      console.log(taskHours);
       setTaskBlocks(taskHours);
     }
   }
