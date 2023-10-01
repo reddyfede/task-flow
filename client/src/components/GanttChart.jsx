@@ -78,7 +78,9 @@ const GanttChart = ({ member }) => {
       ) : (
         <div>
           <div className='chart-grid'>
-            <div className='chart-user'>{employeeData.user.username}</div>
+            <div className='chart-user'>
+              {employeeData.user.first_name} {employeeData.user.last_name}
+            </div>
             {timeBlock.map((el, idx) => renderTimeBlock(idx))}
           </div>
         </div>
