@@ -57,9 +57,9 @@ export async function deleteTask(id){
     }
 }
 
-export async function updateTaskAssignment(taskIid,empId, data) {
+export async function updateTaskAssignment(taskId,empId, data) {
     try{
-       const resp = await tasksAPI.updateAssignment(taskIid,empId, data)
+       const resp = await tasksAPI.updateAssignment(taskId,empId, data)
        return resp
     }catch(err){
         return err
