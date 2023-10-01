@@ -1,12 +1,20 @@
-export default function TeamAvailability({ teamMembers }) {
-  // const result = words.filter((word) => word.length > 6)
+import { timeToLocal } from '../utilities/days';
 
+export default function TeamAvailability({ teamMembers }) {
   function DayAv(member, num, part) {
     const av = member.availability.filter((a) => a.day === num);
-    const fb = av[0]?.first_part_shift_begin?.slice(0, 5) || '';
-    const fe = av[0]?.first_part_shift_end?.slice(0, 5) || '';
-    const sb = av[0]?.second_part_shift_begin?.slice(0, 5) || '';
-    const se = av[0]?.second_part_shift_end?.slice(0, 5) || '';
+    const fb = av[0]?.first_part_shift_begin
+      ? timeToLocal(av[0].first_part_shift_begin)
+      : '';
+    const fe = av[0]?.first_part_shift_end
+      ? timeToLocal(av[0].first_part_shift_end)
+      : '';
+    const sb = av[0]?.second_part_shift_begin
+      ? timeToLocal(av[0].second_part_shift_begin)
+      : '';
+    const se = av[0]?.second_part_shift_end
+      ? timeToLocal(av[0].second_part_shift_end)
+      : '';
     if (part === 1) {
       return `${fb}-${fe}`;
     } else {
