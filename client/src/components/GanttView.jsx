@@ -39,7 +39,7 @@ const GanttView = ({ userData, teamMembers }) => {
           <div className='card'>
             {teamMembers.map((member) => (
               <div key={member.appuserId}>
-                <GanttChart member={member} />
+                <GanttChart member={member} tasks={tasks} />
               </div>
             ))}
           </div>

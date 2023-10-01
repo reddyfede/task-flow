@@ -46,7 +46,6 @@ export default function ManagerPage() {
 
   return (
     <div>
-      {console.log(teamMembers)}
       {currUser.role !== 'M' ? (
         <div>
           <h1>You are not permitted to view this page.</h1>

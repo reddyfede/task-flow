@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Wrapper from '../assets/wrappers/GanttChart';
 import { userDetails } from '../api/users-service';
 
-const GanttChart = ({ member }) => {
+const GanttChart = ({ member, tasks }) => {
   const timeBlock = new Array(24).fill();
   const [employeeData, setEmployeeData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -34,12 +34,10 @@ const GanttChart = ({ member }) => {
           let taskSpan = task.planned_duration / 60;
           let h = new Date(task.planned_start).getHours();
           for (let i = 0; i < taskSpan; i++) {
-            console.log(task.planned_start);
             taskHours.push(h + i);
           }
         }
       });
-      console.log(taskHours);
       setTaskBlocks(taskHours);
     }
   }
@@ -65,7 +63,7 @@ const GanttChart = ({ member }) => {
 
   useEffect(() => {
     retrieveEmployee();
-  }, []);
+  }, [tasks]);
 
   useEffect(() => {
     populateTaskBlocks();
@@ -78,7 +76,9 @@ const GanttChart = ({ member }) => {
       ) : (
         <div>
           <div className='chart-grid'>
-            <div className='chart-user'>{employeeData.user.username}</div>
+            <div className='chart-user'>
+              {employeeData.user.first_name} {employeeData.user.last_name}
+            </div>
             {timeBlock.map((el, idx) => renderTimeBlock(idx))}
           </div>
         </div>

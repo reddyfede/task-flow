@@ -1,6 +1,7 @@
 import { userDetails } from '../api/users-service';
 import { useEffect, useState } from 'react';
 import { AssignedTaskListItem } from '.';
+import Wrapper from '../assets/wrappers/AssignedTaskList';
 
 export default function AssignedTaskList({ member, tasks, fetchTasks }) {
   const [employeeData, setEmployeeData] = useState(null);
@@ -25,7 +26,7 @@ export default function AssignedTaskList({ member, tasks, fetchTasks }) {
   }, [tasks]);
 
   return (
-    <div>
+    <Wrapper>
       <h5>
         {member.first_name} {member.last_name}
       </h5>
@@ -49,6 +50,6 @@ export default function AssignedTaskList({ member, tasks, fetchTasks }) {
           )}
         </div>
       )}
-    </div>
+    </Wrapper>
   );
 }
