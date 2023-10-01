@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { EmployeeItem } from '.';
-import { addToTeam } from '../api/team-service';
+import { addToTeam, removeFromTeam } from '../api/team-service';
+import { displayToast } from '../utilities/toast';
+import { Slide, ToastContainer } from 'react-toastify';
 
 export default function EmployeeList({
   userData,
@@ -15,18 +17,22 @@ export default function EmployeeList({
     setToAdd(e.target.value);
   }
 
-  async function handleSubmit(e) {
+  async function handleAdd(e) {
     e.preventDefault();
     const userId = toAdd;
-    console.log(userId);
-    if (toAdd !== '') {
+    if (userId !== '') {
       try {
         const res = await addToTeam(userData.teamId, userId);
-        console.log(res);
         if (res.appuserId) {
-          console.log(res);
+          setTeamMembers([...teamMembers, res]);
+          let arr = [...nonTeamMembers];
+          const filtered_arr = arr.filter(
+            (el) => el.appuserId !== res.appuserId
+          );
+          setNonTeamMembers(filtered_arr);
+          setToAdd('');
         } else {
-          throw Error('Something went wrong adding a member to the team.');
+          throw Error('Something went wrong with adding a member to the team.');
         }
       } catch (err) {
         console.log(err);
@@ -34,34 +40,71 @@ export default function EmployeeList({
     }
   }
 
+  async function handleRemove(e) {
+    e.preventDefault();
+    const userId = e.target.name;
+    try {
+      const res = await removeFromTeam(userData.teamId, userId);
+      if (res.appuserId) {
+        let arr = [...teamMembers];
+        const filtered_arr = arr.filter((el) => el.appuserId !== res.appuserId);
+        setTeamMembers(filtered_arr);
+        setNonTeamMembers([...nonTeamMembers, res]);
+      } else if (res.tasksNum) {
+        displayToast(
+          `Cannot be removed. The user has ${res.tasksNum} tasks assigned to him.`,
+          'error'
+        );
+      } else {
+        throw Error(
+          'Something went wrong with removing a member from the team.'
+        );
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
-    <>
-      <div>
+    <div>
+      <ToastContainer transition={Slide} />
+      <div className='card'>
+        <h2>Unassigned Employees: {nonTeamMembers.length}</h2>
+
+        <form action='' onSubmit={handleAdd}>
+          <label className='form-label' htmlFor='employee'>
+            <span>Select Employee: </span>
+          </label>
+          <select
+            className='form-select'
+            name='employee'
+            value={toAdd}
+            required
+            onChange={handleChange}
+          >
+            <option value=''>select one</option>
+            {nonTeamMembers.map((ntm, idx) => (
+              <option value={ntm.appuserId} key={idx}>
+                {ntm.first_name} {ntm.last_name} - {ntm.appuserId}
+              </option>
+            ))}
+          </select>
+          <button className='btn'>Add to the Team</button>
+        </form>
+      </div>
+      <div className='card'>
         <h2>Team Members: {teamMembers.length}</h2>
-        <hr />
-        {teamMembers.map((teamMember) => (
-          <EmployeeItem teamMember={teamMember} key={teamMember.appuserId} />
+        {teamMembers.map((member) => (
+          <div key={member.appuserId}>
+            <EmployeeItem
+              member={member}
+              teamMembers={teamMembers}
+              setTeamMembers={setTeamMembers}
+              handleRemove={handleRemove}
+            />
+          </div>
         ))}
       </div>
-
-      <hr />
-
-      <h2>Unassigned Employees: {nonTeamMembers.length}</h2>
-
-      <form action='' onSubmit={handleSubmit}>
-        <label htmlFor='employee'>
-          <span>Select Employee: </span>
-        </label>
-        <select name='employee' required onChange={handleChange}>
-          <option value=''></option>
-          {nonTeamMembers.map((ntm, idx) => (
-            <option value={ntm.appuserId} key={idx}>
-              {ntm.firstName} {ntm.lastName} - {ntm.appuserId}
-            </option>
-          ))}
-        </select>
-        <button>Add to the Team</button>
-      </form>
-    </>
+    </div>
   );
 }

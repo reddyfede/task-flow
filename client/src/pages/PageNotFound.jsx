@@ -1,18 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { UserContext } from '../App';
 
 export default function PageNotFound() {
   const location = useLocation();
   const [count, setCount] = useState(3);
   const navigate = useNavigate();
+  const { currUser } = useContext(UserContext);
 
   // set countdown, at the end of the countdown clear interval and redirect to homepage
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCount((currentCount) => currentCount - 1);
-    }, 1000);
-    count === 0 && navigate('/');
-    return () => clearInterval(interval);
+    if (count !== null) {
+      const interval = setInterval(() => {
+        setCount((currentCount) => currentCount - 1);
+      }, 1000);
+      let navigateTo = '/';
+      if (currUser?.role === 'M') {
+        navigateTo = '/manager';
+      } else if (currUser?.role === 'E') {
+        navigateTo = '/employee';
+      }
+      count === 0 && navigate(navigateTo);
+      return () => clearInterval(interval);
+    }
   }, [count, navigate]);
 
   return (

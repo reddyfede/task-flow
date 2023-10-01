@@ -14,7 +14,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from .models import AppUser, Task, Team
+from .models import AppUser, Task, Team, Availability
 from .serializers import UserSerializer
 
 
@@ -53,8 +53,8 @@ def user_detail(request, user_id):
     data = {
         "username": user.username,
         "appuserId": user.appuser.id,
-        "firstName": user.first_name,
-        "lastName": user.last_name,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
     }
     # add team info to data, only teamName if team is null
     if team:
@@ -62,29 +62,25 @@ def user_detail(request, user_id):
         data["teamName"] = team.name
     else:
         data["teamName"] = team
-    # if user is an employee return data
+    # if user is an employee retrieve his own tasks
     if user.appuser.role == "E":
-        return Response({"user": data})
-    # if the user is a manager data is not enough
+        tasklist = user.appuser.task_set.all().values()
+        availability = user.appuser.availability_set.all().order_by("day").values()
+        return Response({"user": data, "tasks": tasklist, "availability": availability})
+    # if the user is a manager retrieve different data
     if user.appuser.role == "M":
         if team:
             # retrieve all users that are not managers and part of the team
             in_team = team.appuser_set.all().exclude(role__in=["M"])
-            # for each team member retrieve their info and their availability
+            # for each team member retrieve their info
             team_list = [
                 {
                     "appuserId": user.id,
-                    "firstName": user.user.first_name,
-                    "lastName": user.user.last_name,
+                    "userId": user.user.id,
+                    "first_name": user.user.first_name,
+                    "last_name": user.user.last_name,
                     "availability": [
-                        {
-                            "day": a.day,
-                            "firstBegin": a.first_part_shift_begin,
-                            "firstEnd": a.first_part_shift_end,
-                            "secondBegin": a.second_part_shift_begin,
-                            "secondEnd": a.second_part_shift_end,
-                        }
-                        for a in user.availability_set.all()
+                        a for a in user.availability_set.all().order_by("day").values()
                     ],
                 }
                 for user in in_team
@@ -97,8 +93,9 @@ def user_detail(request, user_id):
             not_team_list = [
                 {
                     "appuserId": user.id,
-                    "firstName": user.user.first_name,
-                    "lastName": user.user.last_name,
+                    "userId": user.user.id,
+                    "first_name": user.user.first_name,
+                    "last_name": user.user.last_name,
                 }
                 for user in not_in_team
             ]
@@ -112,7 +109,6 @@ def user_detail(request, user_id):
 
 @api_view(["POST"])
 def team_create(request):
-    print(request.data)
     team_name = request.data["team"]
     appuser_id = request.data["user"]
     team = Team.objects.create(name=team_name)
@@ -138,16 +134,16 @@ def team_delete(request, team_id):
 
 @api_view(["PUT"])
 def team_add_user(request, team_id, user_id):
-    print(team_id, user_id)
     team = Team.objects.get(id=team_id)
     user = AppUser.objects.get(id=user_id)
     user.team = team
     user.save()
     return Response(
         {
+            "userId": user.user.id,
             "appuserId": user.id,
-            "firstName": user.user.first_name,
-            "lastName": user.user.last_name,
+            "first_name": user.user.first_name,
+            "last_name": user.user.last_name,
             "availability": [],
         }
     )
@@ -155,7 +151,23 @@ def team_add_user(request, team_id, user_id):
 
 @api_view(["PUT"])
 def team_remove_user(request, team_id, user_id):
-    pass
+    user = AppUser.objects.get(id=user_id)
+    num_tasks = user.task_set.all().count()
+    # if the user has tasks assigned cannot be removed from team
+    if num_tasks:
+        return Response({"tasksNum": num_tasks})
+    # else set his team to null, clear availabilities
+    else:
+        user.team = None
+        user.availability_set.all().delete()
+        user.save()
+        return Response(
+            {
+                "appuserId": user.id,
+                "first_name": user.user.first_name,
+                "last_name": user.user.last_name,
+            }
+        )
 
 
 @api_view(["POST"])
@@ -164,8 +176,8 @@ def signup(request):
     if serializer.is_valid():
         serializer.save()
         user = User.objects.get(username=request.data["username"])
-        user.first_name = request.data["firstName"]
-        user.last_name = request.data["lastName"]
+        user.first_name = request.data["first_name"]
+        user.last_name = request.data["last_name"]
         user.set_password(request.data["password"])
         user.save()
         Token.objects.create(user=user)
@@ -189,22 +201,17 @@ def test_token(request):
     return Response("Token success")
 
 
-# @api_view(['GET'])
-# def task_(request):
-#   user = get_object_or_404(User, username=request.data['username'])
-#   if not user.check_password(request.data['password']):
-#       return Response("Username or Password invalid.", status=status.HTTP_404_NOT_FOUND)
-#   token, created = Token.objects.get_or_create(user=user)
-#   app_user = AppUser.objects.get(user = user)
-
-#   serializer = UserSerializer(user)
-#   return Response({'token': token.key, 'user': serializer.data['username'], 'role': app_user.role})
-
-
 @api_view(["GET"])
 def tasks_index(request):
     task = Task.objects.all().values()
     return Response(task)
+
+
+@api_view(["GET"])
+def team_task_detail(request, team_id):
+    team = Team.objects.get(id=team_id)
+    tasklist = team.task_set.all().exclude(user__isnull=False).values()
+    return Response(tasklist)
 
 
 @api_view(["GET"])
@@ -217,7 +224,6 @@ def task_detail(request, task_id):
 @api_view(["POST"])
 def task_create(request):
     task_json = request.data
-    print(task_json["team"])
     team = Team.objects.get(id=task_json["team"])
     task_json["team"] = team
     task = Task.objects.create(**task_json)
@@ -235,3 +241,22 @@ def task_update(request, task_id):
 def task_destroy(request, task_id):
     Task.objects.filter(id=task_id).delete()
     return Response("Task deleted", status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(["PUT"])
+def task_add_user(request, task_id, user_id):
+    user = AppUser.objects.get(id=user_id)
+    Task.objects.filter(id=task_id).update(user=user)
+    return Response("Task assigned user", status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(["POST"])
+def availability_create(request):
+    new_av = Availability.objects.create(**request.data)
+    return Response({"id": new_av.id})
+
+
+@api_view(["DELETE"])
+def availability_delete(request, availability_id):
+    Availability.objects.get(id=availability_id).delete()
+    return Response({"id": availability_id})

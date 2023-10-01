@@ -18,9 +18,9 @@ export async function loginService(data){
     }
 }
 
-export async function userDetails(data){
+export async function userDetails(id){
     try{
-       const resp = await usersAPI.details(data)
+       const resp = await usersAPI.details(id)
        return resp
     }catch(err){
         return err

@@ -5,13 +5,13 @@ import { userDetails } from '../api/users-service';
 import { ManagerTeam } from '../components';
 
 export default function ManagerPage() {
+  const { currUser, setCurrUser } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
-  const { currUser } = useContext(UserContext);
   const [userData, setUserData] = useState({
     username: null,
     appuserId: null,
-    firstName: null,
-    lastName: null,
+    first_name: null,
+    last_name: null,
     teamName: null,
     teamId: null,
   });
@@ -20,9 +20,11 @@ export default function ManagerPage() {
 
   async function retrieveUser() {
     try {
-      const res = await userDetails({ id: currUser.id });
+      const res = await userDetails(currUser.id);
       if (res.user) {
         setUserData({ ...userData, ...res.user });
+        setCurrUser({ ...currUser, team: res.user.teamId });
+        localStorage.setItem('team', res.user.teamId);
         if (res.teamList) {
           setTeamMembers([...res.teamList]);
         }
@@ -44,8 +46,6 @@ export default function ManagerPage() {
 
   return (
     <div>
-      {console.log(teamMembers)}
-      {console.log(nonTeamMembers)}
       {currUser.role !== 'M' ? (
         <div>
           <h1>You are not permitted to view this page.</h1>
@@ -53,23 +53,12 @@ export default function ManagerPage() {
         </div>
       ) : (
         <div>
-          <div style={{ border: '1px solid red' }}>
-            <Link to='/manager/gantt' style={{ margin: '5rem' }}>
-              Gantt View
-            </Link>
-          </div>
-          <h1>Manager Page</h1>
           {loading ? (
             <div>
               <h2>Loading Data...</h2>
             </div>
           ) : (
             <div>
-              <h2>First Name: {userData.firstName}</h2>
-              <h2>Last Name: {userData.lastName}</h2>
-              <h2>AppUser ID: {userData.appuserId}</h2>
-              <hr />
-              <hr />
               <ManagerTeam
                 retrieveUser={retrieveUser}
                 userData={userData}

@@ -7,6 +7,11 @@ import FormLogin from "./FormLogin"
 import ManagerTeam from './ManagerTeam'
 import EmployeeList from './EmployeeList'
 import EmployeeItem from './EmployeeItem'
+import AvailabilityTable from './AvailabilityTable'
+import GanttView from './GanttView'
+import AssignedTaskList from './AssignedTaskList'
+import AssignedTaskListItem from './AssignedTaskListItem'
+import TeamAvailability from './TeamAvailability'
 
 export {
   Header,
@@ -18,4 +23,9 @@ export {
   ManagerTeam,
   EmployeeList,
   EmployeeItem,
+  AvailabilityTable,
+  GanttView,
+  AssignedTaskList,
+  AssignedTaskListItem,
+  TeamAvailability,
 }

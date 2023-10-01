@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom';
 
 export default function BtnSignup() {
   return (
-    <div>
-      <Link to='/signup'>Signup</Link>
-    </div>
+    <button className='btn'>
+      <Link className='link' to='/signup'>
+        Signup
+      </Link>
+    </button>
   );
 }

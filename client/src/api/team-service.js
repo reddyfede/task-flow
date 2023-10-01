@@ -35,3 +35,12 @@ export async function addToTeam(teamId,userId){
         return err
     }
 }
+
+export async function removeFromTeam(teamId,userId){
+    try{
+       const resp = await teamAPI.removeUser(teamId,userId)
+       return resp
+    }catch(err){
+        return err
+    }
+}

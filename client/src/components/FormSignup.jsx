@@ -60,13 +60,14 @@ export default function FormSignup({ user, setUser }) {
   }
 
   return (
-    <form action='POST' onSubmit={handleSubmit}>
+    <form className='form' action='POST' onSubmit={handleSubmit}>
       <h3>Signup Form</h3>
       <div>
-        <label htmlFor='username'>
+        <label className='form-label' htmlFor='username'>
           <span>Username:</span>
         </label>
         <input
+          className='form-input'
           type='text'
           name='username'
           required
@@ -77,38 +78,41 @@ export default function FormSignup({ user, setUser }) {
         />
       </div>
       <div>
-        <label htmlFor='firstName'>
+        <label className='form-label' htmlFor='first_name'>
           <span>First Name:</span>
         </label>
         <input
+          className='form-input'
           type='text'
-          name='firstName'
+          name='first_name'
           required
           maxLength={20}
-          value={user.firstName}
+          value={user.first_name}
           onChange={handleChange}
           disabled={loading}
         />
       </div>
       <div>
-        <label htmlFor='lastName'>
+        <label className='form-label' htmlFor='last_name'>
           <span>Last Name:</span>
         </label>
         <input
+          className='form-input'
           type='text'
-          name='lastName'
+          name='last_name'
           required
           maxLength={20}
-          value={user.lastName}
+          value={user.last_name}
           onChange={handleChange}
           disabled={loading}
         />
       </div>
       <div>
-        <label htmlFor='role'>
+        <label className='form-label' htmlFor='role'>
           <span>Role:</span>
         </label>
         <select
+          className='form-select'
           name='role'
           required
           value={user.role}
@@ -120,10 +124,11 @@ export default function FormSignup({ user, setUser }) {
         </select>
       </div>
       <div>
-        <label htmlFor='password'>
+        <label className='form-label' htmlFor='password'>
           <span>Password:</span>
         </label>
         <input
+          className='form-input'
           type='password'
           name='password'
           required
@@ -133,7 +138,9 @@ export default function FormSignup({ user, setUser }) {
           disabled={loading}
         />
       </div>
-      <button disabled={loading}>Submit</button>
+      <button className='btn' disabled={loading}>
+        Submit
+      </button>
     </form>
   );
 }

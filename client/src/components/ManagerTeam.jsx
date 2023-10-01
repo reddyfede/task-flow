@@ -1,6 +1,8 @@
-import { EmployeeList } from '.';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { createTeam, updateTeam, deleteTeam } from '../api/team-service';
+import { UserContext } from '../App';
+import { EmployeeList, GanttView } from '../components';
+import Wrapper from '../assets/wrappers/ManagerTeam';
 
 export default function ManagerTeam({
   retrieveUser,
@@ -14,6 +16,14 @@ export default function ManagerTeam({
   const [teamName, setTeamName] = useState(userData.teamName || '');
   const [showEdit, setShowEdit] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const { currUser, setCurrUser } = useContext(UserContext);
+  const [tab, setTab] = useState(1);
+
+  function handleTab(e, num) {
+    e.preventDefault();
+    setTab(num);
+    retrieveUser();
+  }
 
   function handleChange(e) {
     setTeamName(e.target.value);
@@ -25,6 +35,7 @@ export default function ManagerTeam({
     try {
       const res = await createTeam(data);
       if (res.teamName) {
+        setCurrUser({ ...currUser, team: res.teamId });
         retrieveUser();
       } else {
         throw Error('Something went wrong creating the team.');
@@ -36,7 +47,6 @@ export default function ManagerTeam({
 
   async function handleUpdate(e) {
     e.preventDefault();
-    const data = { teamName };
     try {
       const res = await updateTeam(userData.teamId, teamName);
       if (res.teamName) {
@@ -68,59 +78,104 @@ export default function ManagerTeam({
   }
 
   return (
-    <div>
+    <Wrapper>
       {!userData.teamName ? (
-        <>
+        <div className='create-team-container'>
           <h2>You don't have a team yet.</h2>
           <h3>Create a team.</h3>
-          <form onSubmit={handleCreate}>
-            <input type='text' value={teamName} onChange={handleChange} />
-            <button>Create Team</button>
+          <form className='form' onSubmit={handleCreate}>
+            <div className='form-row'>
+              <label className='form-label'>
+                Name:{' '}
+                <input
+                  className='form-input'
+                  type='text'
+                  value={teamName}
+                  onChange={handleChange}
+                />
+              </label>
+            </div>
+            <button className='btn'>Create Team</button>
           </form>
-        </>
+        </div>
       ) : (
-        <>
-          <h2>
-            Team Name : {userData.teamName} - TeamId: {userData.teamId}
-          </h2>
-          {showEdit ? (
+        <div className='container'>
+          <div className='card'>
+            <h2>Team Name: {userData.teamName}</h2>
             <div>
-              <form onSubmit={handleUpdate}>
-                <label htmlFor=''>Team Name: </label>
-                <input type='text' value={teamName} onChange={handleChange} />
-                <button>Confirm Edit</button>
-              </form>
-              <button onClick={() => setShowEdit(false)}>Back</button>
+              {showEdit ? (
+                <div className='card'>
+                  <form onSubmit={handleUpdate}>
+                    <label htmlFor=''>Team Name: </label>
+                    <input
+                      type='text'
+                      value={teamName}
+                      onChange={handleChange}
+                    />
+                    <br />
+                    <button className='btn' onClick={() => setShowEdit(false)}>
+                      Back
+                    </button>
+                    <button className='btn'>Confirm Edit</button>
+                  </form>
+                </div>
+              ) : (
+                <div>
+                  <button onClick={() => setShowEdit(true)} className='btn'>
+                    Edit Team
+                  </button>
+                </div>
+              )}
+              {showDelete ? (
+                <div className='card'>
+                  <p>
+                    Are you sure you want to delete team {userData.teamName}?
+                  </p>
+                  <button className='btn' onClick={() => setShowDelete(false)}>
+                    Back
+                  </button>
+                  <button onClick={handleDelete} className='btn btn-danger'>
+                    Confirm Delete
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <button className='btn' onClick={() => setShowDelete(true)}>
+                    Delete Team
+                  </button>
+                </div>
+              )}
             </div>
-          ) : (
-            <div>
-              <button onClick={() => setShowEdit(true)}>Edit Team</button>
-            </div>
-          )}
-          <br />
-          {showDelete ? (
-            <div>
-              <p>Are you sure you want to delete team {userData.teamName}?</p>
-              <button onClick={() => setShowDelete(false)}>Back</button>
-              <button onClick={handleDelete}>Confirm Delete</button>
-            </div>
-          ) : (
-            <div>
-              <button onClick={() => setShowDelete(true)}>Delete Team</button>
-            </div>
-          )}
+          </div>
+          <button
+            className='btn'
+            disabled={tab === 1}
+            onClick={(e) => handleTab(e, 1)}
+          >
+            Employee List
+          </button>
+          <button
+            className='btn'
+            disabled={tab === 2}
+            onClick={(e) => handleTab(e, 2)}
+          >
+            Team Gantt
+          </button>
+          {tab === 1 ? (
+            <EmployeeList
+              userData={userData}
+              teamMembers={teamMembers}
+              setTeamMembers={setTeamMembers}
+              nonTeamMembers={nonTeamMembers}
+              setNonTeamMembers={setNonTeamMembers}
+            />
+          ) : null}
 
-          <hr />
-          <hr />
-          <EmployeeList
-            userData={userData}
-            teamMembers={teamMembers}
-            setTeamMembers={setTeamMembers}
-            nonTeamMembers={nonTeamMembers}
-            setNonTeamMembers={setNonTeamMembers}
-          />
-        </>
+          {tab === 2 ? (
+            <GanttView userData={userData} teamMembers={teamMembers} />
+          ) : null}
+        </div>
       )}
-    </div>
+    </Wrapper>
   );
 }

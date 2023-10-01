@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom';
 
 export default function BtnLogin() {
   return (
-    <div>
-      <Link to='/login'>Login</Link>
-    </div>
+    <button className='btn'>
+      <Link className='link' to='/login'>
+        Login
+      </Link>
+    </button>
   );
 }

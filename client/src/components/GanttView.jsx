@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import FormTask from '../components/FormTask';
 import ManageTasks from './ManageTasks';
-import { getTasks } from '../api/task-service';
+import { getTasksByTeam } from '../api/task-service';
+import GanttChart from './GanttChart';
+import { TeamAvailability } from '.';
 
-const GanttView = () => {
+const GanttView = ({ userData, teamMembers }) => {
   const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
 
   async function fetchTasks() {
     try {
-      const response = await getTasks();
+      const response = await getTasksByTeam(userData.teamId);
       if (response.length || response.length === 0) {
         let taskList = response;
         setTasks(taskList);
-        // setLoadingEventList(false);
+        setLoading(false);
       } else {
         throw Error('Something went wrong with retrieving tasks.');
       }
@@ -21,35 +27,29 @@ const GanttView = () => {
     }
   }
 
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
   return (
-    <div
-      style={{
-        border: '1px solid blue',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <h1>Team Gantt Page</h1>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          border: '1px solid blue',
-          backgroundColor: 'gray',
-          height: '20rem',
-          width: '55rem',
-        }}
-      >
-        <h5>GANTT CHART</h5>
-      </div>
-      <ManageTasks tasks={tasks} fetchTasks={fetchTasks} setTasks={setTasks} />
-    </div>
+    <>
+      {loading ? (
+        <div>
+          <h2>Loading Data...</h2>
+        </div>
+      ) : (
+        <div>
+          <div className='card'>
+            <GanttChart />
+          </div>
+          <div className='card'>
+            <TeamAvailability teamMembers={teamMembers} />
+            <ManageTasks
+              userData={userData}
+              tasks={tasks}
+              fetchTasks={fetchTasks}
+              teamMembers={teamMembers}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
