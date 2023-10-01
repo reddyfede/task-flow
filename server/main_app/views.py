@@ -259,30 +259,50 @@ def task_add_user(request, task_id, user_id):
     task = Task.objects.get(id=task_id)
     user = AppUser.objects.get(id=user_id)
     req_date = datetime.strptime(request.data, "%Y-%m-%d").date()
-    print(req_date)
     day_of_week = req_date.weekday()
-    print(day_of_week)
     user_av = user.availability_set.filter(day=day_of_week).values()
-    print(user_av[0])
     message = ""
     if user_av:
         user_av_tot = user_av[0]["total_first_part"]
         if user_av[0]["total_second_part"]:
             user_av_tot += user_av[0]["total_second_part"]
-        print(user_av_tot)
-        print(task.planned_duration)
         if user_av_tot >= task.planned_duration:
             user_tasks = user.task_set.filter(planned_start=req_date).values()
-            durations = [t["duration"] for t in user_tasks]
-            print(durations)
-            print(user_tasks)
-            message = "ready to assign"
+            if user_tasks:
+                user_tasks_duration = 0
+                durations = [t["planned_duration"] for t in user_tasks]
+                user_tasks_duration = sum(durations)
+                remaining_av = user_av_tot - user_tasks_duration
+                if remaining_av >= task.planned_duration:
+                    message = "ready to assign after other tasks"
+                else:
+                    message = f"{user.user.first_name} {user.user.last_name} has not enought residual availability  for {DAYS[day_of_week][1]}: remaining {remaining_av} minutes."
+            else:
+                message = "ready to assign at the start of day"
+                start_time = user_av[0]["first_part_shift_begin"]
+                start_date_time = datetime.combine(req_date, start_time)
+                if task.planned_duration <= user_av[0]["total_first_part"]:
+                    end_date_time = start_date_time + timedelta(
+                        minutes=task.planned_duration
+                    )
+                else:
+                    shift_datetime = datetime.combine(
+                        req_date, user_av[0]["second_part_shift_begin"]
+                    )
+                    end_date_time = shift_datetime + timedelta(
+                        minutes=(task.planned_duration - user_av[0]["total_first_part"])
+                    )
+                Task.objects.filter(id=task_id).update(
+                    user=user,
+                    planned_start=start_date_time,
+                    planned_end=end_date_time,
+                )
         else:
             message = f"{user.user.first_name} {user.user.last_name} has not enought availability set for {DAYS[day_of_week][1]}: tot {user_av_tot} minutes."
     else:
         message = f"{user.user.first_name} {user.user.last_name} has no availability set for {DAYS[day_of_week][1]}."
     print(message)
-    Task.objects.filter(id=task_id).update(user=user, planned_start=req_date)
+
     return Response("Task assigned user", status=status.HTTP_204_NO_CONTENT)
     pass
 
