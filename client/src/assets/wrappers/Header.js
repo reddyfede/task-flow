@@ -25,9 +25,8 @@ const Wrapper = styled.nav`
   }
 
   .logo {
-    width: 50px;
     margin: 1rem;
-    height: 30px;
+    height: 80px
   }
 
   @media (min-width: 992px) {

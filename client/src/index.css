@@ -27,6 +27,7 @@ html {
   --primary-900: #040954;
 
   /* grey */
+  --grey: #a0a0a0;
   --grey-50: #f0f4f8;
   --grey-100: #d9e2ec;
   --grey-200: #bcccdc;
@@ -232,6 +233,19 @@ ul {
 }
 .btn-danger:hover {
   background: var(--red-dark);
+  color: var(--white);
+}
+.btn-round {
+  border-radius: 50%;
+  height: 2rem;
+  width: 2rem;
+}
+.btn-disabled {
+  background: var(--grey-300);
+  color: var(--white);
+}
+.btn-disabled:hover {
+  background: var(--grey-400);
   color: var(--white);
 }
 /* alerts */

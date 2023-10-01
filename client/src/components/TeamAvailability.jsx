@@ -1,12 +1,20 @@
-export default function TeamAvailability({ teamMembers }) {
-  // const result = words.filter((word) => word.length > 6)
+import { timeToLocal } from '../utilities/days';
 
+export default function TeamAvailability({ teamMembers }) {
   function DayAv(member, num, part) {
     const av = member.availability.filter((a) => a.day === num);
-    const fb = av[0]?.first_part_shift_begin?.slice(0, 5) || '';
-    const fe = av[0]?.first_part_shift_end?.slice(0, 5) || '';
-    const sb = av[0]?.second_part_shift_begin?.slice(0, 5) || '';
-    const se = av[0]?.second_part_shift_end?.slice(0, 5) || '';
+    const fb = av[0]?.first_part_shift_begin
+      ? timeToLocal(av[0].first_part_shift_begin)
+      : '';
+    const fe = av[0]?.first_part_shift_end
+      ? timeToLocal(av[0].first_part_shift_end)
+      : '';
+    const sb = av[0]?.second_part_shift_begin
+      ? timeToLocal(av[0].second_part_shift_begin)
+      : '';
+    const se = av[0]?.second_part_shift_end
+      ? timeToLocal(av[0].second_part_shift_end)
+      : '';
     if (part === 1) {
       return `${fb}-${fe}`;
     } else {
@@ -30,40 +38,39 @@ export default function TeamAvailability({ teamMembers }) {
             <th>Sunday</th>
           </tr>
         </thead>
-        {console.log(teamMembers)}
         <tbody>
           {teamMembers.map((tm) => (
-            <tr>
+            <tr key={tm.appuserId}>
               <td>
                 {tm.first_name} {tm.last_name}
               </td>
               <td>
-                <tr>{DayAv(tm, 0, 1)}</tr>
-                <tr>{DayAv(tm, 0, 2)}</tr>
+                <div>{DayAv(tm, 0, 1)}</div>
+                <div>{DayAv(tm, 0, 2)}</div>
               </td>
               <td>
-                <tr>{DayAv(tm, 1, 1)}</tr>
-                <tr>{DayAv(tm, 1, 2)}</tr>
+                <div>{DayAv(tm, 1, 1)}</div>
+                <div>{DayAv(tm, 1, 2)}</div>
               </td>
               <td>
-                <tr>{DayAv(tm, 2, 1)}</tr>
-                <tr>{DayAv(tm, 2, 2)}</tr>
+                <div>{DayAv(tm, 2, 1)}</div>
+                <div>{DayAv(tm, 2, 2)}</div>
               </td>
               <td>
-                <tr>{DayAv(tm, 3, 1)}</tr>
-                <tr>{DayAv(tm, 3, 2)}</tr>
+                <div>{DayAv(tm, 3, 1)}</div>
+                <div>{DayAv(tm, 3, 2)}</div>
               </td>
               <td>
-                <tr>{DayAv(tm, 4, 1)}</tr>
-                <tr>{DayAv(tm, 4, 2)}</tr>
+                <div>{DayAv(tm, 4, 1)}</div>
+                <div>{DayAv(tm, 4, 2)}</div>
               </td>
               <td>
-                <tr>{DayAv(tm, 5, 1)}</tr>
-                <tr>{DayAv(tm, 5, 2)}</tr>
+                <div>{DayAv(tm, 5, 1)}</div>
+                <div>{DayAv(tm, 5, 2)}</div>
               </td>
               <td>
-                <tr>{DayAv(tm, 6, 1)}</tr>
-                <tr>{DayAv(tm, 6, 2)}</tr>
+                <div>{DayAv(tm, 6, 1)}</div>
+                <div>{DayAv(tm, 6, 2)}</div>
               </td>
             </tr>
           ))}

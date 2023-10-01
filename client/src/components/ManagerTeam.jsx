@@ -148,14 +148,14 @@ export default function ManagerTeam({
             </div>
           </div>
           <button
-            className='btn'
+            className={`btn  ${tab === 1 ? 'btn-disabled' : null}`}
             disabled={tab === 1}
             onClick={(e) => handleTab(e, 1)}
           >
             Employee List
           </button>
           <button
-            className='btn'
+            className={`btn  ${tab === 2 ? 'btn-disabled' : null}`}
             disabled={tab === 2}
             onClick={(e) => handleTab(e, 2)}
           >

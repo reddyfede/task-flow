@@ -16,7 +16,6 @@ const ManageTasks = ({ userData, tasks, fetchTasks, teamMembers }) => {
               tasks={tasks}
               fetchTasks={fetchTasks}
             />
-            {member === undefined ? <>{console.log('now', member)}</> : null}
           </div>
         ))}
       </div>

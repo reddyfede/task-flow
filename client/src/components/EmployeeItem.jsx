@@ -31,7 +31,7 @@ export default function EmployeeItem({ member, handleRemove }) {
     <Wrapper>
       {!loading ? (
         <div className=''>
-          <div>
+          <div className='team-member-container'>
             <h3>
               Availability for {member.first_name} {member.last_name}{' '}
             </h3>
@@ -55,8 +55,11 @@ export default function EmployeeItem({ member, handleRemove }) {
               </div>
             ) : (
               <>
-                <button className='btn' onClick={() => setShowRemove(true)}>
-                  Remove user from team
+                <button
+                  className='btn btn-round remove-team-btn'
+                  onClick={() => setShowRemove(true)}
+                >
+                  X
                 </button>
               </>
             )}

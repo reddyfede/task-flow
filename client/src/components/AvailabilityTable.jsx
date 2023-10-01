@@ -4,6 +4,7 @@ import {
   createAvailability,
   deleteAvailability,
 } from '../api/availability-service';
+import { timeToZ, timeToLocal } from '../utilities/days';
 
 export default function AvailabilityTable({
   employeeData,
@@ -44,11 +45,17 @@ export default function AvailabilityTable({
   async function handleSubmit(e) {
     e.preventDefault();
     let data = { ...addDay, user_id: employeeData.user.appuserId };
+    data.first_part_shift_begin = timeToZ(data.first_part_shift_begin);
+    data.first_part_shift_end = timeToZ(data.first_part_shift_end);
     if (data.second_part_shift_begin === '') {
       data.second_part_shift_begin = null;
+    } else {
+      data.second_part_shift_begin = timeToZ(data.second_part_shift_begin);
     }
     if (data.second_part_shift_end === '') {
       data.second_part_shift_end = null;
+    } else {
+      data.second_part_shift_end = timeToZ(data.second_part_shift_end);
     }
     try {
       const res = await createAvailability(data);
@@ -85,7 +92,7 @@ export default function AvailabilityTable({
 
   return (
     <form action='' onSubmit={handleSubmit}>
-      <table>
+      <table style={{ width: '100%' }}>
         <thead>
           <tr>
             <th>Day</th>
@@ -93,16 +100,33 @@ export default function AvailabilityTable({
             <th>Lunch Start</th>
             <th>Lunch End</th>
             <th>Shift End</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {employeeData.availability.map((a) => (
             <tr key={a.id}>
               <td>{getDay(a.day)}</td>
-              <td>{a.first_part_shift_begin?.slice(0, 5)}</td>
-              <td>{a.first_part_shift_end?.slice(0, 5)}</td>
-              <td>{a.second_part_shift_begin?.slice(0, 5)}</td>
-              <td>{a.second_part_shift_end?.slice(0, 5)}</td>
+              <td>
+                {a.first_part_shift_begin
+                  ? timeToLocal(a.first_part_shift_begin)
+                  : null}
+              </td>
+              <td>
+                {a.first_part_shift_end
+                  ? timeToLocal(a.first_part_shift_end)
+                  : null}
+              </td>
+              <td>
+                {a.second_part_shift_begin
+                  ? timeToLocal(a.second_part_shift_begin)
+                  : null}
+              </td>
+              <td>
+                {a.second_part_shift_end
+                  ? timeToLocal(a.second_part_shift_end)
+                  : null}
+              </td>
               <td>
                 <a
                   className='btn btn-danger'
