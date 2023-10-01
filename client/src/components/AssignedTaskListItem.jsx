@@ -1,4 +1,5 @@
 import { updateTask } from '../api/task-service';
+import { fullDateDisplay, dateDisplay } from '../utilities/days';
 
 export default function AssignedTaskListItem({ task, fetchTasks }) {
   async function handleRemove() {
@@ -13,8 +14,9 @@ export default function AssignedTaskListItem({ task, fetchTasks }) {
 
   return (
     <div>
-      Task: {task.name} | Due {task.due_date} | Duration:{' '}
-      {task.planned_duration}
+      Task: {task.name} | Due: {task.due_date} | Duration:{' '}
+      {task.planned_duration} | Start: {task.planned_start} | End:{' '}
+      {task.planned_end}
       <button className='btn' onClick={handleRemove}>
         Remove
       </button>

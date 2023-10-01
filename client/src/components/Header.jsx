@@ -4,6 +4,7 @@ import { BtnSignup, BtnLogin, BtnLogout } from '.';
 import { UserContext } from '../App';
 import Wrapper from '../assets/wrappers/Header';
 import Logo from '../assets/images/logo.png';
+import { Slide, ToastContainer, toast } from 'react-toastify';
 
 export default function Header() {
   const { currUser } = useContext(UserContext);
@@ -16,6 +17,7 @@ export default function Header() {
 
   return (
     <Wrapper>
+      <ToastContainer transition={Slide} />
       <div className='nav-center'>
         <Link to={`${logoLink()}`} className='logo-container'>
           <img className='logo' src={Logo} alt='Task Flow Logo' />

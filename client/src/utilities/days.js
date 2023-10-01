@@ -18,3 +18,16 @@ export function todayDate(){
     return `${y}-${m}-${d}`
 }
 
+export function fullDateDisplay(date){
+    return(
+        new Date(date).toLocaleTimeString([],{
+            year: 'numeric',
+            month: 'numeric',
+            day:'numeric', hour: '2-digit',
+            minute: '2-digit'})
+    )           
+} 
+
+export function dateDisplay(date){
+    return new Date(date).toLocaleDateString()
+}

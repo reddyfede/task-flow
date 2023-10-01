@@ -1,30 +1,40 @@
 import React, { useState } from 'react';
 import { updateTaskAssignment } from '../api/task-service';
+import { todayDate } from '../utilities/days';
+import { displayToast } from '../utilities/toast';
 
-const FormTaskAssign = ({ taskId, teamMembers, fetchTasks }) => {
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
+const FormTaskAssign = ({ task, teamMembers, fetchTasks }) => {
+  const [formData, setFormData] = useState({ employee: '', date: '' });
+  const [msg, setMsg] = useState('');
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setMsg('');
+    const data = { ...formData };
     try {
-      const res = await updateTaskAssignment(taskId, selectedEmployee);
-      // handleCancel();
-      fetchTasks();
+      const res = await updateTaskAssignment(task.id, data.employee, data.date);
+      if (res.taskId) {
+        fetchTasks();
+      } else if (res.message) {
+        setMsg(res.message);
+        displayToast(res.message, 'error');
+      }
     } catch (err) {
       console.log(err);
     }
   }
 
   const handleChange = (e) => {
-    const employeeId = e.target.value;
-    setSelectedEmployee(employeeId);
+    const data = { ...formData, [e.target.name]: e.target.value };
+    setFormData(data);
   };
 
   return (
     <div className='flex-col'>
+      {console.log(task)}
       <form className='' action='' onSubmit={handleSubmit}>
         <label htmlFor='employee'>
-          <span className='form-label'>Select Employee: </span>
+          <span className='form-label'>Assign to an employee: </span>
         </label>
         <select
           className='form-select'
@@ -39,7 +49,17 @@ const FormTaskAssign = ({ taskId, teamMembers, fetchTasks }) => {
             </option>
           ))}
         </select>
+        <input
+          className='form-input'
+          type='date'
+          name='date'
+          min={todayDate()}
+          value={formData.date}
+          onChange={handleChange}
+          required
+        />
         <button className='btn'>Assign Task</button>
+        <h5 style={{ color: 'red' }}>{msg}</h5>
       </form>
     </div>
   );
