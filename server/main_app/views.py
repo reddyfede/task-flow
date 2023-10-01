@@ -221,7 +221,7 @@ def tasks_index(request):
 @api_view(["GET"])
 def team_task_detail(request, team_id):
     team = Team.objects.get(id=team_id)
-    tasklist = team.task_set.all().exclude(user__isnull=False).values()
+    tasklist = team.task_set.all().exclude(user__isnull=False).order_by("id").values()
     return Response(tasklist)
 
 
