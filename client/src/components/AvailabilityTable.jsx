@@ -40,7 +40,6 @@ export default function AvailabilityTable({
   function handleChange(e) {
     const data = { ...addDay, [e.target.name]: e.target.value };
     setAddDay(data);
-    console.log(data);
   }
 
   async function handleSubmit(e) {

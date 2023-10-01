@@ -60,7 +60,6 @@ export default function FormLogin({ user, setUser }) {
         });
         setCount(2);
       } else {
-        console.log(res.error);
         setLoading(false);
         displayToast(
           'Login unsuccesful. Bad username-password combination.',
