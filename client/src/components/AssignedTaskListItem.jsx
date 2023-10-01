@@ -2,7 +2,12 @@ import { updateTask } from '../api/task-service';
 import Wrapper from '../assets/wrappers/AssignedTaskListItem';
 import { fullDateDisplay, dateDisplay } from '../utilities/days';
 
-export default function AssignedTaskListItem({ task, fetchTasks }) {
+export default function AssignedTaskListItem({
+  task,
+  fetchTasks,
+  idx,
+  lenght,
+}) {
   async function handleRemove() {
     const data = { ...task, user_id: null };
     try {
@@ -44,7 +49,11 @@ export default function AssignedTaskListItem({ task, fetchTasks }) {
             </tr>
           </tbody>
         </table>
-        <button className='btn' onClick={handleRemove}>
+        <button
+          className='btn'
+          onClick={handleRemove}
+          disabled={idx !== lenght - 1}
+        >
           Remove
         </button>
       </div>
