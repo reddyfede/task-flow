@@ -10,7 +10,7 @@ export default function Header() {
 
   function logoLink() {
     if (currUser.role === 'M') return '/manager';
-    else if (currUser.role === 'M') return '/employee';
+    else if (currUser.role === 'E') return '/employee';
     else return '/';
   }
 

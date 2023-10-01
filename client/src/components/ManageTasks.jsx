@@ -10,7 +10,11 @@ const ManageTasks = ({ userData, tasks, fetchTasks, teamMembers }) => {
       <h3>Assigned Tasks</h3>
       {teamMembers.map((member) => (
         <div key={member.appuserId}>
-          <AssignedTaskList member={member} tasks={tasks} />
+          <AssignedTaskList
+            member={member}
+            tasks={tasks}
+            fetchTasks={fetchTasks}
+          />
           {member === undefined ? <>{console.log('now', member)}</> : null}
         </div>
       ))}

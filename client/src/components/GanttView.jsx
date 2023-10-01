@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ManageTasks from './ManageTasks';
 import { getTasksByTeam } from '../api/task-service';
 import GanttChart from './GanttChart';
+import { TeamAvailability } from '.';
 
 const GanttView = ({ userData, teamMembers }) => {
   const [tasks, setTasks] = useState([]);
@@ -36,6 +37,7 @@ const GanttView = ({ userData, teamMembers }) => {
         <div>
           <h1>Team Gantt Page</h1>
           <GanttChart />
+          <TeamAvailability teamMembers={teamMembers} />
           <ManageTasks
             userData={userData}
             tasks={tasks}
