@@ -38,9 +38,14 @@ export default function AssignedTaskList({ member, tasks, fetchTasks }) {
           {employeeData.tasks.length ? (
             <div>
               <ul>
-                {employeeData.tasks.map((task) => (
+                {employeeData.tasks.map((task, idx) => (
                   <li className='card' key={task.id}>
-                    <AssignedTaskListItem task={task} fetchTasks={fetchTasks} />
+                    <AssignedTaskListItem
+                      task={task}
+                      fetchTasks={fetchTasks}
+                      idx={idx}
+                      lenght={employeeData.tasks.length}
+                    />
                   </li>
                 ))}
               </ul>
