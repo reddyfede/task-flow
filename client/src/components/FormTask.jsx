@@ -33,13 +33,14 @@ const FormTask = ({ userData, fetchTasks }) => {
 
   return (
     <div>
-      <h1>Create new task</h1>
-      <form onSubmit={handleSubmit}>
+      <form className='card' onSubmit={handleSubmit}>
+        <h3>Create new task</h3>
         <div className='form-control'>
-          <label className='label' htmlFor='name'>
-            <span className='label-text'>Task name:</span>
+          <label htmlFor='name'>
+            <span className='form-label'>Task name:</span>
           </label>
           <input
+            className='form-input'
             type='text'
             required
             name='name'
@@ -51,9 +52,10 @@ const FormTask = ({ userData, fetchTasks }) => {
 
         <div className='form-control'>
           <label className='label' htmlFor='planned_duration'>
-            <span className='label-text'>Task Duration [minutes]:</span>
+            <span className='form-label'>Task Duration [minutes]:</span>
           </label>
           <input
+            className='form-input'
             type='number'
             required
             name='planned_duration'
@@ -65,10 +67,10 @@ const FormTask = ({ userData, fetchTasks }) => {
         </div>
         <div className='form-control '>
           <label className='label' htmlFor='due_date'>
-            <span className='label-text'>Due date:</span>
+            <span className='form-label'>Due date:</span>
           </label>
           <input
-            className=''
+            className='form-input'
             type='date'
             value={newTask.date}
             onChange={handleChange}

@@ -162,7 +162,8 @@ ul {
 
   
 .card {
-  width: 90vw;
+  margin: 1rem;
+  padding: 1rem;
   background: var(--white);
   border-radius: var(--borderRadius);
   box-shadow: var(--shadow-2);
@@ -175,6 +176,7 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
+  align-content: center;
 }
 
 .flex-row {
@@ -184,7 +186,10 @@ ul {
 .flex-col {
   display: flex;
   flex-direction: column;
+  margin: 1rem;
+  padding: 1rem;
 }
+
 
 /* buttons */
 
@@ -200,6 +205,7 @@ ul {
   transition: var(--transition);
   text-transform: capitalize;
   display: inline-block;
+  margin: 0.3rem;
 }
 .btn:hover {
   background: var(--primary-700);

@@ -46,35 +46,31 @@ export default function EmployeePage() {
         </div>
       ) : (
         <div>
-          <h1>Employee Page</h1>
           {loading ? (
             <div>
               <h2>Loading Data...</h2>
             </div>
           ) : (
-            <div>
-              <h2>First Name: {userData.first_name}</h2>
-              <h2>Last Name: {userData.last_name}</h2>
-              <h2>AppUser ID: {userData.appuserId}</h2>
+            <div className='container'>
               {!userData.teamName ? (
                 <h2>A Manager has not yet assigned you to a team.</h2>
               ) : (
                 <div>
                   <div>
-                    <h2>
-                      Team Name : {userData.teamName} - TeamId:{userData.teamId}
-                    </h2>
+                    <h2>Team Name : {userData.teamName}</h2>
                   </div>
                   <div>
                     <h2>Assigned Tasks: {tasks.length}</h2>
                     {tasks.length ? (
                       <ul>
                         {tasks.map((t, idx) => (
-                          <li key={idx}>
-                            <h3>
-                              {t.name} {t.planned_duration} {t.due_date}
-                            </h3>
-                          </li>
+                          <div className='card flex-ctr-ctr form-row'>
+                            <li key={idx}>
+                              <div>
+                                {t.name} {t.planned_duration} {t.due_date}
+                              </div>
+                            </li>
+                          </div>
                         ))}
                       </ul>
                     ) : (

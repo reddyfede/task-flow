@@ -89,10 +89,10 @@ export default function AvailabilityTable({
         <thead>
           <tr>
             <th>Day</th>
-            <th>Pre Pause Start</th>
-            <th>Pre Pause End</th>
-            <th>Post Pause Start</th>
-            <th>Post Pause End</th>
+            <th>Shift Start</th>
+            <th>Lunch Start</th>
+            <th>Lunch End</th>
+            <th>Shift End</th>
           </tr>
         </thead>
         <tbody>
@@ -104,7 +104,10 @@ export default function AvailabilityTable({
               <td>{a.second_part_shift_begin?.slice(0, 5)}</td>
               <td>{a.second_part_shift_end?.slice(0, 5)}</td>
               <td>
-                <a className='btn' onClick={() => handleRemove(a.id, a.day)}>
+                <a
+                  className='btn btn-danger'
+                  onClick={() => handleRemove(a.id, a.day)}
+                >
                   Remove
                 </a>
               </td>
