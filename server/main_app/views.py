@@ -294,7 +294,7 @@ def task_add_user(request, task_id, user_id):
                     if (
                         user_tasks_duration > user_av[0]["total_first_part"]
                         or user_tasks_duration + task.planned_duration
-                        < user_av[0]["total_first_part"]
+                        <= user_av[0]["total_first_part"]
                     ):
                         end_date_time = start_date_time + timedelta(
                             minutes=task.planned_duration
