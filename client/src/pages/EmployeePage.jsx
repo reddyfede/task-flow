@@ -5,7 +5,6 @@ import {
   fullDateDisplay,
   dateDisplay,
   dateToZ,
-  getWeekDay,
   getWeekDayJS,
 } from '../utilities/days';
 import EmployeeGanttChart from '../components/EmployeeGanttChart';
@@ -72,23 +71,30 @@ export default function EmployeePage() {
                 <h2>A Manager has not yet assigned you to a team.</h2>
               ) : (
                 <div>
-                  <div>
-                    <h1>Team Name: {userData.user.teamName}</h1>
-                  </div>
+                  <h1>
+                    {userData.user.first_name} {userData.user.last_name} -{' '}
+                    {userData.user.teamName}
+                  </h1>
+
+                  <h2>
+                    {getWeekDayJS(new Date().getDay())}{' '}
+                    {dateDisplay(new Date())}
+                  </h2>
+
                   <div className='card'>
-                    <h2>Gantt for {dateDisplay(new Date())}:</h2>
+                    <h3>Gantt:</h3>
                     <EmployeeGanttChart employeeData={userData} />
                   </div>
 
                   <div className='card'>
-                    <h2>Availability for {dateDisplay(new Date())}:</h2>
+                    <h3>Availability:</h3>
                     <EmployeeAvailability
                       availability={userData.availability}
                     />
                   </div>
 
                   <div className='card'>
-                    <h2>Assigned Tasks for {dateDisplay(new Date())}:</h2>
+                    <h3>Assigned Tasks:</h3>
                     {userData.tasks.length ? (
                       <table style={{ width: '100%' }}>
                         <thead>
@@ -105,7 +111,7 @@ export default function EmployeePage() {
                         </tbody>
                       </table>
                     ) : (
-                      <h3>No tasks assigned yet.</h3>
+                      <h4>No tasks assigned.</h4>
                     )}
                   </div>
                 </div>
