@@ -313,10 +313,14 @@ def task_add_user(request, task_id, user_id):
                             )
                         )
                     # update the task with the calculated times
+                    real_duration = (
+                        end_date_time - start_date_time
+                    ).total_seconds() / 60
                     Task.objects.filter(id=task_id).update(
                         user=user,
                         planned_start=start_date_time,
                         planned_end=end_date_time,
+                        actual_duration=real_duration,
                     )
                     return Response({"taskId": task_id})
                 # display a message that user has not enough remining availability
@@ -343,10 +347,12 @@ def task_add_user(request, task_id, user_id):
                         minutes=(task.planned_duration - user_av[0]["total_first_part"])
                     )
                 # update the task with the calculated times
+                real_duration = (end_date_time - start_date_time).total_seconds() / 60
                 Task.objects.filter(id=task_id).update(
                     user=user,
                     planned_start=start_date_time,
                     planned_end=end_date_time,
+                    actual_duration=real_duration,
                 )
                 return Response({"taskId": task_id})
         # display a message that user has not enough remining availability set for the day
