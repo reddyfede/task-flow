@@ -109,7 +109,6 @@ export default function AvailabilityTable({ employeeData, retrieveEmployee }) {
               <td>{a.first_part_shift_end?.slice(0, 5)}</td>
               <td>{a.second_part_shift_begin?.slice(0, 5)}</td>
               <td>{a.second_part_shift_end?.slice(0, 5)}</td>
-              {console.log(employeeData.tasks.length)}
               <td>
                 <a
                   className='btn btn-danger'
