@@ -34,7 +34,7 @@ const FormTask = ({ userData, fetchTasks }) => {
   return (
     <div>
       <form className='card' onSubmit={handleSubmit}>
-        <h3>Create new task</h3>
+        <h2>Create new task</h2>
         <div className='form-control'>
           <label htmlFor='name'>
             <span className='form-label'>Task name:</span>
