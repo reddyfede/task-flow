@@ -8,7 +8,7 @@ const ManageTasks = ({ userData, tasks, fetchTasks, teamMembers }) => {
   return (
     <Wrapper>
       <div className='card'>
-        <h3>Assigned Tasks</h3>
+        <h2>Assigned Tasks</h2>
         {teamMembers.map((member) => (
           <div className='' key={member.appuserId}>
             <AssignedTaskList
@@ -20,7 +20,7 @@ const ManageTasks = ({ userData, tasks, fetchTasks, teamMembers }) => {
         ))}
       </div>
       <div className='card'>
-        <h3>Unassigned Tasks</h3>
+        <h2>Unassigned Tasks</h2>
         <TaskList
           fetchTasks={fetchTasks}
           tasks={tasks}

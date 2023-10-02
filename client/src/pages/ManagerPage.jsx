@@ -47,7 +47,7 @@ export default function ManagerPage() {
   return (
     <div>
       {currUser.role !== 'M' ? (
-        <div>
+        <div className='card'>
           <h1>You are not permitted to view this page.</h1>
           <h2>Login with an appropriate user.</h2>
         </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { deleteTask, updateTask } from '../api/task-service';
 import FormTaskAssign from './FormTaskAssign';
-import { todayDate } from '../utilities/days';
+import { todayDate, dateDisplay } from '../utilities/days';
 
 const TaskListItem = ({ task, fetchTasks, teamMembers }) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -51,7 +51,8 @@ const TaskListItem = ({ task, fetchTasks, teamMembers }) => {
       <h5>{task.name}</h5>
       <div className='flex-col'>
         <span>
-          Due: {task.due_date} | Duration: {task.planned_duration} minutes
+          Due: {dateDisplay(task.due_date)} | Duration: {task.planned_duration}{' '}
+          minutes
         </span>
 
         {isEdit ? (

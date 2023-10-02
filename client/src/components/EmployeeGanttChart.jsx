@@ -1,27 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Wrapper from '../assets/wrappers/GanttChart';
-import { userDetails } from '../api/users-service';
 import { dateToZ } from '../utilities/days';
 
-const GanttChart = ({ member, tasks }) => {
+const EmployeeGanttChart = ({ employeeData }) => {
   const timeBlock = new Array(24).fill();
-  const [employeeData, setEmployeeData] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [taskBlocks, setTaskBlocks] = useState([]);
-
-  async function retrieveEmployee() {
-    try {
-      const res = await userDetails(member.userId);
-      if (res.user) {
-        setEmployeeData({ ...res });
-        setLoading(false);
-      } else {
-        throw Error('Something went wrong with retrieving employee data.');
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
 
   function populateTaskBlocks() {
     let taskHours = [];
@@ -63,29 +46,21 @@ const GanttChart = ({ member, tasks }) => {
   }
 
   useEffect(() => {
-    retrieveEmployee();
-  }, [tasks]);
-
-  useEffect(() => {
     populateTaskBlocks();
-  }, [employeeData]);
+  }, []);
 
   return (
     <Wrapper>
-      {loading ? (
-        <p>Loading employee data...</p>
-      ) : (
-        <div>
-          <div className='chart-grid'>
-            <div className='chart-user'>
-              {employeeData.user.first_name} {employeeData.user.last_name}
-            </div>
-            {timeBlock.map((el, idx) => renderTimeBlock(idx))}
+      <div>
+        <div className='chart-grid'>
+          <div className='chart-user'>
+            {employeeData.user.first_name} {employeeData.user.last_name}
           </div>
+          {timeBlock.map((el, idx) => renderTimeBlock(idx))}
         </div>
-      )}
+      </div>
     </Wrapper>
   );
 };
 
-export default GanttChart;
+export default EmployeeGanttChart;

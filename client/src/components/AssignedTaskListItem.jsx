@@ -1,6 +1,6 @@
 import { updateTask } from '../api/task-service';
 import Wrapper from '../assets/wrappers/AssignedTaskListItem';
-import { fullDateDisplay, dateDisplay } from '../utilities/days';
+import { fullDateDisplay, dateDisplay, dateToZ } from '../utilities/days';
 
 export default function AssignedTaskListItem({
   task,
@@ -35,22 +35,22 @@ export default function AssignedTaskListItem({
           <tbody>
             <tr>
               <td>
-                <span>{task.due_date}</span>
+                <span>{dateDisplay(task.due_date)}</span>
               </td>
               <td>
                 <span>{task.planned_duration}</span>
               </td>
               <td>
-                <span>{fullDateDisplay(task.planned_start)}</span>
+                <span>{fullDateDisplay(dateToZ(task.planned_start))}</span>
               </td>
               <td>
-                <span>{fullDateDisplay(task.planned_end)}</span>
+                <span>{fullDateDisplay(dateToZ(task.planned_end))}</span>
               </td>
             </tr>
           </tbody>
         </table>
         <button
-          className='btn'
+          className={`btn  ${idx !== lenght - 1 ? 'btn-disabled' : null}`}
           onClick={handleRemove}
           disabled={idx !== lenght - 1}
         >
