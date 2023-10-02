@@ -278,11 +278,17 @@ def task_add_user(request, task_id, user_id):
                 user_tasks_duration = sum(durations)
                 remaining_av = user_av_tot - user_tasks_duration
                 # if user has enough remaining availability set start time of the new task
-                # as the end time of the last task already assigned on that day
                 if remaining_av >= task.planned_duration:
                     message = "ready to assign after other tasks"
                     last_task_end_datetime = user_tasks[-1]["planned_end"]
-                    start_date_time = last_task_end_datetime
+                    # if previous task end at first shift end, set the start of new task at second shift start
+                    # else set start of new task as end of previous task
+                    if user_tasks_duration == user_av[0]["total_first_part"]:
+                        start_date_time = datetime.combine(
+                            req_date, user_av[0]["second_part_shift_begin"]
+                        )
+                    else:
+                        start_date_time = last_task_end_datetime
                     # check if previous tasks end after lunch or previous tasks + new task end before lunch
                     # if yes -> set end time as start + duration
                     if (
