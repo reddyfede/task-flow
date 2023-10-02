@@ -3,38 +3,43 @@
 TaskFlow is an app to manage your team work.
 The Team Leader can create tasks and assign them to team members on a week-calendar.
 
+[Planning Document](./assets/planing.md)
+
 [Live app](https://task-flow-prod.netlify.app/)
 
 ## Features
 
-Team Members can view tasks assigned to them on a day-calendar and interact with tasks logging:
+### Manager
 
-- task start time
-- task pause start/end time
-- encountered issue start and end time
-- task end time
+- Create, edit, delete a Team
+- Assign available employee to his team, remove them from the team
+- For each employee on the team set daily availability
+- Create tasks with a due date and estimated duration
+- Assign task to a user on a selected day, if user has enough availibility set for that day
+- Display a list of unassigned task, display lists of assigned tasks filtered by employee
+- Display weekly availability of the team
+- Display the assigned tasks for the current day in a gantt
 
-The calendar will automatically shifts all the tasks assigned to a Team Member if one task is taking more (or less) time to complete compared to the estimate of the Team Leader.
+### Employee
 
-### Front-end
-
-- Displays an interactive map for viewing local events.
-
-### Back-end
-
-- Used Node and Express to manage user and event data.
+- Display the daily availability
+- Display the assigned tasks for the current day in a gantt
 
 # Screenshots
 
-## Employee View
-
-### Home Page
-
 ## Manager View
 
-### Home Page
+### Team management
 
-### Gantt View Page
+![ManagerPage-team](./assets/managerPage-team.png)
+
+### Task managment - Gantt
+
+![ManagerPage-gant](./assets/managerPage-gantt.png)
+
+## Employee View
+
+![EmployeePage](./assets/employeePage.png)
 
 ## Technologies Used
 
