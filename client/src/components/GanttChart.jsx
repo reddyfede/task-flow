@@ -72,7 +72,6 @@ const GanttChart = ({ member, tasks }) => {
 
   return (
     <Wrapper>
-      {console.log(employeeData)}
       {loading ? (
         <p>Loading employee data...</p>
       ) : (
