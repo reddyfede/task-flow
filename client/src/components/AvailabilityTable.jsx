@@ -1,16 +1,12 @@
 import { useEffect, useState } from 'react';
-import { getDay } from '../utilities/days';
+import { getWeekDay } from '../utilities/days';
 import {
   createAvailability,
   deleteAvailability,
 } from '../api/availability-service';
-import { timeToZ, timeToLocal } from '../utilities/days';
+import { displayToast } from '../utilities/toast';
 
-export default function AvailabilityTable({
-  employeeData,
-  retrieveEmployee,
-  showRemove,
-}) {
+export default function AvailabilityTable({ employeeData, retrieveEmployee }) {
   const [options, setOptions] = useState([0, 1, 2, 3, 4, 5, 6]);
   const initState = {
     day: '',
@@ -45,17 +41,11 @@ export default function AvailabilityTable({
   async function handleSubmit(e) {
     e.preventDefault();
     let data = { ...addDay, user_id: employeeData.user.appuserId };
-    data.first_part_shift_begin = timeToZ(data.first_part_shift_begin);
-    data.first_part_shift_end = timeToZ(data.first_part_shift_end);
     if (data.second_part_shift_begin === '') {
       data.second_part_shift_begin = null;
-    } else {
-      data.second_part_shift_begin = timeToZ(data.second_part_shift_begin);
     }
     if (data.second_part_shift_end === '') {
       data.second_part_shift_end = null;
-    } else {
-      data.second_part_shift_end = timeToZ(data.second_part_shift_end);
     }
     try {
       const res = await createAvailability(data);
@@ -75,18 +65,25 @@ export default function AvailabilityTable({
   }
 
   async function handleRemove(id, day) {
-    const d = day;
-    try {
-      const res = await deleteAvailability(id);
-      if (res.id) {
-        await retrieveEmployee();
-        let days_arr = [...options, day].sort();
-        setOptions(days_arr);
-      } else {
-        throw Error('Something went wrong with deleting an availability.');
+    if (!employeeData.tasks.length) {
+      const d = day;
+      try {
+        const res = await deleteAvailability(id);
+        if (res.id) {
+          await retrieveEmployee();
+          let days_arr = [...options, day].sort();
+          setOptions(days_arr);
+        } else {
+          throw Error('Something went wrong with deleting an availability.');
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
+    } else {
+      displayToast(
+        "Can't remove availabilities from a user with assingned task.",
+        'error'
+      );
     }
   }
 
@@ -103,30 +100,15 @@ export default function AvailabilityTable({
             <th></th>
           </tr>
         </thead>
+
         <tbody>
           {employeeData.availability.map((a) => (
             <tr key={a.id}>
-              <td>{getDay(a.day)}</td>
-              <td>
-                {a.first_part_shift_begin
-                  ? timeToLocal(a.first_part_shift_begin)
-                  : null}
-              </td>
-              <td>
-                {a.first_part_shift_end
-                  ? timeToLocal(a.first_part_shift_end)
-                  : null}
-              </td>
-              <td>
-                {a.second_part_shift_begin
-                  ? timeToLocal(a.second_part_shift_begin)
-                  : null}
-              </td>
-              <td>
-                {a.second_part_shift_end
-                  ? timeToLocal(a.second_part_shift_end)
-                  : null}
-              </td>
+              <td>{getWeekDay(a.day)}</td>
+              <td>{a.first_part_shift_begin?.slice(0, 5)}</td>
+              <td>{a.first_part_shift_end?.slice(0, 5)}</td>
+              <td>{a.second_part_shift_begin?.slice(0, 5)}</td>
+              <td>{a.second_part_shift_end?.slice(0, 5)}</td>
               <td>
                 <a
                   className='btn btn-danger'
@@ -150,7 +132,7 @@ export default function AvailabilityTable({
                     <option value={''}>select one</option>
                     {options.map((d) => (
                       <option value={d} key={d}>
-                        {getDay(d)}
+                        {getWeekDay(d)}
                       </option>
                     ))}
                   </select>

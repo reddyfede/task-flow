@@ -15,6 +15,12 @@ const Wrapper = styled.div`
     flex-direction: column;
     justify-content: space-around;
   }
+
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `
 
 export default Wrapper

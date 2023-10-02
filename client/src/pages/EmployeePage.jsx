@@ -1,30 +1,27 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../App';
 import { userDetails } from '../api/users-service';
-import { fullDateDisplay } from '../utilities/days';
+import {
+  fullDateDisplay,
+  dateDisplay,
+  dateToZ,
+  getWeekDayJS,
+} from '../utilities/days';
+import EmployeeGanttChart from '../components/EmployeeGanttChart';
+import EmployeeAvailability from '../components/EmployeeAvailability';
 
 export default function EmployeePage() {
   const [loading, setLoading] = useState(true);
   const { currUser } = useContext(UserContext);
   const [tasks, setTasks] = useState([]);
-  const [userData, setUserData] = useState({
-    username: null,
-    appuserId: null,
-    first_name: null,
-    last_name: null,
-    teamName: null,
-    teamId: null,
-  });
+  const [userData, setUserData] = useState(null);
 
   async function retrieveUser() {
     try {
       const res = await userDetails(currUser.id);
       if (res.user) {
-        const data = { ...userData, ...res.user };
+        const data = { ...userData, ...res };
         setUserData(data);
-        if (res.tasks) {
-          setTasks([...res.tasks]);
-        }
         setLoading(false);
       } else {
         throw Error('Something went wrong with retrieving the user.');
@@ -48,17 +45,17 @@ export default function EmployeePage() {
       return (
         <>
           <td>{t.name}</td>
-          <td>{fullDateDisplay(t.planned_start)}</td>
-          <td>{fullDateDisplay(t.planned_end)}</td>
+          <td>{fullDateDisplay(dateToZ(t.planned_start))}</td>
+          <td>{fullDateDisplay(dateToZ(t.planned_end))}</td>
         </>
       );
     }
   }
 
   return (
-    <div>
+    <div className='container'>
       {currUser.role !== 'E' ? (
-        <div>
+        <div className='card'>
           <h1>You are not permitted to view this page.</h1>
           <h2>Login with an appropriate user.</h2>
         </div>
@@ -70,35 +67,51 @@ export default function EmployeePage() {
             </div>
           ) : (
             <div className='container'>
-              {!userData.teamName ? (
+              {!userData.user.teamName ? (
                 <h2>A Manager has not yet assigned you to a team.</h2>
               ) : (
                 <div>
-                  <div>
-                    <h2>Team Name: {userData.teamName}</h2>
+                  <h1>
+                    {userData.user.first_name} {userData.user.last_name} -{' '}
+                    {userData.user.teamName}
+                  </h1>
+
+                  <h2>
+                    {getWeekDayJS(new Date().getDay())}{' '}
+                    {dateDisplay(new Date())}
+                  </h2>
+
+                  <div className='card'>
+                    <h3>Gantt:</h3>
+                    <EmployeeGanttChart employeeData={userData} />
                   </div>
-                  <div>
-                    <h2>
-                      Assigned Tasks for {new Date().getMonth() + 1}/
-                      {new Date().getDate()}:
-                    </h2>
-                    {tasks.length ? (
-                      <table>
+
+                  <div className='card'>
+                    <h3>Availability:</h3>
+                    <EmployeeAvailability
+                      availability={userData.availability}
+                    />
+                  </div>
+
+                  <div className='card'>
+                    <h3>Assigned Tasks:</h3>
+                    {userData.tasks.length ? (
+                      <table style={{ width: '100%' }}>
                         <thead>
                           <tr>
-                            <th>Name</th>
+                            <th>Task Name</th>
                             <th>Start</th>
                             <th>End</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {tasks.map((t, idx) => (
+                          {userData.tasks.map((t, idx) => (
                             <tr key={t.id}>{renderTodayTasks(t, idx)}</tr>
                           ))}
                         </tbody>
                       </table>
                     ) : (
-                      <h3>No tasks assigned yet.</h3>
+                      <h4>No tasks assigned.</h4>
                     )}
                   </div>
                 </div>
