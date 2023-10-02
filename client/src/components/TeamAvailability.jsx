@@ -15,7 +15,7 @@ export default function TeamAvailability({ teamMembers }) {
   return (
     <div>
       <h1>Team Availability</h1>
-      <table style={{ width: '90%' }}>
+      <table style={{ width: '100%' }}>
         <thead>
           <tr>
             <th>Team Member</th>

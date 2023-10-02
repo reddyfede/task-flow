@@ -45,8 +45,12 @@ const GanttView = ({ userData, teamMembers }) => {
               </div>
             ))}
           </div>
+
           <div className='card'>
             <TeamAvailability teamMembers={teamMembers} />
+          </div>
+
+          <div className='card'>
             <ManageTasks
               userData={userData}
               tasks={tasks}
