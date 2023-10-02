@@ -4,6 +4,7 @@ import { getTasksByTeam } from '../api/task-service';
 import GanttChart from './GanttChart';
 import { TeamAvailability } from '.';
 import { userDetails } from '../api/users-service';
+import { dateDisplay, dateToZ } from '../utilities/days';
 
 const GanttView = ({ userData, teamMembers }) => {
   const [tasks, setTasks] = useState([]);
@@ -37,10 +38,7 @@ const GanttView = ({ userData, teamMembers }) => {
       ) : (
         <div>
           <div className='card'>
-            <h2>
-              Employee Gantt for {new Date().getMonth() + 1}/
-              {new Date().getDate()}:
-            </h2>
+            <h2>Employee Gantt for {dateDisplay(new Date())}:</h2>
             {teamMembers.map((member) => (
               <div key={member.appuserId}>
                 <GanttChart member={member} tasks={tasks} />

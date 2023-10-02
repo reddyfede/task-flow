@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Wrapper from '../assets/wrappers/GanttChart';
 import { userDetails } from '../api/users-service';
+import { dateToZ } from '../utilities/days';
 
 const GanttChart = ({ member, tasks }) => {
   const timeBlock = new Array(24).fill();
@@ -29,10 +30,10 @@ const GanttChart = ({ member, tasks }) => {
 
     if (employeeData) {
       employeeData.tasks.forEach((task) => {
-        let taskDate = new Date(task.planned_start).getDate();
+        let taskDate = new Date(dateToZ(task.planned_start)).getDate();
         if (taskDate === todayDate) {
           let taskSpan = task.planned_duration / 60;
-          let h = new Date(task.planned_start).getHours();
+          let h = new Date(dateToZ(task.planned_start)).getHours();
           for (let i = 0; i < taskSpan; i++) {
             taskHours.push(h + i);
           }
