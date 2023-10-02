@@ -299,6 +299,7 @@ def task_add_user(request, task_id, user_id):
                         end_date_time = start_date_time + timedelta(
                             minutes=task.planned_duration
                         )
+                        real_duration = task.planned_duration
                     # if no -> set end time of task as the time after lunch + difference between the duration of all the tasks
                     # and the duration of the pre-lunch shift
                     else:
@@ -312,10 +313,16 @@ def task_add_user(request, task_id, user_id):
                                 - user_av[0]["total_first_part"]
                             )
                         )
+                        pause_duration = (
+                            datetime.combine(
+                                req_date, user_av[0]["second_part_shift_begin"]
+                            )
+                            - datetime.combine(
+                                req_date, user_av[0]["first_part_shift_end"]
+                            )
+                        ).total_seconds() / 60
+                        real_duration = task.planned_duration + pause_duration
                     # update the task with the calculated times
-                    real_duration = (
-                        end_date_time - start_date_time
-                    ).total_seconds() / 60
                     Task.objects.filter(id=task_id).update(
                         user=user,
                         planned_start=start_date_time,
@@ -337,6 +344,7 @@ def task_add_user(request, task_id, user_id):
                     end_date_time = start_date_time + timedelta(
                         minutes=task.planned_duration
                     )
+                    real_duration = task.planned_duration
                 # if no -> set end time of task as the time after lunch + difference between the duration of the task
                 # and the duration of the pre-lunch shift
                 else:
@@ -346,8 +354,14 @@ def task_add_user(request, task_id, user_id):
                     end_date_time = shift_datetime + timedelta(
                         minutes=(task.planned_duration - user_av[0]["total_first_part"])
                     )
+                    pause_duration = (
+                        datetime.combine(
+                            req_date, user_av[0]["second_part_shift_begin"]
+                        )
+                        - datetime.combine(req_date, user_av[0]["first_part_shift_end"])
+                    ).total_seconds() / 60
+                    real_duration = task.planned_duration + pause_duration
                 # update the task with the calculated times
-                real_duration = (end_date_time - start_date_time).total_seconds() / 60
                 Task.objects.filter(id=task_id).update(
                     user=user,
                     planned_start=start_date_time,
