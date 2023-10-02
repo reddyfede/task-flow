@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getDay } from '../utilities/days';
+import { getWeekDay } from '../utilities/days';
 import {
   createAvailability,
   deleteAvailability,
@@ -99,7 +99,7 @@ export default function AvailabilityTable({
         <tbody>
           {employeeData.availability.map((a) => (
             <tr key={a.id}>
-              <td>{getDay(a.day)}</td>
+              <td>{getWeekDay(a.day)}</td>
               <td>{a.first_part_shift_begin?.slice(0, 5)}</td>
               <td>{a.first_part_shift_end?.slice(0, 5)}</td>
               <td>{a.second_part_shift_begin?.slice(0, 5)}</td>
@@ -127,7 +127,7 @@ export default function AvailabilityTable({
                     <option value={''}>select one</option>
                     {options.map((d) => (
                       <option value={d} key={d}>
-                        {getDay(d)}
+                        {getWeekDay(d)}
                       </option>
                     ))}
                   </select>

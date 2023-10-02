@@ -1,7 +1,12 @@
 const days = ["Monday","Tuesday","Wednesday","Thursday","Friday", "Saturday","Sunday"]
 
-export function getDay(num){
+export function getWeekDay(num){
     return days[num]
+}
+
+export function getWeekDayJS(num){
+    if (num === 0){return days[6]}
+    return days[num-1]
 }
 
 export function todayDate(){

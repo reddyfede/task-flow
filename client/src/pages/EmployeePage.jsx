@@ -1,8 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../App';
 import { userDetails } from '../api/users-service';
-import { fullDateDisplay, dateDisplay, dateToZ } from '../utilities/days';
+import {
+  fullDateDisplay,
+  dateDisplay,
+  dateToZ,
+  getWeekDay,
+  getWeekDayJS,
+} from '../utilities/days';
 import EmployeeGanttChart from '../components/EmployeeGanttChart';
+import EmployeeAvailability from '../components/EmployeeAvailability';
 
 export default function EmployeePage() {
   const [loading, setLoading] = useState(true);
@@ -14,7 +21,6 @@ export default function EmployeePage() {
     try {
       const res = await userDetails(currUser.id);
       if (res.user) {
-        console.log(res);
         const data = { ...userData, ...res };
         setUserData(data);
         setLoading(false);
@@ -73,10 +79,18 @@ export default function EmployeePage() {
                     <h2>Gantt for {dateDisplay(new Date())}:</h2>
                     <EmployeeGanttChart employeeData={userData} />
                   </div>
+
+                  <div className='card'>
+                    <h2>Availability for {dateDisplay(new Date())}:</h2>
+                    <EmployeeAvailability
+                      availability={userData.availability}
+                    />
+                  </div>
+
                   <div className='card'>
                     <h2>Assigned Tasks for {dateDisplay(new Date())}:</h2>
                     {userData.tasks.length ? (
-                      <table>
+                      <table style={{ width: '100%' }}>
                         <thead>
                           <tr>
                             <th>Task Name</th>
