@@ -4,12 +4,9 @@ import {
   createAvailability,
   deleteAvailability,
 } from '../api/availability-service';
+import { displayToast } from '../utilities/toast';
 
-export default function AvailabilityTable({
-  employeeData,
-  retrieveEmployee,
-  showRemove,
-}) {
+export default function AvailabilityTable({ employeeData, retrieveEmployee }) {
   const [options, setOptions] = useState([0, 1, 2, 3, 4, 5, 6]);
   const initState = {
     day: '',
@@ -68,18 +65,25 @@ export default function AvailabilityTable({
   }
 
   async function handleRemove(id, day) {
-    const d = day;
-    try {
-      const res = await deleteAvailability(id);
-      if (res.id) {
-        await retrieveEmployee();
-        let days_arr = [...options, day].sort();
-        setOptions(days_arr);
-      } else {
-        throw Error('Something went wrong with deleting an availability.');
+    if (!employeeData.tasks.length) {
+      const d = day;
+      try {
+        const res = await deleteAvailability(id);
+        if (res.id) {
+          await retrieveEmployee();
+          let days_arr = [...options, day].sort();
+          setOptions(days_arr);
+        } else {
+          throw Error('Something went wrong with deleting an availability.');
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
+    } else {
+      displayToast(
+        "Can't remove availabilities from a user with assingned task.",
+        'error'
+      );
     }
   }
 
@@ -96,6 +100,7 @@ export default function AvailabilityTable({
             <th></th>
           </tr>
         </thead>
+
         <tbody>
           {employeeData.availability.map((a) => (
             <tr key={a.id}>
@@ -104,6 +109,7 @@ export default function AvailabilityTable({
               <td>{a.first_part_shift_end?.slice(0, 5)}</td>
               <td>{a.second_part_shift_begin?.slice(0, 5)}</td>
               <td>{a.second_part_shift_end?.slice(0, 5)}</td>
+              {console.log(employeeData.tasks.length)}
               <td>
                 <a
                   className='btn btn-danger'
