@@ -50,7 +50,7 @@ export default function AssignedTaskListItem({
           </tbody>
         </table>
         <button
-          className='btn'
+          className={`btn  ${idx !== lenght - 1 ? 'btn-disabled' : null}`}
           onClick={handleRemove}
           disabled={idx !== lenght - 1}
         >
