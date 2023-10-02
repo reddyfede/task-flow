@@ -3,7 +3,7 @@
 TaskFlow is an app to manage your team work.
 The Team Leader can create tasks and assign them to team members on a week-calendar.
 
-[Planning Document](https://github.com/spencerlelswick/task-flow/blob/feature/time-fix/docs/planning.md)
+[Planning Document](./assets/planning.md)
 
 [Live app](https://task-flow-prod.netlify.app/)
 
