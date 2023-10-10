@@ -8,7 +8,7 @@ Team members can view their daily tasks on a gantt chart.
 
 [Planning Document](https://github.com/spencerlelswick/task-flow/blob/development/docs/planning.md)
 
-[Task FLow Homepage](https://task-flow-prod.netlify.app/)
+[Task Flow Homepage](https://task-flow-prod.netlify.app/)
 
 ## Features
 
