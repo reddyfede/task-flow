@@ -5,7 +5,7 @@ The Team Leader can create tasks and assign them to team members on a week-calen
 
 [Planning Document](https://github.com/spencerlelswick/task-flow/blob/development/docs/planning.md)
 
-[Live app](https://task-flow-prod.netlify.app/)
+[Task FLoy Homepage](https://task-flow-prod.netlify.app/)
 
 ## Features
 
