@@ -1,7 +1,9 @@
 # TaskFlow
 
 TaskFlow is an app to manage your team work.
+
 Team Leader can create tasks and assign them to team members based on their weekly availability.
+
 Team members can view their daily tasks on a gantt chart.
 
 [Planning Document](https://github.com/spencerlelswick/task-flow/blob/development/docs/planning.md)
