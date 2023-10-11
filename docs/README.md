@@ -32,6 +32,8 @@ Team members can view their daily tasks on a gantt chart.
 
 ## Manager View
 
+![taskflow](https://github.com/reddyfede/task-flow/assets/106488356/fec4d1ef-c824-45bb-802a-e7d7e9360948)
+
 ### Team management
 
 ![ManagerPage-team](./assets/managerPage-team.png)
