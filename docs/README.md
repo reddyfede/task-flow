@@ -50,14 +50,11 @@ Team members can view their daily tasks on a gantt chart.
 
 ### React / Django Full Stack Application
 
-- HTML
-- CSS
-- JS
-- Styled Components
 - React
+- Styled Components
 - Django
-- Postgres
-- PSQL
+- PostgresSQL
+  
 - Heroku
 - Netlify
 
@@ -73,7 +70,7 @@ Team members can view their daily tasks on a gantt chart.
 - [ ] Real time updates for Gantt chart, when employees change task status
 - [ ] Flashing Icons for tasks paused that are approaching due date
 - [ ] Notify manager on task status change due to employee pause
-- [ ] Display a day-view version of the Gantt chart in employee view
+- [x] Display a day-view version of the Gantt chart in employee view
 - [ ] Condense Gantt view to earlier employee start time, and latest employee end time to display only active team working hours
 - [ ] Allow managers to view the task log for research
 - [ ] Allow managers to click a task on the Gantt chart for more information and controls
